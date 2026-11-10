@@ -106,8 +106,8 @@ fun SkillsMarketplaceScreen(
 @Composable
 private fun TabItem(text: String, selected: Boolean, onClick: () -> Unit) {
     val c = MikaTheme.colors
-    Column(
-        Modifier.weight(1f).fillMaxHeight()
+    Row(
+        Modifier.weight(1f)
             .then(if (selected) Modifier.border(2.dp, c.accent, MikaShapes.Pill) else Modifier)
             .clickable(onClick = onClick),
         horizontalArrangement = Arrangement.Center,
@@ -175,7 +175,7 @@ private fun MySkillsList() {
         text = stringResource(R.string.skills_no_my_skills_yet),
         style = MikaType.Caption,
         color = MikaTheme.colors.ink3,
-        modifier = Modifier.padding(horizontal = 16.dp, top = 12.dp),
+        modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
     )
 }
 
