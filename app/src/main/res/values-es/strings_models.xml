@@ -175,6 +175,14 @@
     <string name="signin_sign_out_note">Solo borra el inicio de sesión en este teléfono</string>
     <string name="signin_busy">Hay otro inicio de sesión en curso. Termínalo o cancélalo primero.</string>
     <string name="signin_openrouter_name">%1$s (sesión iniciada)</string>
+    <string name="mcp_servers_composio">Mercado de Composio</string>
+    <string name="mcp_servers_composio_title">Conectores MCP de Composio</string>
+    <string name="mcp_servers_composio_sub">Explora conectores MCP listos para usar de Composio y añade uno como servidor MCP. Inicia sesión en Composio a través del navegador, luego añade conectores.</string>
+    <string name="mcp_servers_composio_api_key">Clave API de Composio</string>
+    <string name="mcp_servers_composio_key_required">Introduce tu clave API de Composio.</string>
+    <string name="mcp_servers_composio_saving">Guardando…</string>
+    <string name="mcp_servers_composio_saving_btn">Guardando…</string>
+    <string name="mcp_servers_composio_add">Añadir conector</string>
 
     <!-- Settings > Models: speech-to-text usage and its picker page -->
     <string name="role_speech">Voz a texto</string>

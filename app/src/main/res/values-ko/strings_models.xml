@@ -166,6 +166,14 @@
     <string name="signin_sign_out_note">이 휴대전화의 로그인만 지워요</string>
     <string name="signin_busy">다른 로그인이 진행 중이에요. 먼저 마치거나 취소하세요.</string>
     <string name="signin_openrouter_name">%1$s (로그인됨)</string>
+    <string name="mcp_servers_composio">Composio 마켓플레이스</string>
+    <string name="mcp_servers_composio_title">Composio MCP 커넥터</string>
+    <string name="mcp_servers_composio_sub">Composio의 기성 MCP 커넥터를 살펴보고, 하나를 MCP 서버로 추가하세요. 브라우저에서 Composio에 로그인한 후 커넥터를 추가하세요.</string>
+    <string name="mcp_servers_composio_api_key">Composio API 키</string>
+    <string name="mcp_servers_composio_key_required">Composio API 키를 입력하세요.</string>
+    <string name="mcp_servers_composio_saving">저장 중…</string>
+    <string name="mcp_servers_composio_saving_btn">저장 중…</string>
+    <string name="mcp_servers_composio_add">커넥터 추가</string>
 
     <string name="role_speech">음성 텍스트 변환</string>
     <string name="role_speech_what">길게 눌러 말할 때 사용해요</string>

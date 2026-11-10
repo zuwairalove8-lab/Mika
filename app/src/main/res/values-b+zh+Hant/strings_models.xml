@@ -167,6 +167,14 @@
     <string name="signin_sign_out_note">只清這臺手機上的登入資訊</string>
     <string name="signin_busy">另一個登入還沒結束，先完成或取消它。</string>
     <string name="signin_openrouter_name">%1$s（帳號登入）</string>
+    <string name="mcp_servers_composio">Composio 市場</string>
+    <string name="mcp_servers_composio_title">Composio MCP 連接器</string>
+    <string name="mcp_servers_composio_sub">瀏覽來自 Composio 的現成 MCP 連接器，並將其添加為 MCP 伺服器。透過瀏覽器登入 Composio，然後添加連接器。</string>
+    <string name="mcp_servers_composio_api_key">Composio API 金鑰</string>
+    <string name="mcp_servers_composio_key_required">請輸入你的 Composio API 金鑰。</string>
+    <string name="mcp_servers_composio_saving">儲存中…</string>
+    <string name="mcp_servers_composio_saving_btn">儲存中…</string>
+    <string name="mcp_servers_composio_add">添加連接器</string>
 
     <!-- 設定 › 模型：語音轉文字這個用途和它的選擇頁 -->
     <string name="role_speech">語音轉文字</string>

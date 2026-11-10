@@ -171,6 +171,14 @@
     <string name="signin_sign_out_note">فقط اطلاعات ورود را در این گوشی پاک می‌کند</string>
     <string name="signin_busy">ورود دیگری در حال انجام است. ابتدا آن را کامل یا لغو کنید.</string>
     <string name="signin_openrouter_name">%1$s (وارد شده)</string>
+    <string name="mcp_servers_composio">بازار composio</string>
+    <string name="mcp_servers_composio_title">وصله‌های composio MCP</string>
+    <string name="mcp_servers_composio_sub">مرور وصله‌های آماده composio MCP و افزودن یکی به عنوان یک سرور MCP. وارد سایت composio شوید از طریق مرورگر، سپس وصله‌ها را اضافه کنید.</string>
+    <string name="mcp_servers_composio_api_key">کلید composio API</string>
+    <string name="mcp_servers_composio_key_required">کلید composio API خود را وارد کنید.</string>
+    <string name="mcp_servers_composio_saving">در حال ذخیره…</string>
+    <string name="mcp_servers_composio_saving_btn">در حال ذخیره…</string>
+    <string name="mcp_servers_composio_add">افزودن وصله</string>
 
     <!-- Settings > Models: speech-to-text usage and its picker page -->
     <string name="role_speech">گفتار به متن</string>

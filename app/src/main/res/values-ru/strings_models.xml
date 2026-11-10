@@ -179,6 +179,14 @@
     <string name="signin_sign_out_note">Выход только на этом телефоне</string>
     <string name="signin_busy">Уже идёт другой вход. Сначала завершите или отмените его.</string>
     <string name="signin_openrouter_name">%1$s (вход выполнен)</string>
+    <string name="mcp_servers_composio">Маркетплейс Composio</string>
+    <string name="mcp_servers_composio_title">Соединители MCP Composio</string>
+    <string name="mcp_servers_composio_sub">Просматривайте готовые соединители MCP от Composio и добавьте один как сервер MCP. Войдите в Composio через браузер, затем добавьте соединители.</string>
+    <string name="mcp_servers_composio_api_key">Ключ API Composio</string>
+    <string name="mcp_servers_composio_key_required">Введите ваш ключ API Composio.</string>
+    <string name="mcp_servers_composio_saving">Сохранение…</string>
+    <string name="mcp_servers_composio_saving_btn">Сохранение…</string>
+    <string name="mcp_servers_composio_add">Добавить соединитель</string>
 
     <!-- Settings > Models: speech-to-text usage and its picker page -->
     <string name="role_speech">Распознавание речи</string>

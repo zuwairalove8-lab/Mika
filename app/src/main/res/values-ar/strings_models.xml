@@ -187,6 +187,14 @@
     <string name="signin_sign_out_note">يمحو تسجيل الدخول على هذا الهاتف فقط</string>
     <string name="signin_busy">هناك عملية تسجيل دخول أخرى جارية. أكملها أو ألغها أولًا.</string>
     <string name="signin_openrouter_name">%1$s (تم تسجيل الدخول)</string>
+    <string name="mcp_servers_composio">سوق composio</string>
+    <string name="mcp_servers_composio_title">موصلات composio MCP</string>
+    <string name="mcp_servers_composio_sub">تصفح موصلات composio MCP الجاهزة وأضف واحدة كخادم MCP. سجّل دخولك إلى composio عبر المتصفح، ثم أضف الموصلات.</string>
+    <string name="mcp_servers_composio_api_key">مفتاح composio API</string>
+    <string name="mcp_servers_composio_key_required">أدخل مفتاح composio API الخاص بك.</string>
+    <string name="mcp_servers_composio_saving">جاري الحفظ…</string>
+    <string name="mcp_servers_composio_saving_btn">جاري الحفظ…</string>
+    <string name="mcp_servers_composio_add">إضافة موصل</string>
 
     <!-- Settings > Models: speech-to-text usage and its picker page -->
     <string name="role_speech">تحويل الكلام إلى نص</string>

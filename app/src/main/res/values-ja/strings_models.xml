@@ -167,6 +167,14 @@
     <string name="signin_sign_out_note">このスマホのログイン情報だけを消去します</string>
     <string name="signin_busy">別のログインが進行中です。先に完了するか、キャンセルしてください。</string>
     <string name="signin_openrouter_name">%1$s(ログイン済み)</string>
+    <string name="mcp_servers_composio">Composio マーケットプレイス</string>
+    <string name="mcp_servers_composio_title">Composio MCP コネクタ</string>
+    <string name="mcp_servers_composio_sub">Composio の既製 MCP コネクタを閲覧し、1 つを MCP サーバーとして追加します。ブラウザで Composio にサインインし、コネクタを追加します。</string>
+    <string name="mcp_servers_composio_api_key">Composio API キー</string>
+    <string name="mcp_servers_composio_key_required">Composio API キーを入力してください。</string>
+    <string name="mcp_servers_composio_saving">保存中…</string>
+    <string name="mcp_servers_composio_saving_btn">保存中…</string>
+    <string name="mcp_servers_composio_add">コネクタを追加</string>
 
     <!-- Settings > Models: speech-to-text usage and its picker page -->
     <string name="role_speech">音声文字変換</string>
