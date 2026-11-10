@@ -11,6 +11,7 @@ import kotlinx.coroutines.withContext
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonElement
 import java.io.IOException
 
 const val COMPOSIO_BASE_URL = "https://backend.composio.dev/api/v1"
@@ -29,7 +30,7 @@ class ComposioApiClient(
     ),
 ) {
     private val json = Json { ignoreUnknownKeys = true; encodeDefaults = true; isLenient = true }
-    private val jsonMediaType = okhttp3.MediaType.Companion.parse("application/json")!!
+    private val jsonMediaType = "application/json".toMediaTypeOrNull()!!
 
     /** List connected accounts (apps the user has already linked). */
     suspend fun listConnectedAccounts(): Result<ComposioConnectedAppsResponse> {
@@ -49,9 +50,9 @@ class ComposioApiClient(
 
     /** Initialize OAuth/auth for connecting an app. Returns the URL to open in a browser. */
     suspend fun initAuth(appId: String, userId: String? = null): Result<ComposioAuthInit> {
-        val body = buildMap {
-            put("appId", appId)
-            userId?.let { put("userId", it) }
+        val body: Map<String, JsonElement> = buildMap {
+            put("appId", kotlinx.serialization.json.JsonPrimitive(appId))
+            userId?.let { put("userId", kotlinx.serialization.json.JsonPrimitive(it)) }
         }
         return call("POST", "/auth/init", body) { json.decodeFromString(it) }
     }
@@ -59,21 +60,21 @@ class ComposioApiClient(
     /** Execute a Composio tool on behalf of a connected account. */
     suspend fun executeTool(
         toolName: String,
-        arguments: Map<String, kotlinx.serialization.json.JsonElement>,
+        arguments: Map<String, JsonElement>,
         connectedAccountId: String?,
     ): Result<ComposioToolExecutionResponse> {
-        val body = buildMap {
-            put("toolName", toolName)
-            put("arguments", arguments)
-            connectedAccountId?.let { put("connectedAccountId", it) }
+        val body: Map<String, JsonElement> = buildMap {
+            put("toolName", kotlinx.serialization.json.JsonPrimitive(toolName))
+            put("arguments", kotlinx.serialization.json.JsonElement.fromMap(arguments))
+            connectedAccountId?.let { put("connectedAccountId", kotlinx.serialization.json.JsonPrimitive(it)) }
         }
         return call("POST", "/tools/execute", body) { json.decodeFromString(it) }
     }
 
-    private suspend fun call<T>(
+    private suspend fun <T> call(
         method: String,
         path: String,
-        body: Map<String, kotlinx.serialization.json.JsonElement>?,
+        body: Map<String, JsonElement>?,
         parse: (String) -> T,
     ): Result<T> = withContext(Dispatchers.IO) {
         try {
