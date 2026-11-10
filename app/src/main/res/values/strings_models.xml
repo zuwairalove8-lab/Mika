@@ -170,12 +170,6 @@
     <string name="signin_set_main_note">Mika uses it to get things done</string>
     <string name="signin_sign_out_note">Only clears the sign-in on this phone</string>
     <string name="signin_busy">Another sign-in is in progress. Finish or cancel it first.</string>
-    <string name="signin_row_gmail">Uses your Google account</string>
-    <string name="signin_gmail_title">Sign in with Google</string>
-    <string name="signin_gmail_body">Opens Google\'s authorization page. Once you approve, Mika gets an access token for Gmail; usage comes from your Google account.</string>
-    <string name="signin_gmail_note">This is Google\'s official OAuth sign-in. The access token is stored encrypted on this phone; if you no longer want it, revoke it in your Google account settings.</string>
-    <string name="signin_gmail_authorize">Authorize with Google</string>
-    <string name="signin_gmail_waiting">Approve in the browser, then come back to Mika.</string>
 
     <!-- Settings > Models: speech-to-text usage and its picker page -->
     <string name="role_speech">Speech to text</string>
@@ -202,7 +196,7 @@
     <string name="models_daily_token_budget_sub">Counts all models and purposes for this provider in the local calendar day. Only reported input and output tokens count. At the limit, the next request is blocked; in-flight requests may exceed it. Resets when the local date changes.</string>
     <string name="mcp_servers_composio">Composio Marketplace</string>
     <string name="mcp_servers_composio_title">Composio MCP Connectors</string>
-    <string name="mcp_servers_composio_sub">Browse ready-made MCP connectors from Composio and add one as an MCP server. You need a Composio API key.</string>
+    <string name="mcp_servers_composio_sub">Browse ready-made MCP connectors from Composio and add one as an MCP server. Sign in to Composio through the browser, then add connectors.</string>
     <string name="mcp_servers_composio_api_key">Composio API key</string>
     <string name="mcp_servers_composio_key_required">Enter your Composio API key.</string>
     <string name="mcp_servers_composio_saving">Saving…</string>

@@ -48,15 +48,13 @@ import com.wangzan101.mika.ui.theme.MikaType
 enum class SignInKind(val account: AccountProvider?, val label: String, val tag: String) {
     ChatGpt(null, "ChatGPT", "chatgpt"),
     Xai(AccountProvider.Xai, "xAI / Grok", "xai"),
-    OpenRouter(AccountProvider.OpenRouter, "OpenRouter", "openrouter"),
-    Gmail(AccountProvider.Gmail, "Gmail / Google", "gmail");
+    OpenRouter(AccountProvider.OpenRouter, "OpenRouter", "openrouter");
 
     /** 「改用 API Key」时选的预设;ChatGPT 没有这一项。 */
     val keyPreset: String? get() = when (this) {
         ChatGpt -> null
         Xai -> "xAI"
         OpenRouter -> "OpenRouter"
-        Gmail -> "Google"
     }
 
     companion object {
