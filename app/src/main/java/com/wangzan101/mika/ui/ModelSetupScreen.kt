@@ -145,6 +145,7 @@ fun ModelSetupScreen(
             val accountKind = when {
                 provider.kind == ProviderConfig.Kind.Xai -> SignInKind.Xai
                 provider.signIn == ProviderStore.OPENROUTER_SIGN_IN -> SignInKind.OpenRouter
+                provider.signIn == ProviderStore.GMAIL_SIGN_IN -> SignInKind.Gmail
                 else -> null
             }
             val actions = ProviderDetailActions(
@@ -161,6 +162,7 @@ fun ModelSetupScreen(
                     openInBrowser(context, when (accountKind) {
                         SignInKind.Xai -> ModelsCopy.ACCOUNT_MANAGE_URL
                         SignInKind.OpenRouter -> OpenRouterAuth.KEYS_PAGE
+                        SignInKind.Gmail -> "https://myaccount.google.com/permissions"
                         else -> ChatGptAuth.USAGE_URL
                     })
                 },

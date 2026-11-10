@@ -38,8 +38,10 @@ import com.wangzan101.mika.core.chatgpt.signInWithChatGpt
 import com.wangzan101.mika.core.oauth.AccountSignInException
 import com.wangzan101.mika.core.oauth.AccountSignInFailure
 import com.wangzan101.mika.core.oauth.DeviceChallenge
+import com.wangzan101.mika.core.oauth.GoogleAuth
 import com.wangzan101.mika.core.oauth.OpenRouterAuth
 import com.wangzan101.mika.core.oauth.XaiAuth
+import com.wangzan101.mika.core.oauth.signInWithGoogle
 import com.wangzan101.mika.core.oauth.signInWithOpenRouter
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
@@ -71,7 +73,7 @@ data class ChatGptAccount(val email: String, val signedIn: Boolean)
  * ChatGPT 的登录另有一套(见 [ModelSetupViewModel.signInWithChatGpt]),界面上和它们并排。
  */
 enum class AccountProvider(val target: SignInTarget) {
-    Xai(SignInTarget.Xai), OpenRouter(SignInTarget.OpenRouter);
+    Xai(SignInTarget.Xai), OpenRouter(SignInTarget.OpenRouter), Gmail(SignInTarget.Gmail);
 
     companion object {
         fun of(target: SignInTarget): AccountProvider? = entries.firstOrNull { it.target == target }
@@ -809,6 +811,7 @@ class ModelSetupViewModel(
                     val (p, listed) = when (provider) {
                         AccountProvider.Xai -> connectXai(browser)
                         AccountProvider.OpenRouter -> connectOpenRouter(browser)
+                        AccountProvider.Gmail -> connectGmail(browser)
                     }
                     if (store.roles.value.main == null) {
                         val options = ModelOptions.ofProvider(p, store.list())
@@ -849,6 +852,13 @@ class ModelSetupViewModel(
         return store.connectOpenRouter(key, (listed as? ModelListResult.Ok)?.models ?: existing?.models.orEmpty()) to listed
     }
 
+    /** Google 账号授权换访问令牌,按 Google 预设存成一家服务商。没有配置 Google OAuth 客户端 ID 时登录不可用。 */
+    private suspend fun connectGmail(browser: SignInBrowser): Pair<Provider, ModelListResult> {
+        if (store.googleAuth.clientId.isBlank()) throw AccountSignInException(AccountSignInFailure.Rejected, "no_client_id")
+        val tokens = signInWithGoogle(store.googleAuth, browser::open, page = { e -> browser.page(e?.let(ModelsCopy::accountFailure)) })
+        return store.connectGmail(tokens.accessToken, emptyList()) to ModelListResult.Ok(emptyList())
+    }
+
     /** 把短码留在界面上。打开浏览器由登录流程自己做,这里不再开一次。 */
     private fun publishDevice(c: DeviceChallenge) {
         val openUrl = c.verificationUriComplete ?: c.verificationUri
@@ -872,7 +882,9 @@ class ModelSetupViewModel(
         scope.launch {
             withContext(io) {
                 val p = store.provider(providerId) ?: return@withContext
-                if (p.kind == ProviderConfig.Kind.Xai) store.signOutAccount(providerId) else store.signOutOpenRouter(providerId)
+                if (p.kind == ProviderConfig.Kind.Xai) store.signOutAccount(providerId)
+                else if (p.signIn == com.wangzan101.mika.settings.ProviderStore.GMAIL_SIGN_IN) store.signOutGmail(providerId)
+                else store.signOutOpenRouter(providerId)
             }
             _state.update { snapshot(it.copy(listing = it.listing - providerId)) }
         }

@@ -50,13 +50,13 @@ class SearchEngineStore(dir: File) {
         val c = _choices.value
         val rest = c.custom.filterNot { it.id == id }
         if (rest.size == c.custom.size) return
-        val selected = if (c.selected.id == id) SearchEngine.Bing else c.selected
+        val selected = if (c.selected.id == id) SearchEngine.Google else c.selected
         _choices.value = SearchEngineChoices(selected, rest)
         save(_choices.value)
     }
 
     private fun load(): SearchEngineChoices {
-        if (!file.isFile) return SearchEngineChoices(SearchEngine.Bing, emptyList())
+        if (!file.isFile) return SearchEngineChoices(SearchEngine.Google, emptyList())
         return runCatching {
             val root = Json.parseToJsonElement(file.readText()) as? JsonObject ?: return@runCatching null
             val custom = (root["custom"] as? JsonArray)?.mapNotNull { e ->
@@ -67,8 +67,8 @@ class SearchEngineStore(dir: File) {
                 CustomSearchEngine.create(id, name, template)
             }.orEmpty().distinctBy { it.id }
             val selectedId = (root["selected"] as? JsonPrimitive)?.takeIf { it.isString }?.content
-            SearchEngineChoices(custom.firstOrNull { it.id == selectedId } ?: SearchEngine.fromId(selectedId) ?: SearchEngine.Bing, custom)
-        }.getOrNull() ?: SearchEngineChoices(SearchEngine.Bing, emptyList())
+            SearchEngineChoices(custom.firstOrNull { it.id == selectedId } ?: SearchEngine.fromId(selectedId) ?: SearchEngine.Google, custom)
+        }.getOrNull() ?: SearchEngineChoices(SearchEngine.Google, emptyList())
     }
 
     private fun save(choices: SearchEngineChoices) {

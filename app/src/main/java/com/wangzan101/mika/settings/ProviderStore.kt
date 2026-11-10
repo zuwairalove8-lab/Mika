@@ -8,6 +8,7 @@ import com.wangzan101.mika.core.chatgpt.ChatGptTokens
 import com.wangzan101.mika.core.oauth.AccountSession
 import com.wangzan101.mika.core.oauth.AccountTokens
 import com.wangzan101.mika.core.oauth.OauthTokenResult
+import com.wangzan101.mika.core.oauth.GoogleAuth
 import com.wangzan101.mika.core.oauth.OpenRouterAuth
 import com.wangzan101.mika.core.oauth.XaiAuth
 import com.wangzan101.mika.core.model.AnthropicModel
@@ -297,6 +298,8 @@ class ProviderStore(
     val xaiAuth: XaiAuth = defaultXaiAuth,
     /** OpenRouter 账号授权(换 Key)。 */
     val openRouterAuth: OpenRouterAuth = defaultOpenRouterAuth,
+    /** Google 账号授权(OAuth 2.0 PKCE,换访问令牌)。 */
+    val googleAuth: GoogleAuth = defaultGoogleAuth,
     /**
      * 建可调用的模型:配置、Key、服务商列表里给这个模型单独指定的接口(没有为 null,按配置的接口类型和地址)、请求头等。
      * 为 null 时用内置的适配器(测试里换成假的)。
@@ -792,6 +795,16 @@ class ProviderStore(
     fun connectOpenRouter(apiKey: String, models: List<ListedModel>): Provider =
         connect(OPENROUTER_NAME, ProviderConfig.Kind.OpenAiCompat, OpenRouterAuth.API_BASE, apiKey, models, signIn = OPENROUTER_SIGN_IN)
 
+    /** Google 账号授权换到的访问令牌:按 Google 预设存成一家 OpenAI 兼容服务商,标上是授权来的。 */
+    fun connectGmail(accessToken: String, models: List<ListedModel>): Provider =
+        connect(GMAIL_NAME, ProviderConfig.Kind.OpenAiCompat, "https://generativelanguage.googleapis.com/v1", accessToken, models, signIn = GMAIL_SIGN_IN)
+
+    /** 退出 Google 登录:删掉这台手机上的令牌。 */
+    @Synchronized
+    fun signOutGmail(providerId: String) {
+        if (provider(providerId)?.signIn == GMAIL_SIGN_IN && providerId in keys) setKey(providerId, "")
+    }
+
     /** 退出 OpenRouter 登录:删掉这台手机上的 Key;服务商、模型和用途留着。OpenRouter 那边的 Key 要用户到 Keys 页面删。 */
     @Synchronized
     fun signOutOpenRouter(providerId: String) {
@@ -1202,6 +1215,7 @@ class ProviderStore(
         private val defaultChatGptAuth by lazy { ChatGptAuth(shortHttp) }
         private val defaultOpenRouterAuth by lazy { OpenRouterAuth(shortHttp) }
         private val defaultXaiAuth by lazy { XaiAuth(shortHttp) }
+        private val defaultGoogleAuth by lazy { GoogleAuth(shortHttp, GOOGLE_CLIENT_ID) }
 
         /** ChatGPT 服务商的名字(品牌名,不随界面语言变)。 */
         const val CHATGPT_NAME = "ChatGPT"
@@ -1212,6 +1226,11 @@ class ProviderStore(
         const val OPENROUTER_SIGN_IN = "openrouter"
         /** 出错说明里怎么称呼这家的登录。 */
         private const val XAI_ACCOUNT = "xAI"
+        /** Google 账号授权的服务商:名字和预设一样,[Provider.signIn] 标成这个。 */
+        const val GMAIL_NAME = "Gmail / Google"
+        const val GMAIL_SIGN_IN = "gmail"
+        /** Google OAuth 客户端 ID:在 Google Cloud Console 创建 OAuth 客户端后填这里,留空则 Gmail 登录不可用。 */
+        const val GOOGLE_CLIENT_ID = ""
 
         /**
          * 试调用:临时配置的 id、系统提示、那句话、试用的工具、回复上限。

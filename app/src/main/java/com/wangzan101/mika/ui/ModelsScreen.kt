@@ -750,18 +750,21 @@ object ModelsCopy {
         SignInKind.ChatGpt -> tr(R.string.signin_row_chatgpt)
         SignInKind.Xai -> tr(R.string.signin_row_xai)
         SignInKind.OpenRouter -> tr(R.string.signin_row_openrouter)
+        SignInKind.Gmail -> tr(R.string.signin_row_gmail)
     }
 
     fun signInTitle(kind: SignInKind) = when (kind) {
         SignInKind.ChatGpt -> CHATGPT_TITLE
         SignInKind.Xai -> tr(R.string.signin_xai_title)
         SignInKind.OpenRouter -> tr(R.string.signin_openrouter_title)
+        SignInKind.Gmail -> tr(R.string.signin_gmail_title)
     }
 
     fun signInBody(kind: SignInKind) = when (kind) {
         SignInKind.ChatGpt -> CHATGPT_BODY
         SignInKind.Xai -> tr(R.string.signin_xai_body)
         SignInKind.OpenRouter -> tr(R.string.signin_openrouter_body)
+        SignInKind.Gmail -> tr(R.string.signin_gmail_body)
     }
 
     /** 登录前要先说清的风险(黄底);没有为 null。 */
@@ -772,18 +775,21 @@ object ModelsCopy {
         SignInKind.ChatGpt -> null
         SignInKind.Xai -> tr(R.string.signin_stored_note)
         SignInKind.OpenRouter -> tr(R.string.signin_openrouter_note)
+        SignInKind.Gmail -> tr(R.string.signin_gmail_note)
     }
 
     fun signInStart(kind: SignInKind) = when (kind) {
         SignInKind.ChatGpt -> CHATGPT_CONTINUE
         SignInKind.Xai -> tr(R.string.signin_continue)
         SignInKind.OpenRouter -> tr(R.string.signin_openrouter_authorize)
+        SignInKind.Gmail -> tr(R.string.signin_gmail_authorize)
     }
 
     fun signInWaiting(kind: SignInKind) = when (kind) {
         SignInKind.ChatGpt -> CHATGPT_WAITING
         SignInKind.Xai -> tr(R.string.signin_xai_starting)
         SignInKind.OpenRouter -> tr(R.string.signin_openrouter_waiting)
+        SignInKind.Gmail -> tr(R.string.signin_gmail_waiting)
     }
 
     fun accountManage(kind: SignInKind) = when (kind) {
