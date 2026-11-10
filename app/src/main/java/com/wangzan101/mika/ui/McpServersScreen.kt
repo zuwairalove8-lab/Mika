@@ -308,11 +308,14 @@ private fun ComposioMarketplaceDialog(onDismiss: () -> Unit) {
         confirmButton = {
             TextButton(
                 onClick = {
-                    if (apiKey.isBlank()) { error = stringResource(R.string.mcp_servers_composio_key_required); return }
-                    saving = true
-                    // TODO: call Composio API to list connectors, then add as MCP servers via store.add(...)
-                    saving = false
-                    onDismiss()
+                    if (apiKey.isBlank()) {
+                        error = stringResource(R.string.mcp_servers_composio_key_required)
+                    } else {
+                        saving = true
+                        // TODO: call Composio API to list connectors, then add as MCP servers via store.add(...)
+                        saving = false
+                        onDismiss()
+                    }
                 },
                 enabled = !saving && apiKey.isNotBlank(),
                 modifier = Modifier.testTag("mcp-composio-save"),
