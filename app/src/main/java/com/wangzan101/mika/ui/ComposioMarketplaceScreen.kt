@@ -1,6 +1,7 @@
 package com.wangzan101.mika.ui
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.background
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -85,8 +86,8 @@ fun ComposioMarketplaceScreen(
                 LinearProgressIndicator(Modifier.fillMaxWidth().padding(bottom = 16.dp))
             }
 
-            error?.let { Text(it, color = MikaTheme.colors.bad, Modifier.padding(bottom = 16.dp)) }
-            success?.let { Text(it, color = MikaTheme.colors.ok, Modifier.padding(bottom = 16.dp)) }
+            error.value?.let { Text(it, color = MikaTheme.colors.bad, Modifier.padding(bottom = 16.dp)) }
+            success.value?.let { Text(it, color = MikaTheme.colors.ok, Modifier.padding(bottom = 16.dp)) }
 
             val connectFailedMsg = stringResource(R.string.mcp_servers_composio_connect_failed)
             val addFailedMsg = stringResource(R.string.mcp_servers_composio_add_failed)

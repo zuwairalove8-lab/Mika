@@ -236,7 +236,7 @@ fun SettingsScreen(
         SettingsPage.SelfCheck -> SelfCheckScreen(status, onBack = back)
         SettingsPage.ComputerAccess -> McpScreen(mcp, onBack = toAdvanced)
         SettingsPage.McpServers -> mcpServers?.let { McpServersScreen(it, onBack = toAdvanced) }
-        SettingsPage.ComposioMarketplace -> composioMarketplace?.let {
+        SettingsPage.ComposioMarketplace -> if (composioStore != null) {
             ComposioMarketplaceScreen(
                 store = composioStore,
                 mcpServerStore = mcpServers,
