@@ -38,7 +38,7 @@ android {
         abi {
             isEnable = gradle.startParameter.taskNames.any { Regex("(?i)(perf|release)").containsMatchIn(it) }
             reset()
-            include("arm64-v8a")
+            include("arm64-v8a", "armeabi-v7a")
             isUniversalApk = true
         }
     }

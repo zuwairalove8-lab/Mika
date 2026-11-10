@@ -1,0 +1,65 @@
+name: Build APK
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-apk-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: build APK (universal + arm64-v8a + armeabi-v7a)
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - uses: android-actions/setup-android@v4
+        with:
+          packages: "platform-tools platforms;android-36 build-tools;35.0.0"
+
+      - uses: gradle/actions/setup-gradle@v6
+        with:
+          cache-provider: basic
+
+      # Build debug APK (universal, all ABIs) for easy sideload testing.
+      - name: Build debug APK
+        run: ./gradlew :app:assembleDebug --stacktrace
+
+      # Build perf/release APKs split by ABI (arm64-v8a + armeabi-v7a) plus universal.
+      - name: Build perf APKs (ABI splits)
+        run: ./gradlew :app:assemblePerf --stacktrace
+
+      - name: List APK artifacts
+        run: |
+          echo "=== debug APKs ==="
+          find app/build/outputs/apk -name "*.apk" -type f 2>/dev/null || true
+          echo "=== perf APKs ==="
+          find app/build/outputs/apk -name "*.apk" -type f 2>/dev/null || true
+
+      - name: Upload debug APK
+        uses: actions/upload-artifact@v7
+        with:
+          name: mika-debug-apk
+          path: app/build/outputs/apk/debug/*.apk
+          retention-days: 30
+          if-no-files-found: error
+
+      - name: Upload perf APKs
+        uses: actions/upload-artifact@v7
+        with:
+          name: mika-perf-apks
+          path: app/build/outputs/apk/perf/*.apk
+          retention-days: 30
+          if-no-files-found: error
