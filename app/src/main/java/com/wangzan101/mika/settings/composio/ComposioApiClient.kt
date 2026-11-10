@@ -63,7 +63,7 @@ class ComposioApiClient(
         arguments: Map<String, JsonElement>,
         connectedAccountId: String?,
     ): Result<ComposioToolExecutionResponse> {
-        val argsObj = kotlinx.serialization.json.JsonObject(arguments.map { (k, v) -> k to v })
+        val argsObj = kotlinx.serialization.json.JsonObject(arguments.entries.toList().map { Pair(it.key, it.value) })
         val body: Map<String, JsonElement> = buildMap {
             put("toolName", kotlinx.serialization.json.JsonPrimitive(toolName))
             put("arguments", argsObj)
@@ -90,7 +90,7 @@ class ComposioApiClient(
             val request = when {
                 body != null && method == "POST" ->
                     requestBuilder.post(
-                        json.encodeToString(body).toRequestBody(jsonMediaType)
+                        okhttp3.RequestBody.create(json.encodeToString(body), jsonMediaType)
                     )
                 method == "POST" ->
                     requestBuilder.post(

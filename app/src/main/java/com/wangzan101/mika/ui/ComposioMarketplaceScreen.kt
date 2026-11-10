@@ -88,6 +88,9 @@ fun ComposioMarketplaceScreen(
             error?.let { Text(it, color = MikaTheme.colors.bad, Modifier.padding(bottom = 16.dp)) }
             success?.let { Text(it, color = MikaTheme.colors.ok, Modifier.padding(bottom = 16.dp)) }
 
+            val connectFailedMsg = stringResource(R.string.mcp_servers_composio_connect_failed)
+            val addFailedMsg = stringResource(R.string.mcp_servers_composio_add_failed)
+
             GroupLabel(stringResource(R.string.mcp_servers_composio_popular_connectors))
             LazyColumn(
                 modifier = Modifier.fillMaxWidth().padding(bottom = 24.dp),
@@ -96,6 +99,7 @@ fun ComposioMarketplaceScreen(
                 items(items = store.popularApps.filter { it.contains(searchQuery, ignoreCase = true) }) { appId ->
                     val appName = appId.split("_").map { it.capitalize() }.joinToString(" ")
                     val isConnected = accounts.any { it.appId == appId }
+                    val addedAsMcpMsg = stringResource(R.string.mcp_servers_composio_added_as_mcp, appName)
                     ConnectorRow(
                         appId = appId,
                         appName = appName,
@@ -108,7 +112,7 @@ fun ComposioMarketplaceScreen(
                                 if (result.isSuccess) {
                                     authUrl = result.getOrNull()?.redirectUrl
                                 } else {
-                                    error = result.exceptionOrNull()?.message ?: stringResource(R.string.mcp_servers_composio_connect_failed)
+                                    error = result.exceptionOrNull()?.message ?: connectFailedMsg
                                 }
                             }
                         },
@@ -119,9 +123,9 @@ fun ComposioMarketplaceScreen(
                                 val result = store.addConnectorAsMcpServer(appId, appName, account?.id)
                                 connecting = false
                                 if (result.isSuccess) {
-                                    success = stringResource(R.string.mcp_servers_composio_added_as_mcp, appName)
+                                    success = addedAsMcpMsg
                                 } else {
-                                    error = result.exceptionOrNull()?.message ?: stringResource(R.string.mcp_servers_composio_add_failed)
+                                    error = result.exceptionOrNull()?.message ?: addFailedMsg
                                 }
                             }
                         },
@@ -135,6 +139,7 @@ fun ComposioMarketplaceScreen(
                     modifier = Modifier.fillMaxWidth(),
                 ) {
                     items(items = accounts) { account ->
+                        val accountAddedMsg = stringResource(R.string.mcp_servers_composio_added_as_mcp, account.appName)
                         ConnectedAccountRow(
                             account = account,
                             onAddAsMcp = {
@@ -143,9 +148,9 @@ fun ComposioMarketplaceScreen(
                                     val result = store.addConnectorAsMcpServer(account.appId, account.appName, account.id)
                                     connecting = false
                                     if (result.isSuccess) {
-                                        success = stringResource(R.string.mcp_servers_composio_added_as_mcp, account.appName)
+                                        success = accountAddedMsg
                                     } else {
-                                        error = result.exceptionOrNull()?.message ?: stringResource(R.string.mcp_servers_composio_add_failed)
+                                        error = result.exceptionOrNull()?.message ?: addFailedMsg
                                     }
                                 }
                             },
