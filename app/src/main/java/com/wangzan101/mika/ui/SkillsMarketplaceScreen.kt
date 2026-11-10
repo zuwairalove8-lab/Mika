@@ -87,8 +87,12 @@ fun SkillsMarketplaceScreen(
                 MySkillsList()
             }
 
-            error?.let { Text(it, color = MikaTheme.colors.bad, Modifier.padding(bottom = 16.dp)) }
-            success?.let { Text(it, color = MikaTheme.colors.ok, Modifier.padding(bottom = 16.dp)) }
+            val c = MikaTheme.colors
+            val badColor = c.bad
+            val okColor = c.ok
+
+            error.value?.let { Text(it, color = badColor, Modifier.padding(bottom = 16.dp)) }
+            success.value?.let { Text(it, color = okColor, Modifier.padding(bottom = 16.dp)) }
         }
     }
 }
