@@ -11,6 +11,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.wangzan101.mika.R
@@ -73,11 +74,12 @@ fun SkillsMarketplaceScreen(
                     onSourceChanged = { importSource = it },
                     importing = importing,
                     onImport = {
+                        val importSuccessMsg = stringResource(R.string.skills_import_success)
                         importing = true
                         scope.launch {
                             // TODO: call skill import API
                             importing = false
-                            success = stringResource(R.string.skills_import_success)
+                            success = importSuccessMsg
                         }
                     },
                     error = error,
@@ -87,12 +89,8 @@ fun SkillsMarketplaceScreen(
                 MySkillsList()
             }
 
-            val c = MikaTheme.colors
-            val badColor = c.bad
-            val okColor = c.ok
-
-            error.value?.let { Text(it, color = badColor, Modifier.padding(bottom = 16.dp)) }
-            success.value?.let { Text(it, color = okColor, Modifier.padding(bottom = 16.dp)) }
+            error.value?.let { Text(it, color = Color(0xFFE5483D), Modifier.padding(bottom = 16.dp)) }
+            success.value?.let { Text(it, color = Color(0xFF10A37F), Modifier.padding(bottom = 16.dp)) }
         }
     }
 }
