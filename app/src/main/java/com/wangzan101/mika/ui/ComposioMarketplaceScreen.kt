@@ -87,8 +87,8 @@ fun ComposioMarketplaceScreen(
                 LinearProgressIndicator(Modifier.fillMaxWidth().padding(bottom = 16.dp))
             }
 
-            error.value?.let { Text(it, color = Color(0xFFE5483D), Modifier.padding(bottom = 16.dp)) }
-            success.value?.let { Text(it, color = Color(0xFF10A37F), Modifier.padding(bottom = 16.dp)) }
+            error.value?.let { Text(it, color = androidx.compose.ui.graphics.Color(0xFFE5483D), Modifier.padding(bottom = 16.dp)) }
+            success.value?.let { Text(it, color = androidx.compose.ui.graphics.Color(0xFF10A37F), Modifier.padding(bottom = 16.dp)) }
 
             val connectFailedMsg = stringResource(R.string.mcp_servers_composio_connect_failed)
             val addFailedMsg = stringResource(R.string.mcp_servers_composio_add_failed)
