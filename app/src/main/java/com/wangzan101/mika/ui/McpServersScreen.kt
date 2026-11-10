@@ -282,6 +282,7 @@ private fun ComposioMarketplaceDialog(onDismiss: () -> Unit) {
     var apiKey by remember { mutableStateOf("") }
     var saving by remember { mutableStateOf(false) }
     var error by remember { mutableStateOf<String?>(null) }
+    val keyRequiredMsg = stringResource(R.string.mcp_servers_composio_key_required)
     MikaDialog(
         onDismissRequest = onDismiss,
         title = { Text(stringResource(R.string.mcp_servers_composio_title)) },
@@ -309,7 +310,7 @@ private fun ComposioMarketplaceDialog(onDismiss: () -> Unit) {
             TextButton(
                 onClick = {
                     if (apiKey.isBlank()) {
-                        error = stringResource(R.string.mcp_servers_composio_key_required)
+                        error = keyRequiredMsg
                     } else {
                         saving = true
                         // TODO: call Composio API to list connectors, then add as MCP servers via store.add(...)
