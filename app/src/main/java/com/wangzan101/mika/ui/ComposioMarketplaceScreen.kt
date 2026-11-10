@@ -86,11 +86,11 @@ fun ComposioMarketplaceScreen(
                 LinearProgressIndicator(Modifier.fillMaxWidth().padding(bottom = 16.dp))
             }
 
-            error.value?.let { et ->
-                Text(et, Modifier.padding(bottom = 16.dp))
+            if (error.value != null) {
+                Text(error.value!!, Modifier.padding(bottom = 16.dp))
             }
-            success.value?.let { st ->
-                Text(st, Modifier.padding(bottom = 16.dp))
+            if (success.value != null) {
+                Text(success.value!!, Modifier.padding(bottom = 16.dp))
             }
 
             val connectFailedMsg = stringResource(R.string.mcp_servers_composio_connect_failed)

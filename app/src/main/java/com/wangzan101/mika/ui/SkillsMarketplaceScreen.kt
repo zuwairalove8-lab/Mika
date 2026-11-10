@@ -88,11 +88,11 @@ fun SkillsMarketplaceScreen(
                 MySkillsList()
             }
 
-            error.value?.let { et ->
-                Text(et, Modifier.padding(bottom = 16.dp))
+            if (error.value != null) {
+                Text(error.value!!, Modifier.padding(bottom = 16.dp))
             }
-            success.value?.let { st ->
-                Text(st, Modifier.padding(bottom = 16.dp))
+            if (success.value != null) {
+                Text(success.value!!, Modifier.padding(bottom = 16.dp))
             }
         }
     }
