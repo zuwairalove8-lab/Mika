@@ -88,8 +88,12 @@ fun SkillsMarketplaceScreen(
                 MySkillsList()
             }
 
-            error.value?.let { Text(it, Modifier.padding(bottom = 16.dp)) }
-            success.value?.let { Text(it, Modifier.padding(bottom = 16.dp)) }
+            error.value?.let { et ->
+                Text(et, Modifier.padding(bottom = 16.dp))
+            }
+            success.value?.let { st ->
+                Text(st, Modifier.padding(bottom = 16.dp))
+            }
         }
     }
 }
