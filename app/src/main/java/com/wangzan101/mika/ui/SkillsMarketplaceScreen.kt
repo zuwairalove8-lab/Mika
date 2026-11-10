@@ -200,7 +200,7 @@ private fun ImportSkillSection(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 MikaButton(
-                    text = stringResource(if (importing) R.string.skills_importing else R.string.skills_import),
+                    text = stringResource(if (importing) R.string.skills_importing else R.string.skills_import_button),
                     onClick = onImport,
                     size = ButtonSize.Small,
                     enabled = !importing && source.isNotBlank(),

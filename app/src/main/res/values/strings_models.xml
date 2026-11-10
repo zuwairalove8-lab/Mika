@@ -238,7 +238,7 @@
     <string name="skills_import_subtitle">Paste a URL to a SKILL.md file (GitHub, any web server, or local file).</string>
     <string name="skills_skill_url">Skill URL</string>
     <string name="skills_skill_url_placeholder">https://github.com/user/repo/blob/main/SKILL.md</string>
-    <string name="skills_import">Import</string>
+    <string name="skills_import_button">Import</string>
     <string name="skills_importing">Importing…</string>
     <string name="skills_import_success">Skill imported successfully.</string>
     <string name="skills_browse_file">Browse file</string>
