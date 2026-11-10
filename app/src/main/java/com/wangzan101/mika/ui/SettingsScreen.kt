@@ -470,7 +470,7 @@ fun AdvancedSettingsContent(
                         RowValue(stringResource(R.string.mcp_servers_count, count)); RowChevron()
                     }
                 }
-                composioMarketplace?.let {
+                if (composioMarketplace) {
                     ListRow(MikaIcons.Link, stringResource(R.string.mcp_servers_composio_marketplace_title), stringResource(R.string.mcp_servers_composio_marketplace_subtitle_short), first = take(), onClick = onOpenComposioMarketplace) {
                         RowChevron()
                     }

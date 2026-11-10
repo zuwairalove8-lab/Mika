@@ -63,9 +63,10 @@ class ComposioApiClient(
         arguments: Map<String, JsonElement>,
         connectedAccountId: String?,
     ): Result<ComposioToolExecutionResponse> {
+        val argsObj = kotlinx.serialization.json.JsonObject(arguments.map { (k, v) -> k to v })
         val body: Map<String, JsonElement> = buildMap {
             put("toolName", kotlinx.serialization.json.JsonPrimitive(toolName))
-            put("arguments", kotlinx.serialization.json.JsonElement.fromMap(arguments))
+            put("arguments", argsObj)
             connectedAccountId?.let { put("connectedAccountId", kotlinx.serialization.json.JsonPrimitive(it)) }
         }
         return call("POST", "/tools/execute", body) { json.decodeFromString(it) }

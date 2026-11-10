@@ -21,6 +21,7 @@ import com.wangzan101.mika.settings.McpServerStore
 import com.wangzan101.mika.settings.composio.*
 import com.wangzan101.mika.ui.components.*
 import com.wangzan101.mika.ui.theme.MikaIcons
+import com.wangzan101.mika.ui.theme.MikaShapes
 import com.wangzan101.mika.ui.theme.MikaTheme
 import com.wangzan101.mika.ui.theme.MikaType
 import android.content.Intent
@@ -104,9 +105,10 @@ fun ComposioMarketplaceScreen(
                                 connecting = true
                                 val result = store.connectApp(appId)
                                 connecting = false
-                                when (result) {
-                                    is Result.Success -> authUrl = result.value.redirectUrl
-                                    is Result.Failure -> error = result.exception.message ?: stringResource(R.string.mcp_servers_composio_connect_failed)
+                                if (result.isSuccess) {
+                                    authUrl = result.getOrNull()?.redirectUrl
+                                } else {
+                                    error = result.exceptionOrNull()?.message ?: stringResource(R.string.mcp_servers_composio_connect_failed)
                                 }
                             }
                         },
@@ -116,9 +118,10 @@ fun ComposioMarketplaceScreen(
                                 connecting = true
                                 val result = store.addConnectorAsMcpServer(appId, appName, account?.id)
                                 connecting = false
-                                when (result) {
-                                    is Result.Success -> success = stringResource(R.string.mcp_servers_composio_added_as_mcp, appName)
-                                    is Result.Failure -> error = result.exception.message ?: stringResource(R.string.mcp_servers_composio_add_failed)
+                                if (result.isSuccess) {
+                                    success = stringResource(R.string.mcp_servers_composio_added_as_mcp, appName)
+                                } else {
+                                    error = result.exceptionOrNull()?.message ?: stringResource(R.string.mcp_servers_composio_add_failed)
                                 }
                             }
                         },
@@ -139,9 +142,10 @@ fun ComposioMarketplaceScreen(
                                     connecting = true
                                     val result = store.addConnectorAsMcpServer(account.appId, account.appName, account.id)
                                     connecting = false
-                                    when (result) {
-                                        is Result.Success -> success = stringResource(R.string.mcp_servers_composio_added_as_mcp, account.appName)
-                                        is Result.Failure -> error = result.exception.message ?: stringResource(R.string.mcp_servers_composio_add_failed)
+                                    if (result.isSuccess) {
+                                        success = stringResource(R.string.mcp_servers_composio_added_as_mcp, account.appName)
+                                    } else {
+                                        error = result.exceptionOrNull()?.message ?: stringResource(R.string.mcp_servers_composio_add_failed)
                                     }
                                 }
                             },
@@ -231,7 +235,7 @@ private fun ConnectedAccountRow(
     }
 
     ListRow(
-        icon = MikaIcons.Account,
+        icon = MikaIcons.Link,
         title = account.appName,
         subtitle = "${account.status} · ${account.authScheme ?: "oauth"}",
         tone = statusTone,
