@@ -34,6 +34,8 @@ import com.wangzan101.mika.settings.ApprovalStore
 import com.wangzan101.mika.settings.FeatureFlags
 import com.wangzan101.mika.cap.phone.PhoneServices
 import com.wangzan101.mika.replay.FileRouteStore
+import com.wangzan101.mika.settings.composio.ComposioApiClient
+import com.wangzan101.mika.settings.composio.ComposioStore
 import com.wangzan101.mika.settings.ProviderStore
 import com.wangzan101.mika.core.run.Outbox
 import com.wangzan101.mika.core.run.RunStore
@@ -133,6 +135,14 @@ class MikaApp : Application(), WebOwner, SandboxOwner, TaskEnvironment.Owner, Ph
                     override fun close() = process.close()
                 }
             },
+        )
+    }
+    /** Composio marketplace store: browse connectors and link them as MCP servers. */
+    val composio by lazy {
+        val apiKey = ""
+        com.wangzan101.mika.settings.composio.ComposioStore(
+            apiClient = com.wangzan101.mika.settings.composio.ComposioApiClient(apiKey),
+            mcpStore = mcpServers,
         )
     }
     override val tabBudget get() = resources.tabBudget

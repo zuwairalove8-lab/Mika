@@ -64,29 +64,30 @@ class MikaColors(
     val isDark: Boolean,
 )
 
+/** Modern light theme - ChatGPT inspired */
 val LightColors = MikaColors(
-    bg = Color(0xFFF7F7F8),
+    bg = Color(0xFFFAFAFA),
     surface = Color(0xFFFFFFFF),
     fill = Color(0x0A000000),
-    ink = Color(0xFF1C1C1E),
-    ink2 = Color(0xFF5F6068),
-    ink3 = Color(0xFF9A9BA3),
+    ink = Color(0xFF262730),
+    ink2 = Color(0xFF8E8EA0),
+    ink3 = Color(0xFFB7B7C0),
     hair = Color(0x12000000),
     edge = Color(0x0D000000),
-    accent = Color(0xFF0A7CFF),
-    accentSoft = Color(0x1A0A7CFF),
+    accent = Color(0xFF10A37F),      // ChatGPT green
+    accentSoft = Color(0x1A10A37F),
     accent2 = Color(0xFF6C5CE7),
     accent2Soft = Color(0x1A6C5CE7),
     onAccent = Color(0xFFFFFFFF),
-    ok = Color(0xFF1F9D55),
-    okSoft = Color(0x1F1F9D55),
+    ok = Color(0xFF10A37F),
+    okSoft = Color(0x1F10A37F),
     warn = Color(0xFFB86E00),
     warnSolid = Color(0xFFFF9F0A),
     warnSoft = Color(0x1FFF9F0A),
     bad = Color(0xFFE5483D),
     badSoft = Color(0x1AE5483D),
     neutralSoft = Color(0x0B000000),
-    answer = Color(0x09000000),
+    answer = Color(0xFFEAEAEA),      // ChatGPT assistant bubble
     greySoft = Color(0x1F767680),
     glass = Color(0xB8FFFFFF),
     glassEdge = Color(0x0F000000),
@@ -99,31 +100,32 @@ val LightColors = MikaColors(
     isDark = false,
 )
 
+/** Modern dark theme - ChatGPT inspired */
 val DarkColors = MikaColors(
-    bg = Color(0xFF0E0E10),
-    surface = Color(0xFF1A1A1D),
-    fill = Color(0x0FFFFFFF),
+    bg = Color(0xFF343541),          // ChatGPT dark background
+    surface = Color(0xFF444654),     // ChatGPT surface
+    fill = Color(0x0AFFFFFF),
     ink = Color(0xFFF2F2F4),
     ink2 = Color(0xFFA4A5AD),
     ink3 = Color(0xFF6C6D75),
     hair = Color(0x14FFFFFF),
     edge = Color(0x0FFFFFFF),
-    accent = Color(0xFF3D97FF),
-    accentSoft = Color(0x293D97FF),
+    accent = Color(0xFF10A37F),      // ChatGPT green
+    accentSoft = Color(0x2910A37F),
     accent2 = Color(0xFF8E7CF2),
     accent2Soft = Color(0x298E7CF2),
     onAccent = Color(0xFFFFFFFF),
-    ok = Color(0xFF3CCF7A),
-    okSoft = Color(0x243CCF7A),
+    ok = Color(0xFF10A37F),
+    okSoft = Color(0x2410A37F),
     warn = Color(0xFFFFB340),
     warnSolid = Color(0xFFFF9F0A),
     warnSoft = Color(0x29FF9F0A),
     bad = Color(0xFFFF6961),
     badSoft = Color(0x24FF6961),
     neutralSoft = Color(0x12FFFFFF),
-    answer = Color(0x0DFFFFFF),
+    answer = Color(0xFF444654),      // Assistant bubble dark
     greySoft = Color(0x38767680),
-    glass = Color(0xB81A1A1D),
+    glass = Color(0xB8444654),
     glassEdge = Color(0x14FFFFFF),
     cardShadow = Color.Transparent,
     floatShadow = Color(0xFF000000),

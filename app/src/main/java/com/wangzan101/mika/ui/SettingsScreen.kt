@@ -37,6 +37,8 @@ import com.wangzan101.mika.settings.FeatureFlags
 import com.wangzan101.mika.settings.Prerequisites
 import com.wangzan101.mika.settings.Problem
 import com.wangzan101.mika.settings.ProviderStore
+import com.wangzan101.mika.settings.composio.ComposioStore
+import com.wangzan101.mika.ui.ComposioMarketplaceScreen
 import com.wangzan101.mika.settings.NetProxyStore
 import com.wangzan101.mika.settings.WebSearchConfig
 import com.wangzan101.mika.settings.WebSearchSettings
@@ -66,7 +68,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 /** 设置里能进入的子页面;[Home] 是设置首页,[Advanced] 集中放置连接、维护和工程能力。 */
-private enum class SettingsPage { Home, Advanced, AppAccess, PhoneOps, Wechat, DuringWork, Capsule, Language, Notifications, Recommendations, Sandbox, Recovery, SelfCheck, ComputerAccess, McpServers, Root, Developer, RunStats }
+private enum class SettingsPage { Home, Advanced, AppAccess, PhoneOps, Wechat, DuringWork, Capsule, Language, Notifications, Recommendations, Sandbox, Recovery, SelfCheck, ComputerAccess, McpServers, ComposioMarketplace, Root, Developer, RunStats }
 
 /**
  * 设置页:总状态卡 + 常用 / 我的数据 / 其他。高级与其他只增加一层,各子页返回来时的页面。
@@ -90,6 +92,8 @@ fun SettingsScreen(
     onOpenAbout: () -> Unit = {},
     /** 外部 MCP server 设置(outbound);为空时不显示入口。 */
     mcpServers: com.wangzan101.mika.settings.McpServerStore? = null,
+    /** Composio marketplace store;为空时不显示入口。 */
+    composioStore: ComposioStore? = null,
 ) {
     val configs by store.configs.collectAsState()
     val roles by store.roles.collectAsState()
@@ -197,6 +201,7 @@ fun SettingsScreen(
             showRecovery = status.sdkInt >= Prerequisites.MIN_SDK, onOpenRecovery = { page = SettingsPage.Recovery },
             computerAccess = mcpOn, onOpenComputerAccess = { page = SettingsPage.ComputerAccess },
             mcpServersCount = mcpServers?.servers?.value?.size, onOpenMcpServers = { page = SettingsPage.McpServers },
+            composioMarketplace = composioStore != null, onOpenComposioMarketplace = { page = SettingsPage.ComposioMarketplace },
             showRoot = rootState.suPresent, rootCommands = rootState.commands, onOpenRoot = { page = SettingsPage.Root },
             showDeveloper = showDeveloper, onOpenDeveloper = { page = SettingsPage.Developer },
             onBack = toHome,
@@ -231,6 +236,13 @@ fun SettingsScreen(
         SettingsPage.SelfCheck -> SelfCheckScreen(status, onBack = back)
         SettingsPage.ComputerAccess -> McpScreen(mcp, onBack = toAdvanced)
         SettingsPage.McpServers -> mcpServers?.let { McpServersScreen(it, onBack = toAdvanced) }
+        SettingsPage.ComposioMarketplace -> composioMarketplace?.let {
+            ComposioMarketplaceScreen(
+                store = composioStore,
+                mcpServerStore = mcpServers,
+                onBack = toAdvanced,
+            )
+        }
         SettingsPage.Root -> RootScreen(helperRow = status.sdkInt >= Prerequisites.MIN_SDK, onBack = toAdvanced)
         SettingsPage.Developer -> DeveloperOptionsScreen(
             speed, onSpeed = { flags.setSpeed(it); speed = it }, onBack = toAdvanced,
@@ -416,6 +428,8 @@ fun AdvancedSettingsContent(
     onOpenComputerAccess: () -> Unit = {},
     mcpServersCount: Int? = null,
     onOpenMcpServers: () -> Unit = {},
+    composioMarketplace: Boolean = false,
+    onOpenComposioMarketplace: () -> Unit = {},
     showRoot: Boolean = false,
     rootCommands: Boolean = false,
     onOpenRoot: () -> Unit = {},
@@ -425,7 +439,7 @@ fun AdvancedSettingsContent(
 ) {
     PageScaffold(stringResource(R.string.settings_advanced), onBack) {
         val sandboxRow = sandbox?.takeIf { it !is SandboxStatus.Unsupported }
-        if (proxy != null || webSearch != null || sandboxRow != null || computerAccess != null || mcpServersCount != null || showRoot) {
+        if (proxy != null || webSearch != null || sandboxRow != null || computerAccess != null || mcpServersCount != null || composioMarketplace || showRoot) {
             GroupLabel(stringResource(R.string.settings_connections))
             GroupCard {
                 var first = true
@@ -454,6 +468,11 @@ fun AdvancedSettingsContent(
                 mcpServersCount?.let { count ->
                     ListRow(MikaIcons.Link, stringResource(R.string.mcp_servers_title), first = take(), onClick = onOpenMcpServers) {
                         RowValue(stringResource(R.string.mcp_servers_count, count)); RowChevron()
+                    }
+                }
+                composioMarketplace?.let {
+                    ListRow(MikaIcons.Link, stringResource(R.string.mcp_servers_composio_marketplace_title), stringResource(R.string.mcp_servers_composio_marketplace_subtitle_short), first = take(), onClick = onOpenComposioMarketplace) {
+                        RowChevron()
                     }
                 }
                 if (showRoot) {

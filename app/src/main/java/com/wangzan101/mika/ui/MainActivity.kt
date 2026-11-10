@@ -74,6 +74,9 @@ import com.wangzan101.mika.cap.phone.PhoneServices
 import com.wangzan101.mika.cap.phone.setup.DeveloperSettings
 import com.wangzan101.mika.cap.phone.setup.PairingNotifier
 import com.wangzan101.mika.core.shell.BuiltinShellStatus
+import com.wangzan101.mika.settings.composio.ComposioStore
+import com.wangzan101.mika.ui.ComposioMarketplaceScreen
+import com.wangzan101.mika.ui.SkillsMarketplaceScreen
 import com.wangzan101.mika.ui.theme.MikaTheme
 import com.wangzan101.mika.ui.theme.animationsOff
 import com.wangzan101.mika.ui.theme.appearanceDark
@@ -548,9 +551,15 @@ private fun MikaRoot(
                 onOpenModels = { nav.push(Route.Models) },
                 autonomous = autonomous, onAutonomous = app.approvalControl::setAutonomous,
                 updateVersion = updateState.update?.version, onOpenAbout = { nav.push(Route.About) },
-                mcpServers = app.mcpServers)
+                mcpServers = app.mcpServers, composioStore = app.composio)
         }
         Route.Models -> ModelsScreen(store, onBack = back, onOpenSpeech = { nav.push(Route.SpeechModel) }, onOpenUsage = { nav.push(Route.Usage) })
+        Route.ComposioMarketplace -> ComposioMarketplaceScreen(
+            store = app.composio,
+            mcpServerStore = app.mcpServers,
+            onBack = { nav.back() },
+        )
+        Route.SkillsMarketplace -> SkillsMarketplaceScreen(onBack = { nav.back() })
         Route.Usage -> UsageScreen(app.usage, store, onBack = back, onOpenUrl = { openInBrowser(context, it) })
         Route.SpeechModel -> SpeechModelScreen(store, onBack = back)
         Route.About -> AboutScreen(
