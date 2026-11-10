@@ -2,6 +2,7 @@ package com.wangzan101.mika.settings.composio
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonElement
 
 @Serializable
 data class ComposioConnectedAccount(
@@ -13,7 +14,7 @@ data class ComposioConnectedAccount(
     val linkedUserId: String?,
     val authScheme: String?,
     val scopes: List<String>?,
-    val metadata: Map<String, dynamic>?,
+    val metadata: Map<String, JsonElement>?,
 )
 
 @Serializable
@@ -23,8 +24,8 @@ data class ComposioTool(
     val description: String?,
     val appName: String?,
     val appId: String?,
-    val inputParameters: Map<String, dynamic>?,
-    val outputParameters: Map<String, dynamic>?,
+    val inputParameters: Map<String, JsonElement>?,
+    val outputParameters: Map<String, JsonElement>?,
     val tags: List<String>?,
     val isConnected: Boolean?,
     val connectedAccountId: String?,
@@ -73,18 +74,16 @@ class ComposioError(
     val statusCode: Int?,
 )
 
-typealias dynamic = Any
-
 @Serializable
 data class ComposioToolExecutionRequest(
     val toolName: String,
-    val arguments: Map<String, dynamic>,
+    val arguments: Map<String, JsonElement>,
     val connectedAccountId: String?,
 )
 
 @Serializable
 data class ComposioToolExecutionResponse(
     val success: Boolean?,
-    val data: Map<String, dynamic>?,
+    val data: Map<String, JsonElement>?,
     val error: String?,
 )

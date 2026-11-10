@@ -29,6 +29,7 @@ class ComposioApiClient(
     ),
 ) {
     private val json = Json { ignoreUnknownKeys = true; encodeDefaults = true; isLenient = true }
+    private val jsonMediaType = okhttp3.MediaType.Companion.parse("application/json")!!
 
     /** List connected accounts (apps the user has already linked). */
     suspend fun listConnectedAccounts(): Result<ComposioConnectedAppsResponse> {
@@ -58,7 +59,7 @@ class ComposioApiClient(
     /** Execute a Composio tool on behalf of a connected account. */
     suspend fun executeTool(
         toolName: String,
-        arguments: Map<String, dynamic>,
+        arguments: Map<String, kotlinx.serialization.json.JsonElement>,
         connectedAccountId: String?,
     ): Result<ComposioToolExecutionResponse> {
         val body = buildMap {
@@ -72,7 +73,7 @@ class ComposioApiClient(
     private suspend fun call<T>(
         method: String,
         path: String,
-        body: Map<String, dynamic>?,
+        body: Map<String, kotlinx.serialization.json.JsonElement>?,
         parse: (String) -> T,
     ): Result<T> = withContext(Dispatchers.IO) {
         try {
@@ -87,18 +88,18 @@ class ComposioApiClient(
             val request = when {
                 body != null && method == "POST" ->
                     requestBuilder.post(
-                        json.encodeToString(body).toRequestBody(okhttp3.MediaType.Companion.parse("application/json")!!)
+                        json.encodeToString(body).toRequestBody(jsonMediaType)
                     )
                 method == "POST" ->
                     requestBuilder.post(
-                        okhttp3.RequestBody.create("", okhttp3.MediaType.Companion.parse("application/json")!!)
+                        okhttp3.RequestBody.create("", jsonMediaType)
                     )
                 else ->
                     requestBuilder.get()
             }.build()
 
             val response = http.newCall(request).execute()
-            val responseBody = response.body()?.string() ?: ""
+            val responseBody = response.body?.string() ?: ""
 
             if (!response.isSuccessful) {
                 Result.failure(IOException("Composio API error ${response.code}: $responseBody"))
@@ -111,6 +112,4 @@ class ComposioApiClient(
             Result.failure(e)
         }
     }
-
-    typealias dynamic = Any
 }
