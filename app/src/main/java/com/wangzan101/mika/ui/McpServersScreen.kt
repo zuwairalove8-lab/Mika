@@ -287,7 +287,12 @@ private fun ComposioMarketplaceDialog(onDismiss: () -> Unit) {
         title = { Text(stringResource(R.string.mcp_servers_composio_title)) },
         text = {
             Column(Modifier.fillMaxWidth()) {
-                Text(stringResource(R.string.mcp_servers_composio_sub), style = MikaType.Hint, color = c.ink3, Modifier.padding(bottom = 10.dp))
+                Text(
+                    stringResource(R.string.mcp_servers_composio_sub),
+                    Modifier.padding(bottom = 10.dp),
+                    style = MikaType.Hint,
+                    color = c.ink3,
+                )
                 OutlinedTextField(
                     value = apiKey,
                     onValueChange = { apiKey = it },
@@ -303,7 +308,7 @@ private fun ComposioMarketplaceDialog(onDismiss: () -> Unit) {
         confirmButton = {
             TextButton(
                 onClick = {
-                    if (apiKey.isBlank()) { error = stringResource(R.string.mcp_servers_composio_key_required); return@TextButton }
+                    if (apiKey.isBlank()) { error = stringResource(R.string.mcp_servers_composio_key_required); return }
                     saving = true
                     // TODO: call Composio API to list connectors, then add as MCP servers via store.add(...)
                     saving = false

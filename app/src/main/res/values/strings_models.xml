@@ -166,6 +166,7 @@
     <string name="signin_openrouter_manage">Open OpenRouter\'s Keys page</string>
     <string name="signin_openrouter_signed_in_note">Usage comes out of your OpenRouter balance. The key is stored encrypted on this phone; to stop using it, delete the key named \"Mika\" on OpenRouter\'s Keys page.</string>
     <string name="signin_openrouter_signed_out_note">The key was deleted from this phone. It still exists on OpenRouter; delete it on the Keys page. Model choices are kept.</string>
+    <string name="signin_openrouter_name">%1$s (signed in)</string>
     <string name="signin_set_main">Set as main model</string>
     <string name="signin_set_main_note">Mika uses it to get things done</string>
     <string name="signin_sign_out_note">Only clears the sign-in on this phone</string>
