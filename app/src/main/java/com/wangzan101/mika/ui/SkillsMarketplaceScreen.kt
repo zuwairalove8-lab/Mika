@@ -66,10 +66,10 @@ fun SkillsMarketplaceScreen(
                 )
             }
 
+            val importSuccessMsg = stringResource(R.string.skills_import_success)
             if (selectedTab == 0) {
                 BuiltinSkillsList()
-            } else             val importSuccessMsg = stringResource(R.string.skills_import_success)
-            if (selectedTab == 1) {
+            } else if (selectedTab == 1) {
                 ImportSkillSection(
                     source = importSource,
                     onSourceChanged = { importSource = it },
@@ -89,8 +89,8 @@ fun SkillsMarketplaceScreen(
                 MySkillsList()
             }
 
-            error.value?.let { Text(it, color = androidx.compose.ui.graphics.Color(0xFFE5483D), Modifier.padding(bottom = 16.dp)) }
-            success.value?.let { Text(it, color = androidx.compose.ui.graphics.Color(0xFF10A37F), Modifier.padding(bottom = 16.dp)) }
+            error.value?.let { Text(it, Modifier.padding(bottom = 16.dp)) }
+            success.value?.let { Text(it, Modifier.padding(bottom = 16.dp)) }
         }
     }
 }
