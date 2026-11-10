@@ -245,9 +245,6 @@
     <string name="skills_url_must_be_http">URL must start with http:// or https://</string>
     <string name="skills_supported_sources">Supported sources</string>
     <string name="skills_add">Add</string>
-
-    <string name="mcp_servers_composio_marketplace_title">Composio Marketplace</string>
-    <string name="mcp_servers_composio_marketplace_subtitle_short">Connect Gmail, Slack, GitHub and more as MCP servers</string>
     <string name="mcp_servers_composio_search">Search connectors…</string>
     <string name="mcp_servers_composio_popular_connectors">Popular connectors</string>
     <string name="mcp_servers_composio_connected_accounts">Connected accounts</string>
