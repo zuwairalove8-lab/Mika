@@ -187,6 +187,8 @@
     <string name="mcp_servers_composio_saving">Сохранение…</string>
     <string name="mcp_servers_composio_saving_btn">Сохранение…</string>
     <string name="mcp_servers_composio_add">Добавить соединитель</string>
+    <string name="mcp_servers_composio_connect_failed">Не удалось подключиться. Попробуйте снова.</string>
+    <string name="mcp_servers_composio_add_failed">Не удалось добавить как MCP-сервер. Попробуйте снова.</string>
 
     <!-- Settings > Models: speech-to-text usage and its picker page -->
     <string name="role_speech">Распознавание речи</string>

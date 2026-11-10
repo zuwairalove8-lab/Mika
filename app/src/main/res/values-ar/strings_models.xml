@@ -195,6 +195,8 @@
     <string name="mcp_servers_composio_saving">جاري الحفظ…</string>
     <string name="mcp_servers_composio_saving_btn">جاري الحفظ…</string>
     <string name="mcp_servers_composio_add">إضافة موصل</string>
+    <string name="mcp_servers_composio_connect_failed">فشل الاتصال. يرجى المحاولة مرة أخرى.</string>
+    <string name="mcp_servers_composio_add_failed">فشل الإضافة كخادم MCP. يرجى المحاولة مرة أخرى.</string>
 
     <!-- Settings > Models: speech-to-text usage and its picker page -->
     <string name="role_speech">تحويل الكلام إلى نص</string>

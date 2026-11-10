@@ -182,6 +182,8 @@
     <string name="mcp_servers_composio_saving">Salvando…</string>
     <string name="mcp_servers_composio_saving_btn">Salvando…</string>
     <string name="mcp_servers_composio_add">Adicionar conector</string>
+    <string name="mcp_servers_composio_connect_failed">Falha ao conectar. Tente novamente.</string>
+    <string name="mcp_servers_composio_add_failed">Falha ao adicionar como servidor MCP. Tente novamente.</string>
 
     <string name="role_speech">Fala para texto</string>
     <string name="role_speech_what">Usado quando você segura para falar</string>

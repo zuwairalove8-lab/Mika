@@ -179,6 +179,8 @@
     <string name="mcp_servers_composio_saving">در حال ذخیره…</string>
     <string name="mcp_servers_composio_saving_btn">در حال ذخیره…</string>
     <string name="mcp_servers_composio_add">افزودن وصله</string>
+    <string name="mcp_servers_composio_connect_failed">اتصال برقرار نشد. لطفاً دوباره تلاش کنید.</string>
+    <string name="mcp_servers_composio_add_failed">افزودن به عنوان سرور MCP شکست خورد. لطفاً دوباره تلاش کنید.</string>
 
     <!-- Settings > Models: speech-to-text usage and its picker page -->
     <string name="role_speech">گفتار به متن</string>

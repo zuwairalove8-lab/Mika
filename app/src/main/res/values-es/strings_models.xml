@@ -183,6 +183,8 @@
     <string name="mcp_servers_composio_saving">Guardando…</string>
     <string name="mcp_servers_composio_saving_btn">Guardando…</string>
     <string name="mcp_servers_composio_add">Añadir conector</string>
+    <string name="mcp_servers_composio_connect_failed">Error al conectar. Inténtalo de nuevo.</string>
+    <string name="mcp_servers_composio_add_failed">Error al agregar como servidor MCP. Inténtalo de nuevo.</string>
 
     <!-- Settings > Models: speech-to-text usage and its picker page -->
     <string name="role_speech">Voz a texto</string>

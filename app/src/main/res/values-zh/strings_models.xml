@@ -176,6 +176,8 @@
     <string name="mcp_servers_composio_saving">保存中…</string>
     <string name="mcp_servers_composio_saving_btn">保存中…</string>
     <string name="mcp_servers_composio_add">添加连接器</string>
+    <string name="mcp_servers_composio_connect_failed">连接失败，请重试。</string>
+    <string name="mcp_servers_composio_add_failed">无法添加为 MCP 服务器，请重试。</string>
 
     <!-- 设置 › 模型:语音转文字这个用途和它的选择页 -->
     <string name="role_speech">语音转文字</string>

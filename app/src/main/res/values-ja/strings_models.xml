@@ -175,6 +175,8 @@
     <string name="mcp_servers_composio_saving">保存中…</string>
     <string name="mcp_servers_composio_saving_btn">保存中…</string>
     <string name="mcp_servers_composio_add">コネクタを追加</string>
+    <string name="mcp_servers_composio_connect_failed">接続に失敗しました。もう一度お試しください。</string>
+    <string name="mcp_servers_composio_add_failed">MCPサーバーの追加に失敗しました。もう一度お試しください。</string>
 
     <!-- Settings > Models: speech-to-text usage and its picker page -->
     <string name="role_speech">音声文字変換</string>
