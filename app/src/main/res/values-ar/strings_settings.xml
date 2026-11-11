@@ -190,4 +190,7 @@
     <string name="settings_token_budget_custom">ميزانية Token مخصصة</string>
     <string name="settings_token_budget_apply">استخدام</string>
     <string name="settings_token_budget_invalid">أدخل عددًا صحيحًا من %1$s إلى %2$s.</string>
+    <string name="language_title">Language</string>
+    <string name="language_system">Follow system</string>
+    <string name="language_system_detail">Uses your system language when Jobby has it, English otherwise</string>
 </resources>

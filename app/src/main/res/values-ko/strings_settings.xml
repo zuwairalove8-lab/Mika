@@ -170,4 +170,7 @@
     <string name="settings_token_budget_custom">사용자 지정 Token 예산</string>
     <string name="settings_token_budget_apply">사용</string>
     <string name="settings_token_budget_invalid">%1$s~%2$s 사이의 정수를 입력하세요.</string>
+    <string name="language_title">Language</string>
+    <string name="language_system">Follow system</string>
+    <string name="language_system_detail">Uses your system language when Jobby has it, English otherwise</string>
 </resources>

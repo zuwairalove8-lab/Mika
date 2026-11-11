@@ -170,4 +170,7 @@
     <string name="settings_token_budget_custom">カスタム Token 予算</string>
     <string name="settings_token_budget_apply">使用</string>
     <string name="settings_token_budget_invalid">%1$s〜%2$s の整数を入力してください。</string>
+    <string name="language_title">Language</string>
+    <string name="language_system">Follow system</string>
+    <string name="language_system_detail">Uses your system language when Jobby has it, English otherwise</string>
 </resources>

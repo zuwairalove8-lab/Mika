@@ -185,4 +185,7 @@
     <string name="settings_token_budget_custom">سقف توکن دلخواه</string>
     <string name="settings_token_budget_invalid">یک عدد صحیح از %1$s تا %2$s وارد کنید.</string>
     <string name="settings_token_budget_unlimited">بدون محدودیت</string>
+    <string name="language_title">Language</string>
+    <string name="language_system">Follow system</string>
+    <string name="language_system_detail">Uses your system language when Jobby has it, English otherwise</string>
 </resources>

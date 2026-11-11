@@ -170,4 +170,7 @@
     <string name="settings_token_budget_custom">自訂 Token 預算</string>
     <string name="settings_token_budget_apply">使用</string>
     <string name="settings_token_budget_invalid">請輸入 %1$s 到 %2$s 的整數。</string>
+    <string name="language_title">Language</string>
+    <string name="language_system">Follow system</string>
+    <string name="language_system_detail">Uses your system language when Jobby has it, English otherwise</string>
 </resources>
