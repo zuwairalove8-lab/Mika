@@ -130,5 +130,4 @@
     <string name="terminal_task_running">Mika тоже работает в этой рабочей области; изменения с обеих сторон могут мешать друг другу.</string>
     <string name="terminal_copy_all">Копировать всё</string>
     <string name="terminal_copied">Скопировано</string>
-    <string name="app_name" translatable="false">Jobby</string>
 </resources>

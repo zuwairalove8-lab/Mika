@@ -130,5 +130,4 @@
     <string name="terminal_task_running">Mika também está trabalhando neste espaço. Alterações dos dois lados podem interferir.</string>
     <string name="terminal_copy_all">Copiar tudo</string>
     <string name="terminal_copied">Copiado</string>
-    <string name="app_name" translatable="false">Jobby</string>
 </resources>

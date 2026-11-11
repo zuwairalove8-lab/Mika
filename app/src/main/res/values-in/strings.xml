@@ -130,5 +130,4 @@
     <string name="terminal_task_running">Mika juga sedang bekerja di ruang kerja ini; perubahan dari kedua sisi bisa saling mengganggu.</string>
     <string name="terminal_copy_all">Salin semua</string>
     <string name="terminal_copied">Disalin</string>
-    <string name="app_name" translatable="false">Jobby</string>
 </resources>
