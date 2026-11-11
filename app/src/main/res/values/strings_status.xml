@@ -70,13 +70,13 @@
     <string name="explain_too_old_body">Jobby uses apps on a separate virtual screen. That needs Android 12 or later; this phone runs Android %1$s. You can still use chat, web and sandbox tasks.</string>
     <string name="explain_a11y_off">Turn on the accessibility service</string>
     <string name="explain_a11y_off_body">Jobby uses the accessibility service to read and control its own virtual screen. Find Jobby under Accessibility in system settings (on some phones it’s under “Downloaded apps” or “Installed services”) and turn it on.</string>
-    <string name="explain_a11y_not_running_body">System settings show Mika’s accessibility service as on, but it isn’t actually running (this often happens after Mika is force-stopped). Turn Mika off in accessibility settings, then on again.</string>
-    <string name="explain_a11y_restricted_off_body">If Android blocks you from turning on Mika, open Mika’s app info and choose “Allow restricted settings” from the menu if that option is available. Then return to Accessibility and turn on Mika.</string>
-    <string name="explain_a11y_restricted_body">Android may block accessibility for apps installed outside an app store until restricted settings are allowed. Open Mika’s app info, open its menu, and choose “Allow restricted settings” if it is available. Then turn Mika off and on again under Accessibility.</string>
+    <string name="explain_a11y_not_running_body">System settings show Jobby’s accessibility service as on, but it isn’t actually running (this often happens after Jobby is force-stopped). Turn Jobby off in accessibility settings, then on again.</string>
+    <string name="explain_a11y_restricted_off_body">If Android blocks you from turning on Jobby, open Jobby’s app info and choose “Allow restricted settings” from the menu if that option is available. Then return to Accessibility and turn on Jobby.</string>
+    <string name="explain_a11y_restricted_body">Android may block accessibility for apps installed outside an app store until restricted settings are allowed. Open Jobby’s app info, open its menu, and choose “Allow restricted settings” if it is available. Then turn Jobby off and on again under Accessibility.</string>
     <string name="explain_no_model">Add a model</string>
     <string name="explain_no_model_body">Jobby needs a large language model with tool calling to think and act. Just enter the provider’s URL, the model name and an API key.</string>
     <string name="explain_focus">Android 14 or later recommended</string>
-    <string name="explain_focus_body">On Android 12–13, background work may affect focus on your screen: when Mika opens an app or scrolls on the virtual screen, the field you’re typing in may briefly lose focus and need another tap. From Android 14 the virtual screen has its own focus. This phone runs Android %1$s; tasks still work normally.</string>
+    <string name="explain_focus_body">On Android 12–13, background work may affect focus on your screen: when Jobby opens an app or scrolls on the virtual screen, the field you’re typing in may briefly lose focus and need another tap. From Android 14 the virtual screen has its own focus. This phone runs Android %1$s; tasks still work normally.</string>
     <string name="explain_notif">Allow notifications</string>
     <string name="explain_notif_body">Once allowed, task progress and “Needs you” alerts show in the shade and on the lock screen. Jobby works without them, you just won’t see these alerts.</string>
     <string name="sandbox_command_prefix">"Working on files: "</string>

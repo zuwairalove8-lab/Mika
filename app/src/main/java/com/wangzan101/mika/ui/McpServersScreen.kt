@@ -50,7 +50,6 @@ fun McpServersScreen(store: McpServerStore, onBack: () -> Unit) {
     var editing by remember { mutableStateOf<McpServerConfig?>(null) }
     var adding by remember { mutableStateOf(false) }
     var refreshing by remember { mutableStateOf(false) }
-    var composioOpen by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
 
     PageScaffold(stringResource(R.string.mcp_servers_title), onBack) {
@@ -92,7 +91,6 @@ fun McpServersScreen(store: McpServerStore, onBack: () -> Unit) {
                 size = ButtonSize.Small,
                 enabled = !refreshing && servers.isNotEmpty(),
             )
-            MikaButton(stringResource(R.string.mcp_servers_composio), { composioOpen = true }, size = ButtonSize.Small)
         }
         GroupLabel(stringResource(R.string.mcp_servers_help))
         Text(
@@ -107,12 +105,6 @@ fun McpServersScreen(store: McpServerStore, onBack: () -> Unit) {
             initial = editing,
             onDismiss = { adding = false; editing = null },
             onChanged = { adding = false; editing = null },
-        )
-    }
-
-    if (composioOpen) {
-        ComposioMarketplaceDialog(
-            onDismiss = { composioOpen = false },
         )
     }
 }
@@ -273,55 +265,4 @@ private fun ToggleRow(title: String, checked: Boolean, onChecked: (Boolean) -> U
         Checkbox(checked, onCheckedChange = onChecked)
         Text(title, Modifier.padding(start = 4.dp))
     }
-}
-
-/** Composio MCP connector marketplace:enter a Composio API key, pick a connector, add it as an MCP server. */
-@Composable
-private fun ComposioMarketplaceDialog(onDismiss: () -> Unit) {
-    val c = MikaTheme.colors
-    var apiKey by remember { mutableStateOf("") }
-    var saving by remember { mutableStateOf(false) }
-    var error by remember { mutableStateOf<String?>(null) }
-    val keyRequiredMsg = stringResource(R.string.mcp_servers_composio_key_required)
-    MikaDialog(
-        onDismissRequest = onDismiss,
-        title = { Text(stringResource(R.string.mcp_servers_composio_title)) },
-        text = {
-            Column(Modifier.fillMaxWidth()) {
-                Text(
-                    stringResource(R.string.mcp_servers_composio_sub),
-                    Modifier.padding(bottom = 10.dp),
-                    style = MikaType.Hint,
-                    color = c.ink3,
-                )
-                OutlinedTextField(
-                    value = apiKey,
-                    onValueChange = { apiKey = it },
-                    label = { Text(stringResource(R.string.mcp_servers_composio_api_key)) },
-                    singleLine = true,
-                    visualTransformation = PasswordVisualTransformation(),
-                    modifier = Modifier.fillMaxWidth(),
-                )
-                error?.let { Text(it, Modifier.padding(top = 6.dp), color = c.bad) }
-                if (saving) Text(stringResource(R.string.mcp_servers_composio_saving), Modifier.padding(top = 6.dp), color = c.ink2)
-            }
-        },
-        confirmButton = {
-            TextButton(
-                onClick = {
-                    if (apiKey.isBlank()) {
-                        error = keyRequiredMsg
-                    } else {
-                        saving = true
-                        // TODO: call Composio API to list connectors, then add as MCP servers via store.add(...)
-                        saving = false
-                        onDismiss()
-                    }
-                },
-                enabled = !saving && apiKey.isNotBlank(),
-                modifier = Modifier.testTag("mcp-composio-save"),
-            ) { Text(stringResource(if (saving) R.string.mcp_servers_composio_saving_btn else R.string.mcp_servers_composio_add)) }
-        },
-        dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.cancel)) } },
-    )
 }

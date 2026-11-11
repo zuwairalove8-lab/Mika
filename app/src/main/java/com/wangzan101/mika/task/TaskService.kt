@@ -762,7 +762,7 @@ class TaskService : Service() {
     /** 忙着却还没有任务对象时(收尾被打断等)也得马上进前台。 */
     private fun preparingNotification(): Notification = Notification.Builder(this, CHANNEL_PROGRESS)
         .setSmallIcon(R.drawable.ic_notification)
-        .setContentTitle("Mika")
+        .setContentTitle("Jobby")
         .setContentText(PREPARING)
         .setOngoing(true)
         .setOnlyAlertOnce(true)
@@ -969,7 +969,7 @@ class TaskService : Service() {
                     .setAutoCancel(true)
                     .build())
                 is Delivery.Notice -> nm.notify(nextResultId(), Notification.Builder(context, CHANNEL_RESULT)
-                    .setSmallIcon(R.drawable.ic_notification).setContentTitle("Mika")
+                    .setSmallIcon(R.drawable.ic_notification).setContentTitle("Jobby")
                     .setContentText(delivery.text).setContentIntent(openApp(context, delivery.threadId)).setAutoCancel(true).build())
                 is Delivery.Ask, is Delivery.Progress, is Delivery.Image -> {}
             }

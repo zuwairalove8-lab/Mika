@@ -74,8 +74,8 @@ import com.wangzan101.mika.cap.phone.PhoneServices
 import com.wangzan101.mika.cap.phone.setup.DeveloperSettings
 import com.wangzan101.mika.cap.phone.setup.PairingNotifier
 import com.wangzan101.mika.core.shell.BuiltinShellStatus
-import com.wangzan101.mika.settings.composio.ComposioStore
-import com.wangzan101.mika.ui.ComposioMarketplaceScreen
+import com.wangzan101.mika.settings.McpServerStore
+import com.wangzan101.mika.ui.McpServerManagerScreen
 import com.wangzan101.mika.ui.SkillsMarketplaceScreen
 import com.wangzan101.mika.ui.theme.MikaTheme
 import com.wangzan101.mika.ui.theme.animationsOff
@@ -551,12 +551,11 @@ private fun MikaRoot(
                 onOpenModels = { nav.push(Route.Models) },
                 autonomous = autonomous, onAutonomous = app.approvalControl::setAutonomous,
                 updateVersion = updateState.update?.version, onOpenAbout = { nav.push(Route.About) },
-                mcpServers = app.mcpServers, composioStore = app.composio)
+                mcpServers = app.mcpServers)
         }
         Route.Models -> ModelsScreen(store, onBack = back, onOpenSpeech = { nav.push(Route.SpeechModel) }, onOpenUsage = { nav.push(Route.Usage) })
-        Route.ComposioMarketplace -> ComposioMarketplaceScreen(
-            store = app.composio,
-            mcpServerStore = app.mcpServers,
+        Route.McpServerManager -> McpServerManagerScreen(
+            store = app.mcpServers,
             onBack = { nav.back() },
         )
         Route.SkillsMarketplace -> SkillsMarketplaceScreen(onBack = { nav.back() })
