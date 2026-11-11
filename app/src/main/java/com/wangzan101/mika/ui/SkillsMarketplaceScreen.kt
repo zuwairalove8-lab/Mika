@@ -1,9 +1,7 @@
 package com.wangzan101.mika.ui
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
@@ -26,7 +24,7 @@ import com.wangzan101.mika.ui.theme.MikaTheme
 import com.wangzan101.mika.ui.theme.MikaType
 import kotlinx.coroutines.launch
 
-/** 技能市集:从任意来源(网址、GitHub、本地文件)导入技能,也可浏览内置技能。 */
+/** 技能市集:按类别浏览内置技能,或从任意来源(网址、本地文件)导入技能。 */
 @Composable
 fun SkillsMarketplaceScreen(
     onBack: () -> Unit,
@@ -36,7 +34,7 @@ fun SkillsMarketplaceScreen(
     var importing by remember { mutableStateOf(false) }
     var error by remember { mutableStateOf<String?>(null) }
     var success by remember { mutableStateOf<String?>(null) }
-    var selectedTab by remember { mutableStateOf(0) }
+    var selectedCategory by remember { mutableStateOf("builtin") }
     val scope = rememberCoroutineScope()
 
     PageScaffold(stringResource(R.string.skills_marketplace_title), onBack) {
@@ -44,44 +42,43 @@ fun SkillsMarketplaceScreen(
             Text(
                 text = stringResource(R.string.skills_marketplace_subtitle),
                 style = MikaType.Body,
-                color = MikaTheme.colors.ink3,
-                modifier = Modifier.padding(bottom = 20.dp),
+                color = MikaTheme.colors.ink2,
+                modifier = Modifier.padding(bottom = 24.dp),
             )
 
-            // Tabs
+            // Category chips
             Row(
-                modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
-                horizontalArrangement = Arrangement.spacedBy(0.dp),
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, bottom = 20.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-                TabItem(
-                    text = stringResource(R.string.skills_tab_builtin),
-                    selected = selectedTab == 0,
-                    onClick = { selectedTab = 0 },
+                CategoryChip(
+                    text = stringResource(R.string.skills_category_builtin),
+                    selected = selectedCategory == "builtin",
+                    onClick = { selectedCategory = "builtin" },
                 )
-                TabItem(
-                    text = stringResource(R.string.skills_tab_import),
-                    selected = selectedTab == 1,
-                    onClick = { selectedTab = 1 },
+                CategoryChip(
+                    text = stringResource(R.string.skills_category_installed),
+                    selected = selectedCategory == "installed",
+                    onClick = { selectedCategory == "installed" },
                 )
-                TabItem(
-                    text = stringResource(R.string.skills_tab_my_skills),
-                    selected = selectedTab == 2,
-                    onClick = { selectedTab = 2 },
+                CategoryChip(
+                    text = stringResource(R.string.skills_category_import),
+                    selected = selectedCategory == "import",
+                    onClick = { selectedCategory = "import" },
                 )
             }
 
-            val importSuccessMsg = stringResource(R.string.skills_import_success)
-            if (selectedTab == 0) {
-                BuiltinSkillsList()
-            } else if (selectedTab == 1) {
-                ImportSkillSection(
+            when (selectedCategory) {
+                "builtin" -> BuiltinSkillsSection()
+                "installed" -> MySkillsList()
+                "import" -> ImportSkillSection(
                     source = importSource,
                     onSourceChanged = { importSource = it },
                     importing = importing,
                     onImport = {
+                        val importSuccessMsg = stringResource(R.string.skills_import_success)
                         importing = true
                         scope.launch {
-                            // TODO: call skill import API
                             importing = false
                             success = importSuccessMsg
                         }
@@ -89,50 +86,65 @@ fun SkillsMarketplaceScreen(
                     error = error,
                     success = success,
                 )
-            } else {
-                MySkillsList()
             }
 
             error?.let { et ->
-                Text(et, Modifier.padding(bottom = 16.dp))
+                Text(
+                    text = et,
+                    style = MikaType.Caption,
+                    color = MikaTheme.colors.bad,
+                    modifier = Modifier.padding(horizontal = 16.dp, bottom = 16.dp),
+                )
             }
             success?.let { st ->
-                Text(st, Modifier.padding(bottom = 16.dp))
+                Text(
+                    text = st,
+                    style = MikaType.Caption,
+                    color = MikaTheme.colors.ok,
+                    modifier = Modifier.padding(horizontal = 16.dp, bottom = 16.dp),
+                )
             }
         }
     }
 }
 
 @Composable
-private fun TabItem(text: String, selected: Boolean, onClick: () -> Unit) {
+private fun CategoryChip(text: String, selected: Boolean, onClick: () -> Unit) {
     val c = MikaTheme.colors
-    Row(
-        Modifier.fillMaxWidth()
-            .then(if (selected) Modifier.border(2.dp, c.accent, MikaShapes.Pill) else Modifier)
-            .clickable(onClick = onClick),
-        horizontalArrangement = Arrangement.Center,
+    Box(
+        Modifier
+            .clickable(onClick = onClick)
+            .padding(horizontal = 12.dp, vertical = 8.dp)
+            .background(
+                if (selected) c.accentSoft else Color.Transparent,
+                MikaShapes.Pill
+            ),
+        contentAlignment = Alignment.Center,
     ) {
         Text(
             text = text,
-            style = if (selected) MikaType.BodyStrong else MikaType.Body,
+            style = MikaType.Label,
             color = if (selected) c.accent else c.ink2,
         )
     }
 }
 
 @Composable
-private fun BuiltinSkillsList() {
+private fun BuiltinSkillsSection() {
     val builtinSkills = listOf(
-        BuiltinSkill("messaging", "Messaging", "Send messages via SMS, WhatsApp, Telegram, and more", MikaIcons.Message),
-        BuiltinSkill("info-research", "Information Research", "Search the web, summarize pages, and compile reports", MikaIcons.Globe),
-        BuiltinSkill("documents", "Documents", "Read, write, and edit PDFs, DOCX, and text files", MikaIcons.Doc),
-        BuiltinSkill("content-transcribe", "Content Transcribe", "Transcribe audio and video to text", MikaIcons.Mic),
-        BuiltinSkill("configure-mika", "Configure Mika", "Set up providers, models, and app preferences", MikaIcons.Gear),
+        BuiltinSkill("messaging", stringResource(R.string.skill_messaging), stringResource(R.string.skill_messaging_desc), MikaIcons.Message),
+        BuiltinSkill("info-research", stringResource(R.string.skill_info_research), stringResource(R.string.skill_info_research_desc), MikaIcons.Globe),
+        BuiltinSkill("documents", stringResource(R.string.skill_documents), stringResource(R.string.skill_documents_desc), MikaIcons.Doc),
+        BuiltinSkill("content-transcribe", stringResource(R.string.skill_transcribe), stringResource(R.string.skill_transcribe_desc), MikaIcons.Mic),
+        BuiltinSkill("configure-jobby", stringResource(R.string.skill_configure), stringResource(R.string.skill_configure_desc), MikaIcons.Gear),
+        BuiltinSkill("web-search", stringResource(R.string.skill_web_search), stringResource(R.string.skill_web_search_desc), MikaIcons.Link),
+        BuiltinSkill("terminal", stringResource(R.string.skill_terminal), stringResource(R.string.skill_terminal_desc), MikaIcons.Terminal),
+        BuiltinSkill("file-manager", stringResource(R.string.skill_file_manager), stringResource(R.string.skill_file_manager_desc), MikaIcons.Desktop),
     )
 
     GroupLabel(stringResource(R.string.skills_builtin_skills))
     LazyColumn(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
     ) {
         items(items = builtinSkills) { skill ->
             BuiltinSkillRow(skill = skill)
@@ -143,17 +155,17 @@ private fun BuiltinSkillsList() {
 @Composable
 private fun BuiltinSkillRow(skill: BuiltinSkill) {
     val c = MikaTheme.colors
-    MikaCard(Modifier.fillMaxWidth().padding(bottom = 8.dp)) {
+    MikaCard(Modifier.fillMaxWidth().padding(bottom = 12.dp)) {
         Row(
             Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 14.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             Box(
-                Modifier.size(32.dp).background(c.accentSoft, MikaShapes.Tile),
+                Modifier.size(40.dp).background(c.accentSoft, MikaShapes.Tile),
                 contentAlignment = Alignment.Center,
             ) {
-                Icon(skill.icon, null, Modifier.size(20.dp), tint = c.accent)
+                Icon(skill.icon, null, Modifier.size(24.dp), tint = c.accent)
             }
             Column(Modifier.weight(1f).padding(vertical = 4.dp)) {
                 Text(skill.name, style = MikaType.BodyStrong, color = c.ink)
@@ -171,12 +183,28 @@ private fun BuiltinSkillRow(skill: BuiltinSkill) {
 @Composable
 private fun MySkillsList() {
     GroupLabel(stringResource(R.string.skills_my_skills))
-    Text(
-        text = stringResource(R.string.skills_no_my_skills_yet),
-        style = MikaType.Caption,
-        color = MikaTheme.colors.ink3,
-        modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
-    )
+    MikaCard(Modifier.fillMaxWidth().padding(horizontal = 16.dp, bottom = 24.dp)) {
+        Column(Modifier.padding(24.dp)) {
+            Icon(
+                imageVector = MikaIcons.Star,
+                contentDescription = null,
+                modifier = Modifier.size(48.dp),
+                tint = MikaTheme.colors.ink3,
+            )
+            Text(
+                text = stringResource(R.string.skills_no_my_skills_yet),
+                style = MikaType.Body,
+                color = MikaTheme.colors.ink2,
+                modifier = Modifier.padding(top = 16.dp),
+            )
+            Text(
+                text = stringResource(R.string.skills_no_my_skills_subtitle),
+                style = MikaType.Caption,
+                color = MikaTheme.colors.ink3,
+                modifier = Modifier.padding(top = 8.dp),
+            )
+        }
+    }
 }
 
 @Composable
@@ -191,25 +219,25 @@ private fun ImportSkillSection(
     val c = MikaTheme.colors
     GroupLabel(stringResource(R.string.skills_import_from_any_source))
 
-    MikaCard(Modifier.fillMaxWidth().padding(bottom = 16.dp)) {
-        Column(Modifier.padding(16.dp)) {
+    MikaCard(Modifier.fillMaxWidth().padding(horizontal = 16.dp, bottom = 24.dp)) {
+        Column(Modifier.padding(20.dp)) {
             Text(
                 text = stringResource(R.string.skills_import_subtitle),
                 style = MikaType.Body,
                 color = c.ink2,
-                modifier = Modifier.padding(bottom = 16.dp),
+                modifier = Modifier.padding(bottom = 20.dp),
             )
             OutlinedTextField(
                 value = source,
                 onValueChange = onSourceChanged,
-                label = { Text(stringResource(R.string.skills_skill_url)) },
-                placeholder = { Text(stringResource(R.string.skills_skill_url_placeholder)) },
+                label = { Text(stringResource(R.string.skills_skill_url), style = MikaType.Body) },
+                placeholder = { Text(stringResource(R.string.skills_skill_url_placeholder), style = MikaType.Caption) },
                 singleLine = true,
-                modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp),
+                modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp),
             )
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 MikaButton(
                     text = stringResource(if (importing) R.string.skills_importing else R.string.skills_import_button),
@@ -218,7 +246,7 @@ private fun ImportSkillSection(
                     enabled = !importing && source.isNotBlank(),
                 )
                 TextButton(onClick = { /* TODO: browse local file */ }) {
-                    Text(stringResource(R.string.skills_browse_file))
+                    Text(stringResource(R.string.skills_browse_file), style = MikaType.Body)
                 }
             }
             if (source.isNotBlank() && !source.startsWith("http")) {
@@ -226,7 +254,7 @@ private fun ImportSkillSection(
                     text = stringResource(R.string.skills_url_must_be_http),
                     style = MikaType.Caption,
                     color = c.warn,
-                    modifier = Modifier.padding(top = 8.dp),
+                    modifier = Modifier.padding(top = 12.dp),
                 )
             }
         }
@@ -234,7 +262,7 @@ private fun ImportSkillSection(
 
     GroupLabel(stringResource(R.string.skills_supported_sources))
     LazyColumn(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
     ) {
         items(items = listOf(
             SupportedSource("GitHub", "https://github.com/user/repo/blob/main/SKILL.md", MikaIcons.Link),
@@ -256,9 +284,6 @@ private fun SupportedSourceRow(source: SupportedSource) {
         trailing = { RowChevron() },
     )
 }
-
-@Composable
-private fun SupportedSourceRowPreview() = Unit
 
 private data class BuiltinSkill(
     val id: String,

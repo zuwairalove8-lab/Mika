@@ -40,7 +40,7 @@ class MikaColors(
     val badSoft: Color,
     /** 图标块的底。 */
     val neutralSoft: Color,
-    /** Mika 回答的底:比页面背景深一点点的灰,和用户的蓝色气泡区分开。 */
+    /** Jobby 回答的底:比页面背景深一点点的灰,和用户的紫色气泡区分开。 */
     val answer: Color,
     /** 灰色胶囊、关着的开关。 */
     val greySoft: Color,
@@ -64,73 +64,73 @@ class MikaColors(
     val isDark: Boolean,
 )
 
-/** Modern light theme - ChatGPT inspired */
+/** Premium light theme - Royal Purple & Gold */
 val LightColors = MikaColors(
-    bg = Color(0xFFFAFAFA),
+    bg = Color(0xFFFAF7F2),
     surface = Color(0xFFFFFFFF),
-    fill = Color(0x0A000000),
-    ink = Color(0xFF262730),
-    ink2 = Color(0xFF8E8EA0),
-    ink3 = Color(0xFFB7B7C0),
-    hair = Color(0x12000000),
-    edge = Color(0x0D000000),
-    accent = Color(0xFF10A37F),      // ChatGPT green
-    accentSoft = Color(0x1A10A37F),
-    accent2 = Color(0xFF6C5CE7),
-    accent2Soft = Color(0x1A6C5CE7),
+    fill = Color(0x0F000000),
+    ink = Color(0xFF1A1A2E),
+    ink2 = Color(0xFF6B6B8A),
+    ink3 = Color(0xFFB8B8C8),
+    hair = Color(0x1A000000),
+    edge = Color(0x0F000000),
+    accent = Color(0xFF7B2CBF),      // Royal Purple
+    accentSoft = Color(0x2A7B2CBF),
+    accent2 = Color(0xFFD4AF37),     // Gold
+    accent2Soft = Color(0x2AD4AF37),
     onAccent = Color(0xFFFFFFFF),
     ok = Color(0xFF10A37F),
     okSoft = Color(0x1F10A37F),
-    warn = Color(0xFFB86E00),
-    warnSolid = Color(0xFFFF9F0A),
-    warnSoft = Color(0x1FFF9F0A),
-    bad = Color(0xFFE5483D),
-    badSoft = Color(0x1AE5483D),
+    warn = Color(0xFFC8961E),
+    warnSolid = Color(0xFFD4AF37),
+    warnSoft = Color(0x2AD4AF37),
+    bad = Color(0xFFC44536),
+    badSoft = Color(0x2AC44536),
     neutralSoft = Color(0x0B000000),
-    answer = Color(0xFFEAEAEA),      // ChatGPT assistant bubble
+    answer = Color(0xFFF5F1E8),      // Warm cream assistant bubble
     greySoft = Color(0x1F767680),
     glass = Color(0xB8FFFFFF),
     glassEdge = Color(0x0F000000),
     cardShadow = Color(0xFF000000),
     floatShadow = Color(0xFF000000),
     thumb = Color(0xFFFFFFFF),
-    series = listOf(Color(0xFF2A78D6), Color(0xFFEB6834), Color(0xFF1BAF7A)),
+    series = listOf(Color(0xFF7B2CBF), Color(0xFFD4AF37), Color(0xFF10A37F)),
     seriesOther = Color(0xFFB4B5BC),
     grid = Color(0x0F000000),
     isDark = false,
 )
 
-/** Modern dark theme - ChatGPT inspired */
+/** Premium dark theme - Deep Purple & Gold */
 val DarkColors = MikaColors(
-    bg = Color(0xFF343541),          // ChatGPT dark background
-    surface = Color(0xFF444654),     // ChatGPT surface
-    fill = Color(0x0AFFFFFF),
-    ink = Color(0xFFF2F2F4),
-    ink2 = Color(0xFFA4A5AD),
-    ink3 = Color(0xFF6C6D75),
-    hair = Color(0x14FFFFFF),
-    edge = Color(0x0FFFFFFF),
-    accent = Color(0xFF10A37F),      // ChatGPT green
-    accentSoft = Color(0x2910A37F),
-    accent2 = Color(0xFF8E7CF2),
-    accent2Soft = Color(0x298E7CF2),
-    onAccent = Color(0xFFFFFFFF),
+    bg = Color(0xFF120A1E),          // Deep purple dark background
+    surface = Color(0xFF1E122E),     // Surface
+    fill = Color(0x0FFFFFFF),
+    ink = Color(0xFFF5F1E8),
+    ink2 = Color(0xFFB8B8C8),
+    ink3 = Color(0xFF6B6B8A),
+    hair = Color(0x2AFFFFFF),
+    edge = Color(0x1AFFFFFF),
+    accent = Color(0xFF9D65FF),      // Light purple for dark
+    accentSoft = Color(0x3A9D65FF),
+    accent2 = Color(0xFFD4AF37),     // Gold
+    accent2Soft = Color(0x3AD4AF37),
+    onAccent = Color(0xFF1A1A2E),
     ok = Color(0xFF10A37F),
     okSoft = Color(0x2410A37F),
-    warn = Color(0xFFFFB340),
-    warnSolid = Color(0xFFFF9F0A),
-    warnSoft = Color(0x29FF9F0A),
-    bad = Color(0xFFFF6961),
-    badSoft = Color(0x24FF6961),
+    warn = Color(0xFFD4AF37),
+    warnSolid = Color(0xFFD4AF37),
+    warnSoft = Color(0x2AD4AF37),
+    bad = Color(0xFFE06C5C),
+    badSoft = Color(0x24E06C5C),
     neutralSoft = Color(0x12FFFFFF),
-    answer = Color(0xFF444654),      // Assistant bubble dark
+    answer = Color(0xFF1E122E),      // Assistant bubble dark purple
     greySoft = Color(0x38767680),
-    glass = Color(0xB8444654),
-    glassEdge = Color(0x14FFFFFF),
+    glass = Color(0xB81E122E),
+    glassEdge = Color(0x2AFFFFFF),
     cardShadow = Color.Transparent,
     floatShadow = Color(0xFF000000),
     thumb = Color(0xFFFFFFFF),
-    series = listOf(Color(0xFF3987E5), Color(0xFFD95926), Color(0xFF199E70)),
+    series = listOf(Color(0xFF9D65FF), Color(0xFFD4AF37), Color(0xFF10A37F)),
     seriesOther = Color(0xFF5A5B62),
     grid = Color(0x12FFFFFF),
     isDark = true,

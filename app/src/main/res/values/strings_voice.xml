@@ -34,13 +34,13 @@
     <string name="voice_unavailable_provider_gone">The provider of the chosen speech model has been removed. Pick another one in Settings › Models › Speech to text.</string>
     <string name="voice_unavailable_off">Speech to text is turned off. Pick one in Settings › Models › Speech to text.</string>
     <string name="voice_go_pick">Pick one</string>
-    <string name="voice_permission_title">Mika needs the microphone</string>
+    <string name="voice_permission_title">Jobby needs the microphone</string>
     <string name="voice_permission_body">To hear you while you hold to talk, Mika needs to record audio. It was denied before, so the phone won’t ask again. Turn on the microphone on Mika’s permission page in system settings.</string>
     <string name="voice_permission_open">Open settings</string>
     <!-- Floating capsule: long press to talk -->
     <string name="capsule_voice_talk">Talk</string>
     <string name="capsule_voice_send">Send</string>
-    <string name="capsule_voice_answer_title">Answering Mika</string>
+    <string name="capsule_voice_answer_title">Answering Jobby</string>
     <string name="capsule_voice_continue_title">Continuing “%1$s”</string>
     <string name="capsule_voice_cancel">Cancel</string>
     <string name="capsule_voice_edit">Edit</string>
@@ -56,5 +56,5 @@
     <string name="capsule_voice_sent">Sent: %1$s</string>
     <string name="capsule_voice_need_mic">Tap to allow the mic in Mika</string>
     <string name="capsule_voice_not_ready">Voice input isn’t ready · tap</string>
-    <string name="capsule_voice_open">Open Mika</string>
+    <string name="capsule_voice_open">Open Jobby</string>
 </resources>

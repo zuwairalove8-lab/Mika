@@ -1,7 +1,9 @@
 package com.wangzan101.mika.ui
 
-import androidx.compose.foundation.layout.*
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -25,8 +27,6 @@ import com.wangzan101.mika.ui.theme.MikaIcons
 import com.wangzan101.mika.ui.theme.MikaShapes
 import com.wangzan101.mika.ui.theme.MikaTheme
 import com.wangzan101.mika.ui.theme.MikaType
-import android.content.Intent
-import android.net.Uri
 import kotlinx.coroutines.launch
 
 /** Composio MCP marketplace screen - browse connectors and connect external tools like Gmail, Slack, etc. */
@@ -51,14 +51,15 @@ fun ComposioMarketplaceScreen(
             Text(
                 text = stringResource(R.string.mcp_servers_composio_marketplace_subtitle),
                 style = MikaType.Body,
-                color = MikaTheme.colors.ink3,
-                modifier = Modifier.padding(bottom = 20.dp),
+                color = MikaTheme.colors.ink2,
+                modifier = Modifier.padding(bottom = 24.dp),
             )
 
+            // Search bar
             Row(
-                modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, bottom = 20.dp),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 OutlinedTextField(
                     value = searchQuery,
@@ -73,7 +74,11 @@ fun ComposioMarketplaceScreen(
                     onClick = {
                         loading = true
                         scope.launch {
-                            store.refreshAll()
+                            try {
+                                store.refreshAll()
+                            } catch (e: Exception) {
+                                error = e.message
+                            }
                             loading = false
                         }
                     },
@@ -87,10 +92,20 @@ fun ComposioMarketplaceScreen(
             }
 
             error?.let { et ->
-                Text(et, Modifier.padding(bottom = 16.dp))
+                Text(
+                    text = et,
+                    style = MikaType.Caption,
+                    color = MikaTheme.colors.bad,
+                    modifier = Modifier.padding(horizontal = 16.dp, bottom = 16.dp),
+                )
             }
             success?.let { st ->
-                Text(st, Modifier.padding(bottom = 16.dp))
+                Text(
+                    text = st,
+                    style = MikaType.Caption,
+                    color = MikaTheme.colors.ok,
+                    modifier = Modifier.padding(horizontal = 16.dp, bottom = 16.dp),
+                )
             }
 
             val connectFailedMsg = stringResource(R.string.mcp_servers_composio_connect_failed)
@@ -98,7 +113,7 @@ fun ComposioMarketplaceScreen(
 
             GroupLabel(stringResource(R.string.mcp_servers_composio_popular_connectors))
             LazyColumn(
-                modifier = Modifier.fillMaxWidth().padding(bottom = 24.dp),
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, bottom = 24.dp),
                 state = rememberLazyListState(),
             ) {
                 items(items = store.popularApps.filter { it.contains(searchQuery, ignoreCase = true) }) { appId ->
@@ -110,8 +125,8 @@ fun ComposioMarketplaceScreen(
                         appName = appName,
                         isConnected = isConnected,
                         onConnect = {
+                            connecting = true
                             scope.launch {
-                                connecting = true
                                 val result = store.connectApp(appId)
                                 connecting = false
                                 if (result.isSuccess) {
@@ -123,8 +138,8 @@ fun ComposioMarketplaceScreen(
                         },
                         onAddAsMcp = {
                             val account = accounts.firstOrNull { it.appId == appId }
+                            connecting = true
                             scope.launch {
-                                connecting = true
                                 val result = store.addConnectorAsMcpServer(appId, appName, account?.id)
                                 connecting = false
                                 if (result.isSuccess) {
@@ -141,15 +156,15 @@ fun ComposioMarketplaceScreen(
             if (accounts.isNotEmpty()) {
                 GroupLabel(stringResource(R.string.mcp_servers_composio_connected_accounts))
                 LazyColumn(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, bottom = 24.dp),
                 ) {
                     items(items = accounts) { account ->
                         val accountAddedMsg = stringResource(R.string.mcp_servers_composio_added_as_mcp, account.appName)
                         ConnectedAccountRow(
                             account = account,
                             onAddAsMcp = {
+                                connecting = true
                                 scope.launch {
-                                    connecting = true
                                     val result = store.addConnectorAsMcpServer(account.appId, account.appName, account.id)
                                     connecting = false
                                     if (result.isSuccess) {
@@ -173,7 +188,11 @@ fun ComposioMarketplaceScreen(
             onConnected = {
                 authUrl = null
                 scope.launch {
-                    store.loadConnectedAccounts()
+                    try {
+                        store.loadConnectedAccounts()
+                    } catch (e: Exception) {
+                        error = e.message
+                    }
                 }
             },
         )
@@ -198,17 +217,17 @@ private fun ConnectorRow(
     val iconColor = if (isConnected) c.ok else c.accent
     val iconBg = if (isConnected) c.okSoft else c.accentSoft
 
-    MikaCard(Modifier.fillMaxWidth().padding(bottom = 8.dp)) {
+    MikaCard(Modifier.fillMaxWidth().padding(bottom = 12.dp)) {
         Row(
             Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 14.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             Box(
-                Modifier.size(32.dp).background(iconBg, MikaShapes.Tile),
+                Modifier.size(40.dp).background(iconBg, MikaShapes.Tile),
                 contentAlignment = Alignment.Center,
             ) {
-                Icon(MikaIcons.Link, null, Modifier.size(18.dp), tint = iconColor)
+                Icon(MikaIcons.Link, null, Modifier.size(24.dp), tint = iconColor)
             }
             Column(Modifier.weight(1f).padding(vertical = 4.dp)) {
                 Text(appName, style = MikaType.BodyStrong, color = c.ink)
@@ -265,9 +284,8 @@ private fun ComposioAuthDialog(
     onDismiss: () -> Unit,
     onConnected: () -> Unit,
 ) {
-    var opened by remember { mutableStateOf(false) }
-    val scope = rememberCoroutineScope()
     val context = androidx.compose.ui.platform.LocalContext.current
+    var browserOpened by remember { mutableStateOf(false) }
 
     MikaDialog(
         onDismissRequest = { onDismiss() },
@@ -278,12 +296,12 @@ private fun ComposioAuthDialog(
                     text = stringResource(R.string.mcp_servers_composio_sign_in_body),
                     style = MikaType.Body,
                     color = MikaTheme.colors.ink2,
-                    modifier = Modifier.padding(bottom = 16.dp),
+                    modifier = Modifier.padding(bottom = 20.dp),
                 )
                 MikaButton(
                     text = stringResource(R.string.mcp_servers_composio_open_browser),
                     onClick = {
-                        opened = true
+                        browserOpened = true
                     },
                     size = ButtonSize.Small,
                 )
@@ -297,13 +315,17 @@ private fun ComposioAuthDialog(
         dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.cancel)) } },
     )
 
-    if (opened) {
-        androidx.compose.runtime.LaunchedEffect(Unit) {
-            context.startActivity(
-                Intent(Intent.ACTION_VIEW, Uri.parse(authUrl))
-                    .addCategory(Intent.CATEGORY_BROWSABLE)
-                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
-            )
+    if (browserOpened) {
+        androidx.compose.runtime.LaunchedEffect(authUrl) {
+            try {
+                context.startActivity(
+                    Intent(Intent.ACTION_VIEW, Uri.parse(authUrl))
+                        .addCategory(Intent.CATEGORY_BROWSABLE)
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
+                )
+            } catch (e: Exception) {
+                error = "Could not open browser: ${e.message}"
+            }
         }
     }
 }
