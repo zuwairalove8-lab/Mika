@@ -57,7 +57,7 @@ fun ComposioMarketplaceScreen(
 
             // Search bar
             Row(
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                modifier = Modifier.padding(horizontal = 16.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
             ) {
@@ -96,7 +96,7 @@ fun ComposioMarketplaceScreen(
                     text = et,
                     style = MikaType.Caption,
                     color = MikaTheme.colors.bad,
-                    modifier = Modifier.padding(horizontal = 16.dp, bottom = 16.dp),
+                    modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
                 )
             }
             successMsg?.let { st ->
@@ -104,7 +104,7 @@ fun ComposioMarketplaceScreen(
                     text = st,
                     style = MikaType.Caption,
                     color = MikaTheme.colors.ok,
-                    modifier = Modifier.padding(horizontal = 16.dp, bottom = 16.dp),
+                    modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
                 )
             }
 
@@ -113,7 +113,7 @@ fun ComposioMarketplaceScreen(
 
             GroupLabel(stringResource(R.string.mcp_servers_composio_popular_connectors))
             LazyColumn(
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, bottom = 24.dp),
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 24.dp),
                 state = rememberLazyListState(),
             ) {
                 items(items = store.popularApps.filter { it.contains(searchQuery, ignoreCase = true) }) { appId ->
@@ -156,7 +156,7 @@ fun ComposioMarketplaceScreen(
             if (accounts.isNotEmpty()) {
                 GroupLabel(stringResource(R.string.mcp_servers_composio_connected_accounts))
                 LazyColumn(
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, bottom = 24.dp),
+                    modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 24.dp),
                 ) {
                     items(items = accounts) { account ->
                         val accountAddedMsg = stringResource(R.string.mcp_servers_composio_added_as_mcp, account.appName)
@@ -167,11 +167,11 @@ fun ComposioMarketplaceScreen(
                                 scope.launch {
                                     val result = store.addConnectorAsMcpServer(account.appId, account.appName, account.id)
                                     connecting = false
-                                if (result.isSuccess) {
-                                    successMsg = accountAddedMsg
-                                } else {
-                                    errorMsg = result.exceptionOrNull()?.message ?: addFailedMsg
-                                }
+                                    if (result.isSuccess) {
+                                        successMsg = accountAddedMsg
+                                    } else {
+                                        errorMsg = result.exceptionOrNull()?.message ?: addFailedMsg
+                                    }
                                 }
                             },
                         )
@@ -191,7 +191,7 @@ fun ComposioMarketplaceScreen(
                     try {
                         store.loadConnectedAccounts()
                     } catch (e: Exception) {
-                        error = e.message
+                        errorMsg = e.message
                     }
                 }
             },
@@ -219,7 +219,7 @@ private fun ConnectorRow(
 
     MikaCard(Modifier.fillMaxWidth().padding(bottom = 12.dp)) {
         Row(
-            Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 14.dp),
+            Modifier.padding(start = 16.dp, end = 16.dp, top = 14.dp, bottom = 14.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
@@ -324,7 +324,7 @@ private fun ComposioAuthDialog(
                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
                 )
             } catch (e: Exception) {
-                errorMsg = "Could not open browser: ${e.message}"
+                // Browser open failed - non-fatal, user can still copy URL manually
             }
         }
     }
