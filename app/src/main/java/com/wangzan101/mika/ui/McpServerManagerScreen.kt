@@ -244,17 +244,20 @@ private fun McpServerRow(
         serverHealth?.ok == false -> MikaTheme.colors.bad
         else -> MikaTheme.colors.ink3
     }
+    val statusConnected = stringResource(R.string.mcp_status_connected)
+    val statusError = stringResource(R.string.mcp_status_error)
+    val statusUnknown = stringResource(R.string.mcp_status_unknown)
     val statusText = when {
-        serverHealth?.ok == true -> statusConnectedMsg
-        serverHealth?.ok == false -> serverHealth.message ?: statusErrorMsg
-        else -> statusUnknownMsg
+        serverHealth?.ok == true -> statusConnected
+        serverHealth?.ok == false -> serverHealth.message ?: statusError
+        else -> statusUnknown
     }
-
-    // Capture string resources before non-composable lambdas
-    val testBtnLabel = testLabel
-    val disableBtnLabel = disableLabel
-    val enableBtnLabel = enableLabel
-    val removeBtnLabel = removeLabel
+    val testBtn = stringResource(R.string.mcp_test)
+    val disableBtn = stringResource(R.string.mcp_disable)
+    val enableBtn = stringResource(R.string.mcp_enable)
+    val removeBtn = stringResource(R.string.mcp_remove)
+    val testOk = stringResource(R.string.mcp_test_ok)
+    val testFailed = stringResource(R.string.mcp_test_failed)
 
     MikaCard(Modifier.fillMaxWidth().padding(bottom = 12.dp)) {
         Row(
@@ -289,7 +292,7 @@ private fun McpServerRow(
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 if (!testing) {
                     MikaButton(
-                        text = testBtnLabel,
+                        text = testBtn,
                         onClick = {
                             testing = true
                             testResult = null
@@ -298,10 +301,10 @@ private fun McpServerRow(
                                 testing = false
                                 when {
                                     result.isSuccess -> {
-                                        testResult = String.format(testOkMsg, result.getOrNull()?.tools?.size ?: 0)
+                                        testResult = String.format(testOk, result.getOrNull()?.tools?.size ?: 0)
                                     }
                                     else -> {
-                                        testResult = result.exceptionOrNull()?.message ?: testFailedMsg
+                                        testResult = result.exceptionOrNull()?.message ?: testFailed
                                     }
                                 }
                                 onStatusChanged()
@@ -319,7 +322,7 @@ private fun McpServerRow(
                 if (server.enabled) {
                     TextButton(onClick = { store.setEnabled(server.id, false); onStatusChanged() }) {
                         Text(
-                            text = disableBtnLabel,
+                            text = disableBtn,
                             style = MikaType.Label,
                             color = MikaTheme.colors.ink2,
                         )
@@ -327,18 +330,18 @@ private fun McpServerRow(
                 } else {
                     TextButton(onClick = { store.setEnabled(server.id, true); onStatusChanged() }) {
                         Text(
-                            text = enableBtnLabel,
+                            text = enableBtn,
                             style = MikaType.Label,
                             color = MikaTheme.colors.ok,
                         )
                     }
                 }
                 TextButton(onClick = { store.remove(server.id); onStatusChanged() }) {
-                    Text(
-                        text = removeBtnLabel,
-                        style = MikaType.Label,
-                        color = MikaTheme.colors.bad,
-                    )
+                        Text(
+                            text = removeBtn,
+                            style = MikaType.Label,
+                            color = MikaTheme.colors.bad,
+                        )
                 }
             }
         }
