@@ -51,7 +51,7 @@ fun SkillsMarketplaceScreen(
 
             // Category chips
             Row(
-                modifier = Modifier.padding(horizontal = 16.dp, bottom = 20.dp),
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 20.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 CategoryChip(
@@ -95,7 +95,7 @@ fun SkillsMarketplaceScreen(
                     text = et,
                     style = MikaType.Caption,
                     color = MikaTheme.colors.bad,
-                    modifier = Modifier.padding(horizontal = 16.dp, bottom = 16.dp),
+                    modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
                 )
             }
             success?.let { st ->
@@ -103,7 +103,7 @@ fun SkillsMarketplaceScreen(
                     text = st,
                     style = MikaType.Caption,
                     color = MikaTheme.colors.ok,
-                    modifier = Modifier.padding(horizontal = 16.dp, bottom = 16.dp),
+                    modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
                 )
             }
         }
@@ -146,7 +146,7 @@ private fun BuiltinSkillsSection() {
 
     GroupLabel(stringResource(R.string.skills_builtin_skills))
     LazyColumn(
-        modifier = Modifier.padding(horizontal = 16.dp),
+        modifier = Modifier.padding(start = 16.dp, end = 16.dp),
     ) {
         items(items = builtinSkills) { skill ->
             BuiltinSkillRow(skill = skill)
@@ -185,7 +185,7 @@ private fun BuiltinSkillRow(skill: BuiltinSkill) {
 @Composable
 private fun MySkillsList() {
     GroupLabel(stringResource(R.string.skills_my_skills))
-    MikaCard(Modifier.fillMaxWidth().padding(horizontal = 16.dp, bottom = 24.dp)) {
+    MikaCard(Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, bottom = 24.dp)) {
         Column(Modifier.padding(24.dp)) {
             Icon(
                 imageVector = MikaIcons.Star,
@@ -221,7 +221,7 @@ private fun ImportSkillSection(
     val c = MikaTheme.colors
     GroupLabel(stringResource(R.string.skills_import_from_any_source))
 
-    MikaCard(Modifier.fillMaxWidth().padding(horizontal = 16.dp, bottom = 24.dp)) {
+    MikaCard(Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, bottom = 24.dp)) {
         Column(Modifier.padding(20.dp)) {
             Text(
                 text = stringResource(R.string.skills_import_subtitle),
@@ -264,7 +264,7 @@ private fun ImportSkillSection(
 
     GroupLabel(stringResource(R.string.skills_supported_sources))
     LazyColumn(
-        modifier = Modifier.padding(horizontal = 16.dp),
+        modifier = Modifier.padding(start = 16.dp, end = 16.dp),
     ) {
         items(items = listOf(
             SupportedSource("GitHub", "https://github.com/user/repo/blob/main/SKILL.md", MikaIcons.Link),
