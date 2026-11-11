@@ -187,7 +187,7 @@ private fun Hero(versionName: String, build: String, beta: Boolean) {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Image(
-            painterResource(R.drawable.mika_launcher_art), contentDescription = null,
+            painterResource(R.drawable.jobby_launcher_art), contentDescription = null,
             Modifier.size(72.dp).clip(RoundedCornerShape(20.dp)),
         )
         Text("Jobby", Modifier.padding(top = 12.dp), style = MikaType.Title, fontWeight = FontWeight.Bold, color = c.ink)
