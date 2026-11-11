@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,7 +25,6 @@ import com.wangzan101.mika.ui.theme.MikaIcons
 import com.wangzan101.mika.ui.theme.MikaShapes
 import com.wangzan101.mika.ui.theme.MikaTheme
 import com.wangzan101.mika.ui.theme.MikaType
-import androidx.compose.runtime.collectAsState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -44,18 +44,45 @@ fun McpServerManagerScreen(
     val servers by store.servers.collectAsState()
     val scope = rememberCoroutineScope()
 
+    // Capture string resources before any non-composable lambdas
+    val addServerLabel = stringResource(R.string.mcp_add_server)
+    val serverNameLabel = stringResource(R.string.mcp_server_name)
+    val serverNameHint = stringResource(R.string.mcp_server_name_hint)
+    val serverUrlLabel = stringResource(R.string.mcp_server_url_or_command)
+    val serverUrlHint = stringResource(R.string.mcp_server_url_hint)
+    val transportHttpLabel = stringResource(R.string.mcp_transport_http)
+    val transportStdioLabel = stringResource(R.string.mcp_transport_stdio)
+    val addingLabel = stringResource(R.string.mcp_adding)
+    val addServerBtnLabel = stringResource(R.string.mcp_add_server_btn)
+    val nameRequiredMsg = stringResource(R.string.mcp_name_required)
+    val urlRequiredMsg = stringResource(R.string.mcp_url_required)
+    val serverAddedMsg = stringResource(R.string.mcp_server_added)
+    val addFailedMsg = stringResource(R.string.mcp_add_failed)
+    val serverListLabel = stringResource(R.string.mcp_server_list)
+    val noServersMsg = stringResource(R.string.mcp_no_servers)
+    val noServersSubtitle = stringResource(R.string.mcp_no_servers_subtitle)
+    val testLabel = stringResource(R.string.mcp_test)
+    val testOkMsg = stringResource(R.string.mcp_test_ok)
+    val testFailedMsg = stringResource(R.string.mcp_test_failed)
+    val disableLabel = stringResource(R.string.mcp_disable)
+    val enableLabel = stringResource(R.string.mcp_enable)
+    val removeLabel = stringResource(R.string.mcp_remove)
+    val statusConnectedMsg = stringResource(R.string.mcp_status_connected)
+    val statusErrorMsg = stringResource(R.string.mcp_status_error)
+    val statusUnknownMsg = stringResource(R.string.mcp_status_unknown)
+
     PageScaffold(stringResource(R.string.mcp_server_manager_title), onBack) {
         Column(Modifier.fillMaxWidth()) {
             // Add server card
             MikaCard(Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, bottom = 24.dp)) {
                 Column(Modifier.padding(20.dp)) {
-                    GroupLabel(stringResource(R.string.mcp_add_server))
+                    GroupLabel(addServerLabel)
 
                     OutlinedTextField(
                         value = newName,
                         onValueChange = { newName = it },
-                        label = { Text(stringResource(R.string.mcp_server_name)) },
-                        placeholder = { Text(stringResource(R.string.mcp_server_name_hint)) },
+                        label = { Text(serverNameLabel) },
+                        placeholder = { Text(serverNameHint) },
                         singleLine = true,
                         modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
                     )
@@ -63,8 +90,8 @@ fun McpServerManagerScreen(
                     OutlinedTextField(
                         value = newUrl,
                         onValueChange = { newUrl = it },
-                        label = { Text(stringResource(R.string.mcp_server_url_or_command)) },
-                        placeholder = { Text(stringResource(R.string.mcp_server_url_hint)) },
+                        label = { Text(serverUrlLabel) },
+                        placeholder = { Text(serverUrlHint) },
                         singleLine = true,
                         modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
                     )
@@ -77,7 +104,7 @@ fun McpServerManagerScreen(
                             onClick = { newTransport = "streamable-http" },
                         ) {
                             Text(
-                                text = stringResource(R.string.mcp_transport_http),
+                                text = transportHttpLabel,
                                 style = MikaType.Label,
                                 color = if (newTransport == "streamable-http") MikaTheme.colors.accent else MikaTheme.colors.ink2,
                             )
@@ -86,7 +113,7 @@ fun McpServerManagerScreen(
                             onClick = { newTransport = "stdio" },
                         ) {
                             Text(
-                                text = stringResource(R.string.mcp_transport_stdio),
+                                text = transportStdioLabel,
                                 style = MikaType.Label,
                                 color = if (newTransport == "stdio") MikaTheme.colors.accent else MikaTheme.colors.ink2,
                             )
@@ -98,16 +125,16 @@ fun McpServerManagerScreen(
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
                     ) {
                         MikaButton(
-                            text = stringResource(if (adding) R.string.mcp_adding else R.string.mcp_add_server_btn),
+                            text = if (adding) addingLabel else addServerBtnLabel,
                             onClick = {
                                 val name = newName.trim()
                                 val url = newUrl.trim()
                                 if (name.isEmpty()) {
-                                    errorMsg = stringResource(R.string.mcp_name_required)
+                                    errorMsg = nameRequiredMsg
                                     return@MikaButton
                                 }
                                 if (url.isEmpty()) {
-                                    errorMsg = stringResource(R.string.mcp_url_required)
+                                    errorMsg = urlRequiredMsg
                                     return@MikaButton
                                 }
                                 adding = true
@@ -123,12 +150,12 @@ fun McpServerManagerScreen(
                                     adding = false
                                     when {
                                         result.isSuccess -> {
-                                            successMsg = stringResource(R.string.mcp_server_added, name)
+                                            successMsg = String.format(serverAddedMsg, name)
                                             newName = ""
                                             newUrl = ""
                                         }
                                         else -> {
-                                            errorMsg = result.exceptionOrNull()?.message ?: stringResource(R.string.mcp_add_failed)
+                                            errorMsg = result.exceptionOrNull()?.message ?: addFailedMsg
                                         }
                                     }
                                 }
@@ -158,7 +185,7 @@ fun McpServerManagerScreen(
             }
 
             // Server list
-            GroupLabel(stringResource(R.string.mcp_server_list))
+            GroupLabel(serverListLabel)
             if (servers.isEmpty()) {
                 MikaCard(Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, bottom = 24.dp)) {
                     Column(Modifier.padding(32.dp).fillMaxWidth()) {
@@ -169,13 +196,13 @@ fun McpServerManagerScreen(
                             tint = MikaTheme.colors.ink3,
                         )
                         Text(
-                            text = stringResource(R.string.mcp_no_servers),
+                            text = noServersMsg,
                             style = MikaType.Body,
                             color = MikaTheme.colors.ink2,
                             modifier = Modifier.padding(top = 16.dp).align(Alignment.CenterHorizontally),
                         )
                         Text(
-                            text = stringResource(R.string.mcp_no_servers_subtitle),
+                            text = noServersSubtitle,
                             style = MikaType.Caption,
                             color = MikaTheme.colors.ink3,
                             modifier = Modifier.padding(top = 8.dp).align(Alignment.CenterHorizontally),
@@ -218,10 +245,16 @@ private fun McpServerRow(
         else -> MikaTheme.colors.ink3
     }
     val statusText = when {
-        serverHealth?.ok == true -> stringResource(R.string.mcp_status_connected)
-        serverHealth?.ok == false -> serverHealth.message ?: stringResource(R.string.mcp_status_error)
-        else -> stringResource(R.string.mcp_status_unknown)
+        serverHealth?.ok == true -> statusConnectedMsg
+        serverHealth?.ok == false -> serverHealth.message ?: statusErrorMsg
+        else -> statusUnknownMsg
     }
+
+    // Capture string resources before non-composable lambdas
+    val testBtnLabel = testLabel
+    val disableBtnLabel = disableLabel
+    val enableBtnLabel = enableLabel
+    val removeBtnLabel = removeLabel
 
     MikaCard(Modifier.fillMaxWidth().padding(bottom = 12.dp)) {
         Row(
@@ -256,7 +289,7 @@ private fun McpServerRow(
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 if (!testing) {
                     MikaButton(
-                        text = stringResource(R.string.mcp_test),
+                        text = testBtnLabel,
                         onClick = {
                             testing = true
                             testResult = null
@@ -265,10 +298,10 @@ private fun McpServerRow(
                                 testing = false
                                 when {
                                     result.isSuccess -> {
-                                        testResult = stringResource(R.string.mcp_test_ok, result.getOrNull()?.tools?.size ?: 0)
+                                        testResult = String.format(testOkMsg, result.getOrNull()?.tools?.size ?: 0)
                                     }
                                     else -> {
-                                        testResult = result.exceptionOrNull()?.message ?: stringResource(R.string.mcp_test_failed)
+                                        testResult = result.exceptionOrNull()?.message ?: testFailedMsg
                                     }
                                 }
                                 onStatusChanged()
@@ -286,7 +319,7 @@ private fun McpServerRow(
                 if (server.enabled) {
                     TextButton(onClick = { store.setEnabled(server.id, false); onStatusChanged() }) {
                         Text(
-                            text = stringResource(R.string.mcp_disable),
+                            text = disableBtnLabel,
                             style = MikaType.Label,
                             color = MikaTheme.colors.ink2,
                         )
@@ -294,7 +327,7 @@ private fun McpServerRow(
                 } else {
                     TextButton(onClick = { store.setEnabled(server.id, true); onStatusChanged() }) {
                         Text(
-                            text = stringResource(R.string.mcp_enable),
+                            text = enableBtnLabel,
                             style = MikaType.Label,
                             color = MikaTheme.colors.ok,
                         )
@@ -302,7 +335,7 @@ private fun McpServerRow(
                 }
                 TextButton(onClick = { store.remove(server.id); onStatusChanged() }) {
                     Text(
-                        text = stringResource(R.string.mcp_remove),
+                        text = removeBtnLabel,
                         style = MikaType.Label,
                         color = MikaTheme.colors.bad,
                     )
