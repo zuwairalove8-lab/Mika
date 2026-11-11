@@ -24,6 +24,7 @@ import com.wangzan101.mika.ui.theme.MikaIcons
 import com.wangzan101.mika.ui.theme.MikaShapes
 import com.wangzan101.mika.ui.theme.MikaTheme
 import com.wangzan101.mika.ui.theme.MikaType
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collectAsState
 import kotlinx.coroutines.launch
 
@@ -203,13 +204,13 @@ fun McpServerManagerScreen(
 private fun McpServerRow(
     server: McpServerConfig,
     store: McpServerStore,
-    scope: kotlinx.coroutines.CoroutineScope,
+    scope: CoroutineScope,
     onStatusChanged: () -> Unit,
 ) {
     var testing by remember { mutableStateOf(false) }
     var testResult by remember { mutableStateOf<String?>(null) }
     val health by store.health.collectAsState()
-    val serverHealth = health[server.id]
+    val serverHealth: com.wangzan101.mika.settings.McpHealth? = health[server.id]
 
     val statusColor = when {
         serverHealth?.ok == true -> MikaTheme.colors.ok
