@@ -24,6 +24,7 @@ import com.wangzan101.mika.ui.theme.MikaIcons
 import com.wangzan101.mika.ui.theme.MikaShapes
 import com.wangzan101.mika.ui.theme.MikaTheme
 import com.wangzan101.mika.ui.theme.MikaType
+import kotlinx.coroutines.flow.collectAsState
 import kotlinx.coroutines.launch
 
 /** MCP Server Manager: add, test, and manage external MCP servers.
@@ -37,8 +38,8 @@ fun McpServerManagerScreen(
     var newUrl by remember { mutableStateOf("") }
     var newTransport by remember { mutableStateOf("streamable-http") }
     var adding by remember { mutableStateOf(false) }
-    var error by remember { mutableStateOf<String?>(null) }
-    var success by remember { mutableStateOf<String?>(null) }
+    var errorMsg by remember { mutableStateOf<String?>(null) }
+    var successMsg by remember { mutableStateOf<String?>(null) }
     val servers by store.servers.collectAsState()
     val scope = rememberCoroutineScope()
 
@@ -101,15 +102,15 @@ fun McpServerManagerScreen(
                                 val name = newName.trim()
                                 val url = newUrl.trim()
                                 if (name.isEmpty()) {
-                                    error = stringResource(R.string.mcp_name_required)
+                                    errorMsg = stringResource(R.string.mcp_name_required)
                                     return@MikaButton
                                 }
                                 if (url.isEmpty()) {
-                                    error = stringResource(R.string.mcp_url_required)
+                                    errorMsg = stringResource(R.string.mcp_url_required)
                                     return@MikaButton
                                 }
                                 adding = true
-                                error = null
+                                errorMsg = null
                                 scope.launch {
                                     val config = McpServerConfig(
                                         name = name,
@@ -121,12 +122,12 @@ fun McpServerManagerScreen(
                                     adding = false
                                     when {
                                         result.isSuccess -> {
-                                            success = stringResource(R.string.mcp_server_added, name)
+                                            successMsg = stringResource(R.string.mcp_server_added, name)
                                             newName = ""
                                             newUrl = ""
                                         }
                                         else -> {
-                                            error = result.exceptionOrNull()?.message ?: stringResource(R.string.mcp_add_failed)
+                                            errorMsg = result.exceptionOrNull()?.message ?: stringResource(R.string.mcp_add_failed)
                                         }
                                     }
                                 }
@@ -136,7 +137,7 @@ fun McpServerManagerScreen(
                         )
                     }
 
-                    error?.let { et ->
+                    errorMsg?.let { et ->
                         Text(
                             text = et,
                             style = MikaType.Caption,
@@ -144,7 +145,7 @@ fun McpServerManagerScreen(
                             modifier = Modifier.padding(top = 12.dp),
                         )
                     }
-                    success?.let { st ->
+                    successMsg?.let { st ->
                         Text(
                             text = st,
                             style = MikaType.Caption,
@@ -189,7 +190,7 @@ fun McpServerManagerScreen(
                             server = server,
                             store = store,
                             scope = scope,
-                            onStatusChanged = { error = null; success = null },
+                            onStatusChanged = { errorMsg = null; successMsg = null },
                         )
                     }
                 }
@@ -202,7 +203,7 @@ fun McpServerManagerScreen(
 private fun McpServerRow(
     server: McpServerConfig,
     store: McpServerStore,
-    scope: androidx.compose.ui.platform.UiCoroutineScope,
+    scope: kotlinx.coroutines.CoroutineScope,
     onStatusChanged: () -> Unit,
 ) {
     var testing by remember { mutableStateOf(false) }
@@ -251,7 +252,7 @@ private fun McpServerRow(
                     )
                 }
             }
-            Column(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 if (!testing) {
                     MikaButton(
                         text = stringResource(R.string.mcp_test),

@@ -233,7 +233,7 @@ fun SettingsScreen(
         SettingsPage.SelfCheck -> SelfCheckScreen(status, onBack = back)
         SettingsPage.ComputerAccess -> McpScreen(mcp, onBack = toAdvanced)
         SettingsPage.McpServers -> mcpServers?.let { McpServersScreen(it, onBack = toAdvanced) }
-        SettingsPage.McpServerManager -> McpServerManagerScreen(store = mcpServers, onBack = toAdvanced)
+        SettingsPage.McpServerManager -> mcpServers?.let { McpServerManagerScreen(store = it, onBack = toAdvanced) }
         SettingsPage.Root -> RootScreen(helperRow = status.sdkInt >= Prerequisites.MIN_SDK, onBack = toAdvanced)
         SettingsPage.Developer -> DeveloperOptionsScreen(
             speed, onSpeed = { flags.setSpeed(it); speed = it }, onBack = toAdvanced,
