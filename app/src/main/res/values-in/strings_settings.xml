@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="language_title">Bahasa</string>
-    <string name="language_system">Ikuti sistem</string>
-    <string name="language_system_detail">Memakai bahasa sistem Anda jika Mika mendukungnya, jika tidak memakai bahasa Inggris</string>
     <string name="settings_basic">Umum</string>
     <string name="settings_language_appearance">Bahasa &amp; tampilan</string>
     <string name="settings_model">Model</string>
@@ -173,15 +170,4 @@
     <string name="settings_token_budget_custom">Anggaran token kustom</string>
     <string name="settings_token_budget_apply">Pakai</string>
     <string name="settings_token_budget_invalid">Masukkan bilangan bulat dari %1$s sampai %2$s.</string>
-    <string name="language_simplified_chinese" translatable="false">简体中文</string>
-    <string name="language_traditional_chinese" translatable="false">繁體中文</string>
-    <string name="language_english" translatable="false">English</string>
-    <string name="language_japanese" translatable="false">日本語</string>
-    <string name="language_korean" translatable="false">한국어</string>
-    <string name="language_spanish" translatable="false">Español</string>
-    <string name="language_portuguese" translatable="false">Português</string>
-    <string name="language_russian" translatable="false">Русский</string>
-    <string name="language_indonesian" translatable="false">Bahasa Indonesia</string>
-    <string name="language_arabic" translatable="false">العربية</string>
-    <string name="language_persian" translatable="false">فارسی</string>
 </resources>
