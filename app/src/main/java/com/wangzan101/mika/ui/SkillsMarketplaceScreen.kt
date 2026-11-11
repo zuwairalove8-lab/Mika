@@ -1,5 +1,6 @@
 package com.wangzan101.mika.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -14,6 +15,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.wangzan101.mika.R
@@ -36,6 +38,7 @@ fun SkillsMarketplaceScreen(
     var success by remember { mutableStateOf<String?>(null) }
     var selectedCategory by remember { mutableStateOf("builtin") }
     val scope = rememberCoroutineScope()
+    val importSuccessMsg = stringResource(R.string.skills_import_success)
 
     PageScaffold(stringResource(R.string.skills_marketplace_title), onBack) {
         Column(Modifier.fillMaxWidth()) {
@@ -48,7 +51,7 @@ fun SkillsMarketplaceScreen(
 
             // Category chips
             Row(
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, bottom = 20.dp),
+                modifier = Modifier.padding(horizontal = 16.dp, bottom = 20.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 CategoryChip(
@@ -59,7 +62,7 @@ fun SkillsMarketplaceScreen(
                 CategoryChip(
                     text = stringResource(R.string.skills_category_installed),
                     selected = selectedCategory == "installed",
-                    onClick = { selectedCategory == "installed" },
+                    onClick = { selectedCategory = "installed" },
                 )
                 CategoryChip(
                     text = stringResource(R.string.skills_category_import),
@@ -76,7 +79,6 @@ fun SkillsMarketplaceScreen(
                     onSourceChanged = { importSource = it },
                     importing = importing,
                     onImport = {
-                        val importSuccessMsg = stringResource(R.string.skills_import_success)
                         importing = true
                         scope.launch {
                             importing = false
@@ -144,7 +146,7 @@ private fun BuiltinSkillsSection() {
 
     GroupLabel(stringResource(R.string.skills_builtin_skills))
     LazyColumn(
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+        modifier = Modifier.padding(horizontal = 16.dp),
     ) {
         items(items = builtinSkills) { skill ->
             BuiltinSkillRow(skill = skill)
@@ -262,7 +264,7 @@ private fun ImportSkillSection(
 
     GroupLabel(stringResource(R.string.skills_supported_sources))
     LazyColumn(
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+        modifier = Modifier.padding(horizontal = 16.dp),
     ) {
         items(items = listOf(
             SupportedSource("GitHub", "https://github.com/user/repo/blob/main/SKILL.md", MikaIcons.Link),
@@ -281,6 +283,7 @@ private fun SupportedSourceRow(source: SupportedSource) {
         icon = source.icon,
         title = source.name,
         subtitle = source.example,
+        tone = TileTone.Neutral,
         trailing = { RowChevron() },
     )
 }

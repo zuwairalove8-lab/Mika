@@ -42,8 +42,8 @@ fun ComposioMarketplaceScreen(
     var searchQuery by remember { mutableStateOf("") }
     var authUrl by remember { mutableStateOf<String?>(null) }
     var connecting by remember { mutableStateOf(false) }
-    var error by remember { mutableStateOf<String?>(null) }
-    var success by remember { mutableStateOf<String?>(null) }
+    var errorMsg by remember { mutableStateOf<String?>(null) }
+    var successMsg by remember { mutableStateOf<String?>(null) }
     val scope = rememberCoroutineScope()
 
     PageScaffold(stringResource(R.string.mcp_servers_composio_marketplace_title), onBack) {
@@ -57,7 +57,7 @@ fun ComposioMarketplaceScreen(
 
             // Search bar
             Row(
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, bottom = 20.dp),
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
             ) {
@@ -77,7 +77,7 @@ fun ComposioMarketplaceScreen(
                             try {
                                 store.refreshAll()
                             } catch (e: Exception) {
-                                error = e.message
+                                errorMsg = e.message
                             }
                             loading = false
                         }
@@ -91,7 +91,7 @@ fun ComposioMarketplaceScreen(
                 LinearProgressIndicator(Modifier.fillMaxWidth().padding(bottom = 16.dp))
             }
 
-            error?.let { et ->
+            errorMsg?.let { et ->
                 Text(
                     text = et,
                     style = MikaType.Caption,
@@ -99,7 +99,7 @@ fun ComposioMarketplaceScreen(
                     modifier = Modifier.padding(horizontal = 16.dp, bottom = 16.dp),
                 )
             }
-            success?.let { st ->
+            successMsg?.let { st ->
                 Text(
                     text = st,
                     style = MikaType.Caption,
@@ -132,7 +132,7 @@ fun ComposioMarketplaceScreen(
                                 if (result.isSuccess) {
                                     authUrl = result.getOrNull()?.redirectUrl
                                 } else {
-                                    error = result.exceptionOrNull()?.message ?: connectFailedMsg
+                                    errorMsg = result.exceptionOrNull()?.message ?: connectFailedMsg
                                 }
                             }
                         },
@@ -143,9 +143,9 @@ fun ComposioMarketplaceScreen(
                                 val result = store.addConnectorAsMcpServer(appId, appName, account?.id)
                                 connecting = false
                                 if (result.isSuccess) {
-                                    success = addedAsMcpMsg
+                                    successMsg = addedAsMcpMsg
                                 } else {
-                                    error = result.exceptionOrNull()?.message ?: addFailedMsg
+                                    errorMsg = result.exceptionOrNull()?.message ?: addFailedMsg
                                 }
                             }
                         },
@@ -167,11 +167,11 @@ fun ComposioMarketplaceScreen(
                                 scope.launch {
                                     val result = store.addConnectorAsMcpServer(account.appId, account.appName, account.id)
                                     connecting = false
-                                    if (result.isSuccess) {
-                                        success = accountAddedMsg
-                                    } else {
-                                        error = result.exceptionOrNull()?.message ?: addFailedMsg
-                                    }
+                                if (result.isSuccess) {
+                                    successMsg = accountAddedMsg
+                                } else {
+                                    errorMsg = result.exceptionOrNull()?.message ?: addFailedMsg
+                                }
                                 }
                             },
                         )
@@ -324,7 +324,7 @@ private fun ComposioAuthDialog(
                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
                 )
             } catch (e: Exception) {
-                error = "Could not open browser: ${e.message}"
+                errorMsg = "Could not open browser: ${e.message}"
             }
         }
     }
