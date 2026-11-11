@@ -24,8 +24,8 @@ import com.wangzan101.mika.ui.theme.MikaIcons
 import com.wangzan101.mika.ui.theme.MikaShapes
 import com.wangzan101.mika.ui.theme.MikaTheme
 import com.wangzan101.mika.ui.theme.MikaType
+import androidx.compose.runtime.collectAsState
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.collectAsState
 import kotlinx.coroutines.launch
 
 /** MCP Server Manager: add, test, and manage external MCP servers.
