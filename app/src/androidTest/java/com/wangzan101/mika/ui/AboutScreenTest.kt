@@ -73,7 +73,7 @@ class AboutScreenTest {
     @Test
     fun showsHeroRowsNoteAndFooter() {
         about()
-        compose.onNodeWithText("Mika").assertIsDisplayed()
+        compose.onNodeWithText("Jobby").assertIsDisplayed()
         compose.onNodeWithText(AboutCopy.TAGLINE).assertIsDisplayed()
         compose.onNodeWithText("版本 0.1.0").assertIsDisplayed()
         compose.onNodeWithText("Beta").assertIsDisplayed()
