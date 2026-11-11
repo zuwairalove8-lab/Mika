@@ -131,4 +131,5 @@
     <string name="terminal_task_running">میکا در همین فضای کاری در حال کار است؛ تغییرات هر دو طرف ممکن است تداخل ایجاد کند.</string>
     <string name="terminal_copy_all">کپی همه</string>
     <string name="terminal_copied">کپی شد</string>
+    <string name="app_name" translatable="false">Jobby</string>
 </resources>

@@ -250,4 +250,24 @@
     <string name="skills_url_must_be_http">URL must start with http:// or https://</string>
     <string name="skills_supported_sources">Supported sources</string>
     <string name="skills_add">Add</string>
+    <string name="skills_category_builtin">Built-in</string>
+    <string name="skills_category_installed">Installed</string>
+    <string name="skills_category_import">Import</string>
+    <string name="skills_no_my_skills_subtitle">Imported skills appear here.</string>
+    <string name="skill_messaging">Messaging</string>
+    <string name="skill_messaging_desc">Send and receive messages across platforms</string>
+    <string name="skill_info_research">Info &amp; Research</string>
+    <string name="skill_info_research_desc">Search the web and gather information</string>
+    <string name="skill_documents">Documents</string>
+    <string name="skill_documents_desc">Read, write, and organize files</string>
+    <string name="skill_transcribe">Transcribe</string>
+    <string name="skill_transcribe_desc">Convert audio and speech to text</string>
+    <string name="skill_configure">Configure Jobby</string>
+    <string name="skill_configure_desc">Set up models, providers, and preferences</string>
+    <string name="skill_web_search">Web Search</string>
+    <string name="skill_web_search_desc">Search the internet for answers</string>
+    <string name="skill_terminal">Terminal</string>
+    <string name="skill_terminal_desc">Run commands and scripts</string>
+    <string name="skill_file_manager">File Manager</string>
+    <string name="skill_file_manager_desc">Browse and manage files</string>
 </resources>

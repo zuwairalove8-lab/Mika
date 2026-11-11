@@ -130,4 +130,5 @@
     <string name="terminal_task_running">Mika もこのワークスペースで作業しています。同時に変更すると互いに影響する場合があります。</string>
     <string name="terminal_copy_all">すべてコピー</string>
     <string name="terminal_copied">コピーしました</string>
+    <string name="app_name" translatable="false">Jobby</string>
 </resources>
