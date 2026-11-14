@@ -55,17 +55,17 @@ fun PageBackground(modifier: Modifier = Modifier, content: @Composable BoxScope.
     Box(modifier.fillMaxSize().background(MikaTheme.colors.bg), content = content)
 }
 
-/** 卡片的底:白底 + 黑 5% 描边 + 极淡阴影;深色下只有描边。 */
+/** 卡片的底:白底 + 极细描边 + 柔和阴影;深色下只有描边。 */
 fun Modifier.cardSurface(colors: MikaColors, shape: Shape = MikaShapes.Card): Modifier =
     (if (colors.cardShadow.alpha > 0f) {
-        shadow(6.dp, shape, clip = false, ambientColor = colors.cardShadow.copy(alpha = 0.45f), spotColor = colors.cardShadow.copy(alpha = 0.16f))
+        shadow(8.dp, shape, clip = false, ambientColor = colors.cardShadow.copy(alpha = 0.3f), spotColor = colors.cardShadow.copy(alpha = 0.12f))
     } else this)
         .background(colors.surface, shape)
         .border(0.5.dp, colors.edge, shape)
 
 /** 悬浮元素的阴影(输入栏、浮在内容上的按钮)。 */
 fun Modifier.floatShadow(colors: MikaColors, shape: Shape): Modifier =
-    shadow(14.dp, shape, clip = false, ambientColor = colors.floatShadow.copy(alpha = 0.3f), spotColor = colors.floatShadow.copy(alpha = 0.35f))
+    shadow(16.dp, shape, clip = false, ambientColor = colors.floatShadow.copy(alpha = 0.35f), spotColor = colors.floatShadow.copy(alpha = 0.4f))
 
 /** 一张卡片,内容裁在圆角里(行的按压效果不出角)。 */
 @Composable

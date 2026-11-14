@@ -47,7 +47,7 @@ import com.wangzan101.mika.ui.theme.MikaType
 /** 分组小标题:13 / 500,辅助文字色。 */
 @Composable
 fun GroupLabel(text: String, modifier: Modifier = Modifier) {
-    Text(text, modifier.padding(top = 8.dp, bottom = 8.dp), style = MikaType.Label, color = MikaTheme.colors.ink3)
+    Text(text, modifier.padding(start = 4.dp, top = 16.dp, bottom = 6.dp), style = MikaType.Label, color = MikaTheme.colors.ink3)
 }
 
 /** 分组下面的说明,和卡片里的文字对齐。 */
