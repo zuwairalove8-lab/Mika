@@ -1,0 +1,45 @@
+name: Update prompt snapshots
+
+# Temporary helper: regenerate the prompt-surface, prompt golden and loop
+# snapshot files after an intentional prompt change, then upload them so the
+# updated files can be committed. Run manually, then delete this workflow.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - uses: android-actions/setup-android@v4
+        with:
+          packages: "platform-tools platforms;android-36 build-tools;35.0.0"
+
+      - uses: gradle/actions/setup-gradle@v6
+        with:
+          cache-provider: basic
+
+      - name: Regenerate snapshots
+        env:
+          UPDATE_GOLDEN: "1"
+        run: ./gradlew :core:test -PupdateSnapshots --rerun-tasks --continue --stacktrace || true
+
+      - name: Show changed snapshot files
+        run: git status --short core/src/test/resources
+
+      - name: Upload snapshots
+        uses: actions/upload-artifact@v7
+        with:
+          name: updated-snapshots
+          path: core/src/test/resources
+          if-no-files-found: error
