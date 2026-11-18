@@ -4,6 +4,8 @@ name: Update prompt snapshots
 # snapshot files after an intentional prompt change, then upload them so the
 # updated files can be committed. Run manually, then delete this workflow.
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
