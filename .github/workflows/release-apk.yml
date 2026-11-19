@@ -1,0 +1,80 @@
+name: Release APK
+
+# 下载页：每次 main 上有新提交，就把调试包和 perf 包装成 Release 附件。
+# Actions 的 artifact 只能登录取 zip，这里直接给出可安装的 .apk 链接。
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-apk-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: build and publish APKs
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - uses: android-actions/setup-android@v4
+        with:
+          packages: "platform-tools platforms;android-36 build-tools;35.0.0"
+
+      - uses: gradle/actions/setup-gradle@v6
+        with:
+          cache-provider: basic
+
+      - name: Build debug APK
+        run: ./gradlew :app:assembleDebug --stacktrace
+
+      - name: Build perf APKs (ABI splits)
+        run: ./gradlew :app:assemblePerf --stacktrace
+
+      - name: Collect APKs
+        id: collect
+        shell: bash
+        run: |
+          set -euo pipefail
+          sha="$(git rev-parse --short=7 HEAD)"
+          mkdir -p dist
+          cp app/build/outputs/apk/debug/app-debug.apk "dist/Mika-debug-$sha.apk"
+          cp app/build/outputs/apk/perf/app-universal-perf.apk "dist/Mika-universal-perf-$sha.apk"
+          cp app/build/outputs/apk/perf/app-arm64-v8a-perf.apk "dist/Mika-arm64-perf-$sha.apk"
+          cp app/build/outputs/apk/perf/app-armeabi-v7a-perf.apk "dist/Mika-armeabi-v7a-perf-$sha.apk"
+          echo "tag=apk-$sha" >> "$GITHUB_OUTPUT"
+          ls -lh dist
+          sha256sum dist/*.apk
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          tag="${{ steps.collect.outputs.tag }}"
+          notes="$(cat <<EOF
+          自动构建的安装包（提交 ${{ github.sha }}）。
+
+          - Mika-debug-*.apk：调试签名的全架构包，直接安装即可试用。
+          - Mika-universal-perf-*.apk：和发布版一样预编译的全架构包，最流畅，推荐日常使用。
+          - Mika-arm64-*.apk / Mika-armeabi-v7a-*.apk：只带一种架构原生库的小包。
+
+          每个包的 sha256 见构建日志的 Collect APKs 一步。
+          EOF
+          )"
+          if gh release view "$tag" >/dev/null 2>&1; then
+            gh release upload "$tag" dist/*.apk --clobber
+          else
+            gh release create "$tag" dist/*.apk --title "APK $tag" --notes "$notes" --target "$GITHUB_SHA"
+          fi
