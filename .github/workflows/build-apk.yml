@@ -41,12 +41,30 @@ jobs:
       - name: Build perf APKs (ABI splits)
         run: ./gradlew :app:assemblePerf --stacktrace
 
-      - name: List APK artifacts
+      # Fail loudly before uploading: a missing, truncated or corrupt APK must not
+      # turn into a green run with an unusable (or absent) artifact.
+      - name: Verify APK outputs
+        shell: bash
         run: |
-          echo "=== debug APKs ==="
-          find app/build/outputs/apk -name "*.apk" -type f 2>/dev/null || true
-          echo "=== perf APKs ==="
-          find app/build/outputs/apk -name "*.apk" -type f 2>/dev/null || true
+          set -euo pipefail
+          mapfile -t debug < <(find app/build/outputs/apk/debug -maxdepth 1 -type f -name '*.apk')
+          mapfile -t perf < <(find app/build/outputs/apk/perf -maxdepth 1 -type f -name '*.apk' | sort)
+          echo "debug APKs: ${#debug[@]}"
+          echo "perf APKs: ${#perf[@]}"
+          test "${#debug[@]}" -eq 1
+          test "$(basename "${debug[0]}")" = "app-debug.apk"
+          test "${#perf[@]}" -eq 3
+          for apk in "${debug[@]}" "${perf[@]}"; do
+            case "$(basename "$apk")" in
+              app-debug.apk|app-universal-perf.apk|app-arm64-v8a-perf.apk|app-armeabi-v7a-perf.apk) ;;
+              *) echo "unexpected APK name: $apk"; exit 1 ;;
+            esac
+            test -s "$apk"
+            test "$(stat -c%s "$apk")" -gt 10485760
+            unzip -t "$apk" > /dev/null
+            ls -lh "$apk"
+            sha256sum "$apk"
+          done
 
       - name: Upload debug APK
         uses: actions/upload-artifact@v7
