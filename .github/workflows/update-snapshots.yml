@@ -2,6 +2,8 @@ name: Update prompt snapshots
 
 on:
   workflow_dispatch:
+  push:
+    branches: [chore/update-snapshots]
 
 permissions:
   contents: read
