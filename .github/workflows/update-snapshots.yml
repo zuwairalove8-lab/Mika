@@ -26,6 +26,8 @@ jobs:
           cache-provider: basic
 
       - name: Regenerate snapshots
+        env:
+          UPDATE_GOLDEN: "1"
         run: ./gradlew :core:test -PupdateSnapshots --continue --stacktrace
 
       - name: Upload regenerated snapshots
