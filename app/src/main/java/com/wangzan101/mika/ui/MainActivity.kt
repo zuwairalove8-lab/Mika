@@ -483,6 +483,7 @@ private fun MikaRoot(
                 onPlans = { nav.pushFromDrawer(Route.Plans) },
                 onCareer = { nav.pushFromDrawer(Route.Career) },
                 onMemory = { nav.pushFromDrawer(Route.Memory) },
+                onVault = { nav.pushFromDrawer(Route.Vault) },
                 onSettings = { nav.pushFromDrawer(Route.Settings) },
                 onBrowser = { nav.pushFromDrawer(Route.Browser) },
                 onFiles = { filesFromDrawer = true; filesConversation = app.chat.ui.value.conversationId; nav.pushFromDrawer(Route.Files) },
@@ -653,6 +654,7 @@ private fun MikaRoot(
             app.chat.openConversation(it)
             nav.reset()
         })
+        Route.Vault -> VaultScreen(context, app.vault, onBack = back)
         Route.Career -> CareerScreen(context, onBack = back)
         Route.Teach -> TeachScreen(
             app.teach,

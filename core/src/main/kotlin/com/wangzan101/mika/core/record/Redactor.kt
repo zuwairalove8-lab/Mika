@@ -75,6 +75,7 @@ object Redactor {
             })))
         } ?: content
         Verb.HandToUser -> if ("userNote" in content) JsonObject(content + ("userNote" to JsonPrimitive(MASK))) else content
+        Verb.VaultLogin -> if ("password" in content) JsonObject(content + ("password" to JsonPrimitive(MASK))) else content
         Verb.PhoneCommand -> if ("output" in content) JsonObject(content + ("output" to JsonPrimitive(MASK))) else content
         Verb.CareerRead, Verb.CareerWrite -> maskCareer(content)
         else -> content

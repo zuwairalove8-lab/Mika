@@ -172,6 +172,8 @@ class AgentLoop(
     /** 同一网站、App 里连着做对外动作(发送、提交)时两次之间的间隔;默认不等。 */
     private val outwardPacing: OutwardPacing = OutwardPacing.Off,
     private val trace: RunTrace? = null,
+    /** Compact, trusted summary of the user's Vault (sites, instructions, wallets) shown with memories. */
+    private val vaultContext: String? = null,
 ) {
     init {
         require(maxSteps > 0) { "maxSteps must be positive" }
@@ -436,7 +438,7 @@ class AgentLoop(
                 // 之前几轮读到的东西查得到时说一句(只在有记过运行的轮次、提供了 history_read 时)
                 if (tools.definitions().any { it.name == HISTORY_READ }) Feedback.format("history_hint", "turns" to prior) else prior
             },
-            memory = listOfNotNull(ProfileContext.render(profileSnapshot), block?.message).takeIf { it.isNotEmpty() }?.joinToString("\n\n"),
+            memory = listOfNotNull(ProfileContext.render(profileSnapshot), block?.message, vaultContext).takeIf { it.isNotEmpty() }?.joinToString("\n\n"),
             channel = if (knowledge != null) channelLine(matched) else null,
             knowledge = matched, knowledgeNote = toolsNote(tools.scriptsOffered()), withLinks = flags.deepLinks,
             skillsIndex = index,

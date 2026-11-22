@@ -33,6 +33,7 @@ enum class Verb {
     RootCommand,
     Wait, AskUser, RequestConfirmation, HandToUser, HandleObstacle, EndNotDone,
     KnowledgeSearch, KnowledgeRead, SkillSearch, SkillRead, SkillSave, MemorySearch, MemorySave, MemoryEdit, ProfileEdit, HistoryRead, WebSearch,
+    VaultLogin, VaultWallet,
     ScheduleTask,
     SpawnAgent, SettingsList, SettingsSet,
     /** Local career data: reading or writing the candidate profile, jobs, applications and documents. */

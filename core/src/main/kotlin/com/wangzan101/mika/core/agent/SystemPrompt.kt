@@ -11,7 +11,9 @@ import com.wangzan101.mika.core.prompt.Prompts
  * 任务开始时拼一次,任务内一字不变。
  */
 object SystemPrompt {
-    fun identity(): String = listOf(Prompts.system("identity"), Prompts.system("principles"), read(GENERAL)).joinToString("\n\n")
+    fun identity(): String = listOf(
+        Prompts.system("identity"), Prompts.system("principles"), Prompts.system("deep_work"), read(GENERAL),
+    ).joinToString("\n\n")
 
     fun assemble(identity: String, sections: List<String>): String = (listOf(identity) + sections).joinToString("\n\n")
 

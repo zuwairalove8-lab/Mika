@@ -48,6 +48,8 @@ internal class ToolConfig(
     val webSearch: com.wangzan101.mika.core.search.WebSearch? = null,
     /** Save a captured PNG in this task's workspace; screen tools do not depend on the sandbox capability. */
     val saveScreenshot: (suspend (String, ByteArray) -> String)? = null,
+    /** The user's encrypted Vault; enables vault_login / vault_wallet when it has entries. */
+    val vault: com.wangzan101.mika.core.vault.VaultAccess? = null,
 )
 
 /**

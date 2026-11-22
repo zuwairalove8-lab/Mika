@@ -14,6 +14,7 @@ import com.wangzan101.mika.core.knowledge.AppKnowledgeStage
 import com.wangzan101.mika.core.knowledge.AppRunInput
 import com.wangzan101.mika.core.memory.Change
 import com.wangzan101.mika.core.memory.MemoryExtractor
+import com.wangzan101.mika.core.memory.MemoryKind
 import com.wangzan101.mika.core.memory.MemorySource
 import com.wangzan101.mika.core.memory.MemoryStore
 import com.wangzan101.mika.core.record.RunEvent
@@ -97,6 +98,22 @@ class RunLearning(
         val extractor = extractor
         // 没有运行编号就没处挂提示,用户看不到也撤销不了:不提取
         val learnable = a.origin == RunOrigin.Ui && a.end is TaskState.Succeeded
+        val done = learnable && LearnGate.done(a.end, a.outcome)
+        // Every successful task leaves a compact journal entry. It is deliberately descriptive,
+        // not a recipe: later runs recall what was already done without repeating trial-and-error.
+        val journalDone = a.end is TaskState.Succeeded && LearnGate.done(a.end, a.outcome) && a.origin != RunOrigin.Child
+        if (journalDone && store != null && a.runId != null && switches.autoRemember) {
+            val text = taskJournal(a.goal)
+            if (text != null && store.items.value.none { it.content == text }) {
+                val added = guarded<Change?>(null) {
+                    store.add(
+                        MemoryKind.fact, text, journalKeywords(a.goal),
+                        MemorySource("task", null, a.conversationId, store.clock(), a.origin.name),
+                    ).getOrNull()
+                }
+                if (added != null) changes += added
+            }
+        }
         val readWeb = events.filterIsInstance<RunEvent.Observed>().any { it.place?.kind in setOf(PlaceKind.Site, PlaceKind.Page) }
         if (learnable && !readWeb && a.runId != null && store != null && extractor != null && switches.autoRemember && a.utterances.isNotEmpty()) {
             val now = store.clock()
@@ -109,12 +126,22 @@ class RunLearning(
         }
 
         // 做法只从办成的学:回答如实说没办成、只办了一部分,或没判成的,不起草
-        val done = learnable && LearnGate.done(a.end, a.outcome)
         if (done) draft(a, events, used.map { it.name }.distinct())?.let(skillNotes::add)
         // App 知识也从没办成、磕磕绊绊的运行里学(值不值得由 AppKnowledgeDrafter 按经过判)
         if (a.origin == RunOrigin.Ui) skillNotes += draftApps(a, events)
         return RunNotes(a.conversationId, a.runId.orEmpty(), MemoryExtractor.notes(changes), a.usedMemory, skillNotes)
     }
+
+    /** Compact, non-sensitive line remembering a finished task. Kept below the memory limit. */
+    private fun taskJournal(goal: String): String? {
+        val clean = goal.trim().replace(Regex("\\s+"), " ")
+        if (clean.isEmpty()) return null
+        return ("Completed task: " + clean).take(200)
+    }
+
+    private fun journalKeywords(goal: String): List<String> =
+        Regex("[\\p{L}\\p{N}]{4,}").findAll(goal.lowercase())
+            .map { it.value }.distinct().take(6).toList()
 
     /** 每份技能单独读改写(和别的任务同时记结果也不丢);一份出错不影响别的。 */
     private suspend fun recordOutcomes(used: List<RunEvent.SkillUsed>, end: TaskState, outcome: RunOutcome): List<SkillNote> {

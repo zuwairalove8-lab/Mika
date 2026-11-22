@@ -154,6 +154,9 @@ class MikaApp : Application(), WebOwner, SandboxOwner, TaskEnvironment.Owner, Ph
     /** 记忆、个人技能、开关与结果卡片提示。 */
     override val memory: MemoryRuntime by lazy { MemoryRuntime(this) }
 
+    /** Encrypted website logins, standing instructions and payout wallets. */
+    val vault: com.wangzan101.mika.vault.VaultStore by lazy { com.wangzan101.mika.vault.VaultStore(this) }
+
     /** 本机的 token 用量账本:经模型配置建出的每个模型的每次调用都记在这里。 */
     val usage: UsageLedger by lazy { UsageLedger(java.io.File(filesDir, "usage-v1.json")) }
 

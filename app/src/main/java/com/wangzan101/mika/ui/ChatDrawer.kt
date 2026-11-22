@@ -247,6 +247,7 @@ fun ChatDrawer(
     onPlans: () -> Unit,
     onCareer: () -> Unit = {},
     onMemory: () -> Unit,
+    onVault: () -> Unit = {},
     onBrowser: () -> Unit,
     onFiles: () -> Unit = {},
     onScreens: () -> Unit = {},
@@ -313,6 +314,7 @@ fun ChatDrawer(
             NavEntry(MikaIcons.Star, "Career", onClick = onCareer)
             NavEntry(MikaIcons.Clock, stringResource(R.string.drawer_plans), onClick = onPlans)
             NavEntry(MikaIcons.Heart, stringResource(R.string.memory_and_skills), onClick = onMemory)
+            NavEntry(MikaIcons.Key, "Vault", onClick = onVault)
             NavEntry(MikaIcons.Globe, stringResource(R.string.drawer_browser), onClick = onBrowser)
             NavEntry(MikaIcons.Paperclip, stringResource(R.string.file_library_title), onClick = onFiles)
             // 和上面几项隔开一点:这是把 Mika 整个停下来,不是换一页
@@ -723,6 +725,7 @@ fun ChatWithDrawer(
     onPlans: () -> Unit,
     onCareer: () -> Unit = {},
     onMemory: () -> Unit,
+    onVault: () -> Unit = {},
     onBrowser: () -> Unit,
     onFiles: () -> Unit = {},
     onScreens: () -> Unit = {},
@@ -924,6 +927,7 @@ fun ChatWithDrawer(
                     onPlans = { leave(onPlans) },
                     onCareer = { leave(onCareer) },
                     onMemory = { leave(onMemory) },
+                    onVault = { leave(onVault) },
                     onSettings = { leave(onSettings) },
                     onBrowser = { leave(onBrowser) },
                     onFiles = { leave(onFiles) },

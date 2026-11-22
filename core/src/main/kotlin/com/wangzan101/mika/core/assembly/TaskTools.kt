@@ -124,6 +124,8 @@ fun toolDispatcher(
     webSearch: com.wangzan101.mika.core.search.WebSearch? = null,
     /** On-device career data; when present the career capability and its tools are available. */
     career: com.wangzan101.mika.core.career.CareerStore? = null,
+    /** The user's encrypted Vault (saved logins, instructions and payout wallets). */
+    vault: com.wangzan101.mika.core.vault.VaultAccess? = null,
 ): ToolDispatcher {
     val screenshotStore = sandbox?.takeIf {
         it.status() !is com.wangzan101.mika.core.cap.sandbox.SandboxStatus.Unsupported &&
@@ -132,7 +134,8 @@ fun toolDispatcher(
     }?.let { com.wangzan101.mika.core.cap.sandbox.WorkspaceScreenshots(it, workspace) }
     val config = ToolConfig(visionEnabled, skills, recordFrames, vision, inlineScreen, adaptiveVision, memory, profile, utterances, conversationId,
         imageOps, scheduleTrigger, scheduleAdmin, runSpec, childHost, userScreens, personalSkills, selfConfig, runRecords, webSearch,
-        screenshotStore?.let { store -> { path, png -> store.save(path, png) } })
+        screenshotStore?.let { store -> { path, png -> store.save(path, png) } },
+        vault = vault)
     val providers: List<CapabilityProvider> = listOf(
         object : CapabilityProvider {
             override val id = PHONE

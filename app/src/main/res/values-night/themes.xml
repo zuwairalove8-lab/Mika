@@ -3,5 +3,5 @@
     <style name="Theme.Jobby" parent="@android:style/Theme.Material.NoActionBar">
         <item name="android:windowBackground">@color/jobby_bg</item>
     </style>
-    <color name="jobby_bg">#0E0E10</color>
+    <color name="jobby_bg">#080C12</color>
 </resources>

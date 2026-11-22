@@ -810,11 +810,13 @@ class TaskRun(
                         sandbox = sandbox, workspace = { conversationId }, runSpec = childSpec,
                         conversationId = conversationId, inlineScreen = speed.inlineScreen,
                         adaptiveVision = speed.adaptiveVision,
-                        career = (service.application as MikaApp).career)
+                        career = (service.application as MikaApp).career,
+                        vault = (service.application as MikaApp).vault.access())
                     AgentLoop(model, childTools, SystemPrompt.identity(), maxSteps = childSpec.stepBudget ?: AgentLoop.UNLIMITED_STEPS,
                         // 子任务跟着询问 / 自主;询问时它也过关卡,子任务里花钱的一步一律不做
                         confirmations = runApproval.gate(), approvals = runApproval, autonomous = runApproval.startedAutonomous,
-                        reviewFinalAnswer = false, flags = speed, outwardPacing = OutwardPacing.human())
+                        reviewFinalAnswer = false, flags = speed, outwardPacing = OutwardPacing.human(),
+                        vaultContext = runCatching { (service.application as MikaApp).vault.promptContext() }.getOrNull())
                 },
                 store = (service.application as MikaApp).childRuns,
                 ownerAlive = { job?.isActive == true },
@@ -861,7 +863,8 @@ class TaskRun(
                     ?.let { r -> RootCommands(RootShell::su, r::commandsAllowed) { a -> if (a == null) r.suGone() else r.commandsDenied(a) } },
                 // Career tools are local and encrypted; the capability is absent only if the store
                 // cannot be created (e.g. a Keystore failure).
-                career = (service.application as MikaApp).career)
+                career = (service.application as MikaApp).career,
+                vault = (service.application as MikaApp).vault.access())
             dispatcher = tools
             val agent = AgentLoop(
                 model, tools,
@@ -901,6 +904,7 @@ class TaskRun(
                 memory = memory,
                 interaction = service.interaction(conversationId, channelPeer),
                 profileSnapshot = profileSnapshot,
+                vaultContext = runCatching { (service.application as MikaApp).vault.promptContext() }.getOrNull(),
                 streamReplies = true,
                 userScreens = userScreens,
                 // 同一网站、App 里连着联系别人、提交:两次之间隔一段随机的时间
