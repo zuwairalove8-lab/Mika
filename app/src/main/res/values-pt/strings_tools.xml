@@ -62,4 +62,6 @@
     <string name="tool_tap">Tocar</string>
     <string name="tool_type">Digitar texto</string>
     <string name="tool_clear">Limpar campo</string>
+    <string name="tool_vault_login">Login do Cofre</string>
+    <string name="tool_vault_wallet">Carteira do Cofre</string>
 </resources>

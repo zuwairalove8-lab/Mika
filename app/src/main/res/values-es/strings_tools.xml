@@ -62,4 +62,6 @@
     <string name="tool_tap">Tocar</string>
     <string name="tool_type">Escribir texto</string>
     <string name="tool_clear">Borrar campo</string>
+    <string name="tool_vault_login">Acceso a la bóveda</string>
+    <string name="tool_vault_wallet">Cartera de la bóveda</string>
 </resources>

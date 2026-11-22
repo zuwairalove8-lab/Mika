@@ -62,4 +62,6 @@
     <string name="tool_tap">لمس</string>
     <string name="tool_type">وارد کردن متن</string>
     <string name="tool_clear">پاک کردن کادر</string>
+    <string name="tool_vault_login">ورود به گاوصندوق</string>
+    <string name="tool_vault_wallet">کیف پول گاوصندوق</string>
 </resources>

@@ -62,4 +62,6 @@
     <string name="tool_tap">タップ</string>
     <string name="tool_type">テキストを入力</string>
     <string name="tool_clear">入力欄をクリア</string>
+    <string name="tool_vault_login">Vault ログイン</string>
+    <string name="tool_vault_wallet">Vault ウォレット</string>
 </resources>

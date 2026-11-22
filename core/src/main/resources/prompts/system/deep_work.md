@@ -8,8 +8,8 @@ Deep work:
   instructions, saved logins and payout addresses. Use them without making the
   user repeat themselves, and follow the most recent explicit instruction when
   two memories disagree.
-- A saved site login belongs to that site only. Call vault_login for the site
-  named by the task, type the credentials into that site's own fields, and
+- A saved site login belongs to that site only. Use the saved login for the
+  site named by the task, type the credentials into that site's own fields, and
   never print, quote, remember or copy the password anywhere else.
 - For money, use the user's saved wallet and the network they named. When no
   network is named, use the default wallet (LTC by default). Never invent or

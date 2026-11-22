@@ -21,7 +21,7 @@ import kotlinx.serialization.json.put
 internal object VaultLoginTool : AgentTool {
     override val verb = Verb.VaultLogin
     override val risk = Risk.Read
-    override val label = "Vault login"
+    override val label = "Vault 登录"
 
     override val def = ToolDef(
         "vault_login",
@@ -57,7 +57,7 @@ internal object VaultLoginTool : AgentTool {
 internal object VaultWalletTool : AgentTool {
     override val verb = Verb.VaultWallet
     override val risk = Risk.Read
-    override val label = "Vault wallet"
+    override val label = "Vault 钱包"
 
     override val def = ToolDef(
         "vault_wallet",

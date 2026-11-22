@@ -62,4 +62,6 @@
     <string name="tool_tap">نقر</string>
     <string name="tool_type">كتابة نص</string>
     <string name="tool_clear">مسح الحقل</string>
+    <string name="tool_vault_login">دخول الخزنة</string>
+    <string name="tool_vault_wallet">محفظة الخزنة</string>
 </resources>

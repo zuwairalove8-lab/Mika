@@ -2165,6 +2165,8 @@ class ToolLabels(private val tools: ToolIndex, private val legacy: LegacyNames =
             "查找技能" to R.string.tool_find_skill,
             "查看 App/网站知识" to R.string.tool_read_knowledge,
             "查看技能" to R.string.tool_read_skill,
+            "Vault 登录" to R.string.tool_vault_login,
+            "Vault 钱包" to R.string.tool_vault_wallet,
             "保存技能" to R.string.tool_save_skill,
             "查看设置" to R.string.tool_list_settings,
             "改设置" to R.string.tool_set_setting,

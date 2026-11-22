@@ -62,4 +62,6 @@
     <string name="tool_tap">Ketuk</string>
     <string name="tool_type">Ketik teks</string>
     <string name="tool_clear">Kosongkan kolom</string>
+    <string name="tool_vault_login">Masuk Vault</string>
+    <string name="tool_vault_wallet">Dompet Vault</string>
 </resources>

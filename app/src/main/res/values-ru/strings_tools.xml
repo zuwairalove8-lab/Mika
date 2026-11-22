@@ -62,4 +62,6 @@
     <string name="tool_tap">Нажать</string>
     <string name="tool_type">Ввести текст</string>
     <string name="tool_clear">Очистить поле</string>
+    <string name="tool_vault_login">Вход в хранилище</string>
+    <string name="tool_vault_wallet">Кошелёк хранилища</string>
 </resources>
