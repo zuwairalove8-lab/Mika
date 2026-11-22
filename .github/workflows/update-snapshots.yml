@@ -1,0 +1,39 @@
+name: Update prompt snapshots
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  snapshots:
+    name: regenerate and upload snapshots
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - uses: gradle/actions/setup-gradle@v6
+        with:
+          cache-provider: basic
+
+      - name: Regenerate snapshots
+        run: ./gradlew :core:test -PupdateSnapshots --continue --stacktrace
+
+      - name: Upload regenerated snapshots
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: updated-snapshots
+          path: |
+            core/src/test/resources/prompt-surface
+            core/src/test/resources/prompts/golden
+            core/src/test/resources/loop-snapshots
+          retention-days: 3
+          if-no-files-found: error

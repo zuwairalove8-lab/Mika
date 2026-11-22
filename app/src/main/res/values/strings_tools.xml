@@ -62,4 +62,6 @@
     <string name="tool_tap">Tap</string>
     <string name="tool_type">Type text</string>
     <string name="tool_clear">Clear field</string>
+    <string name="tool_vault_login">Vault login</string>
+    <string name="tool_vault_wallet">Vault wallet</string>
 </resources>
