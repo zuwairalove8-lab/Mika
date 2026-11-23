@@ -278,4 +278,9 @@
     <string name="skill_terminal_desc">Run commands and scripts</string>
     <string name="skill_file_manager">File Manager</string>
     <string name="skill_file_manager_desc">Browse and manage files</string>
+    <string name="skills_builtin_none">لم يتم العثور على مهارات مضمّنة.</string>
+    <string name="skills_pending_chip">بانتظار المراجعة</string>
+    <string name="skills_fetch_failed">تعذّر تنزيل هذه المهارة. تحقّق من الرابط وحاول مرة أخرى.</string>
+    <string name="skills_fetch_too_large">هذا الملف كبير جدًا ليكون مهارة (الحد الأقصى 256 كيلوبايت).</string>
+    <string name="skills_fetch_not_text">هذا الرابط ليس ملف مهارة نصيًا.</string>
 </resources>

@@ -256,4 +256,9 @@
     <string name="skill_terminal_desc">Run commands and scripts</string>
     <string name="skill_file_manager">File Manager</string>
     <string name="skill_file_manager_desc">Browse and manage files</string>
+    <string name="skills_builtin_none">Tidak ada skill bawaan yang ditemukan.</string>
+    <string name="skills_pending_chip">Menunggu ditinjau</string>
+    <string name="skills_fetch_failed">Skill itu tidak bisa diunduh. Periksa tautannya lalu coba lagi.</string>
+    <string name="skills_fetch_too_large">Berkas itu terlalu besar untuk sebuah skill (maks. 256 KB).</string>
+    <string name="skills_fetch_not_text">Tautan itu bukan berkas skill teks.</string>
 </resources>

@@ -8,6 +8,7 @@ import androidx.compose.ui.platform.LocalContext
 import com.wangzan101.mika.ui.components.keepsKeyboard
 import com.wangzan101.mika.ui.components.KeyboardDismissArea
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
@@ -20,6 +21,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
@@ -47,11 +49,11 @@ import com.wangzan101.mika.ui.theme.MikaType
  * 个人技能可以分享全文出去,别人分享来的全文从「导入技能」粘进来,先进「待确认」(#165)。
  */
 @Composable
-internal fun SkillsSection(vm: MemoryViewModel, ui: SkillsUi, pending: Boolean) {
+internal fun SkillsSection(vm: MemoryViewModel, ui: SkillsUi, pending: Boolean, startImport: Boolean = false) {
     var viewing by remember { mutableStateOf<String?>(null) }
     var editing by remember { mutableStateOf<SkillRow?>(null) }
     var acting by remember { mutableStateOf<SkillRow?>(null) }
-    var importing by remember { mutableStateOf(false) }
+    var importing by remember { mutableStateOf(startImport) }
     val context = LocalContext.current
     fun toggle(id: String) { viewing = if (viewing == id) null else id }
 
@@ -132,6 +134,8 @@ internal fun SkillsSection(vm: MemoryViewModel, ui: SkillsUi, pending: Boolean) 
     if (importing) {
         var text by remember { mutableStateOf("") }
         var problem by remember { mutableStateOf<String?>(null) }
+        var url by remember { mutableStateOf("") }
+        var fetching by remember { mutableStateOf(false) }
         var pickedName by remember { mutableStateOf("") }
         var fileProblem by remember { mutableStateOf<String?>(null) }
         val pickFile = rememberTextFilePicker(
@@ -150,9 +154,27 @@ internal fun SkillsSection(vm: MemoryViewModel, ui: SkillsUi, pending: Boolean) 
                 KeyboardDismissArea {
                     Column {
                         Text(stringResource(R.string.skills_import_hint), style = MikaType.Hint, color = MikaTheme.colors.ink3)
+                        // 分享来的是一个网址时直接取回;GitHub 的 blob 链接会换成 raw 链接(见 SkillSource)
+                        Row(Modifier.fillMaxWidth().padding(top = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+                            OutlinedTextField(
+                                url, { url = it; problem = null }, Modifier.weight(1f).keepsKeyboard().testTag("skill-import-url"),
+                                label = { Text(stringResource(R.string.skills_skill_url), style = MikaType.Hint) },
+                                placeholder = { Text(stringResource(R.string.skills_skill_url_placeholder), style = MikaType.Hint) },
+                                singleLine = true,
+                            )
+                            TextButton(
+                                onClick = {
+                                    fetching = true
+                                    problem = null
+                                    vm.importSkillFromUrl(url) { p -> fetching = false; problem = p; if (p == null) importing = false }
+                                },
+                                enabled = !fetching && url.startsWith("http"),
+                                modifier = Modifier.testTag("skill-import-fetch"),
+                            ) { Text(stringResource(if (fetching) R.string.skills_importing else R.string.skills_import_button)) }
+                        }
                         // 手机上存着的 SKILL.md / .txt / .docx / .pdf 直接选,不用先复制再粘贴
                         TextButton({ pickFile() }, Modifier.testTag("skill-import-file")) {
-                            Text("Choose a file from this phone")
+                            Text(stringResource(R.string.skills_browse_file))
                         }
                         if (pickedName.isNotBlank()) {
                             Text(pickedName, style = MikaType.Hint, color = MikaTheme.colors.ink3, maxLines = 1)

@@ -264,4 +264,9 @@
     <string name="skill_terminal_desc">Run commands and scripts</string>
     <string name="skill_file_manager">File Manager</string>
     <string name="skill_file_manager_desc">Browse and manage files</string>
+    <string name="skills_builtin_none">Nenhuma habilidade integrada foi encontrada.</string>
+    <string name="skills_pending_chip">Para revisar</string>
+    <string name="skills_fetch_failed">Não foi possível baixar essa habilidade. Verifique o link e tente de novo.</string>
+    <string name="skills_fetch_too_large">Esse arquivo é grande demais para uma habilidade (máx. 256 KB).</string>
+    <string name="skills_fetch_not_text">Esse link não é um arquivo de habilidade em texto.</string>
 </resources>

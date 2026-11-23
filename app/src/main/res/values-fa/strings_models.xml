@@ -262,4 +262,9 @@
     <string name="skill_terminal_desc">Run commands and scripts</string>
     <string name="skill_file_manager">File Manager</string>
     <string name="skill_file_manager_desc">Browse and manage files</string>
+    <string name="skills_builtin_none">هیچ مهارت همراهی پیدا نشد.</string>
+    <string name="skills_pending_chip">در انتظار بررسی</string>
+    <string name="skills_fetch_failed">این مهارت دانلود نشد. پیوند را بررسی کنید و دوباره امتحان کنید.</string>
+    <string name="skills_fetch_too_large">این پرونده برای یک مهارت بزرگ است (حداکثر ۲۵۶ کیلوبایت).</string>
+    <string name="skills_fetch_not_text">این پیوند یک پروندهٔ متنی مهارت نیست.</string>
 </resources>
