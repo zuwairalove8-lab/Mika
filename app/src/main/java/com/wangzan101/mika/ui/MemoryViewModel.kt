@@ -12,6 +12,7 @@ import com.wangzan101.mika.core.memory.MemoryStore
 import com.wangzan101.mika.core.knowledge.FrontMatter
 import com.wangzan101.mika.core.skills.SkillDrafter
 import com.wangzan101.mika.core.skills.SkillImport
+import com.wangzan101.mika.core.skills.SkillSource
 import com.wangzan101.mika.core.assembly.knownToolNames
 import com.wangzan101.mika.core.skills.PersonalSkill
 import com.wangzan101.mika.core.skills.PersonalSkills
@@ -23,6 +24,7 @@ import com.wangzan101.mika.core.knowledge.AppKnowledgeTrial
 import com.wangzan101.mika.settings.MemorySettings
 import com.wangzan101.mika.settings.MemorySwitches
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -70,7 +72,7 @@ class MemoryViewModel(
     private val store: MemoryStore,
     private val settings: MemorySettings,
     private val skills: PersonalSkills?,
-    scope: CoroutineScope,
+    private val scope: CoroutineScope,
     brokenNotice: StateFlow<String?> = MutableStateFlow(null),
     /** 全部清除:记忆文件、坏文件另存、个人技能都删掉并重建密钥。 */
     private val wipe: () -> Unit = { store.clearAll() },
@@ -191,6 +193,26 @@ class MemoryViewModel(
                 null
             }
             is SkillImport.Result.Rejected -> SKILL_PROBLEMS[r.problem] ?: tr(R.string.skill_bad_format)
+        }
+    }
+
+    /**
+     * 从网址导入分享来的技能全文:先取回,再过和粘贴一样的校验,放进「待确认」。
+     * 取不回来时 [onProblem] 收到要显示的原因(框还开着,用户改网址就行)。
+     */
+    fun importSkillFromUrl(url: String, onProblem: (String?) -> Unit) {
+        scope.launch {
+            val problem = when (val r = SkillSource.fetch(url)) {
+                is SkillSource.Result.Fetched -> importSkill(r.markdown)
+                is SkillSource.Result.Failed -> when (r.problem) {
+                    SkillSource.Problem.BadScheme -> tr(R.string.skills_url_must_be_http)
+                    SkillSource.Problem.TooLarge -> tr(R.string.skills_fetch_too_large)
+                    SkillSource.Problem.NotText -> tr(R.string.skills_fetch_not_text)
+                    SkillSource.Problem.Empty -> tr(R.string.skills_fetch_empty)
+                    else -> tr(R.string.skills_fetch_failed)
+                }
+            }
+            onProblem(problem)
         }
     }
 

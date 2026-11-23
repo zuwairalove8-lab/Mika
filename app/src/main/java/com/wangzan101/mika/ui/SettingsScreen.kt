@@ -84,6 +84,8 @@ fun SettingsScreen(
     onBack: () -> Unit,
     onOpenModels: () -> Unit,
     onOpenMemory: (() -> Unit)? = null,
+    /** 技能中心:内置技能、自己的技能、导入和待确认的草稿。 */
+    onOpenSkills: (() -> Unit)? = null,
     /** 任务运行里的「自主模式」:当前值和换它的办法。 */
     autonomous: Boolean = false,
     onAutonomous: (Boolean) -> Unit = {},
@@ -188,6 +190,7 @@ fun SettingsScreen(
             onOpenNotifications = { page = SettingsPage.Notifications },
             language = language, onOpenLanguage = { page = SettingsPage.Language },
             onOpenMemory = onOpenMemory,
+            onOpenSkills = onOpenSkills,
             onOpenRecommendations = { page = SettingsPage.Recommendations },
             onOpenAdvanced = { page = SettingsPage.Advanced },
             versionName = BuildConfig.VERSION_NAME, updateVersion = updateVersion, onOpenAbout = onOpenAbout,
@@ -334,6 +337,7 @@ fun SettingsContent(
     language: AppLanguage = AppLanguage.System,
     onOpenLanguage: () -> Unit = {},
     onOpenMemory: (() -> Unit)? = null,
+    onOpenSkills: (() -> Unit)? = null,
     onOpenRecommendations: () -> Unit = {},
     onOpenAdvanced: () -> Unit = {},
     versionName: String = "",
@@ -378,6 +382,9 @@ fun SettingsContent(
         GroupCard {
             onOpenMemory?.let {
                 ListRow(MikaIcons.Heart, stringResource(R.string.settings_memory_data), stringResource(R.string.settings_memory_sub), first = true, onClick = it) { RowChevron() }
+            }
+            onOpenSkills?.let {
+                ListRow(MikaIcons.Star, stringResource(R.string.skills_marketplace_title), stringResource(R.string.settings_skills_sub), first = onOpenMemory == null, onClick = it) { RowChevron() }
             }
             ListRow(
                 MikaIcons.Message,

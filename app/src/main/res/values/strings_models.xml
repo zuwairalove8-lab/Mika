@@ -235,6 +235,9 @@
     <string name="skills_category_installed">Installed</string>
     <string name="skills_category_import">Import</string>
     <string name="skills_builtin_skills">Built-in skills</string>
+    <string name="skills_builtin_loading">Loading the built-in skills…</string>
+    <string name="skills_builtin_none">No bundled skills were found.</string>
+    <string name="skills_pending_chip">To review</string>
     <string name="skills_my_skills">My skills</string>
     <string name="skills_no_my_skills_yet">No personal skills yet. Import one or create one in a task.</string>
     <string name="skills_no_my_skills_subtitle">Imported skills appear here.</string>
@@ -247,6 +250,12 @@
     <string name="skills_import_success">Skill imported successfully.</string>
     <string name="skills_browse_file">Browse file</string>
     <string name="skills_url_must_be_http">URL must start with http:// or https://</string>
+    <string name="skills_import_or_paste">Or pick a file from this phone, or paste the text below.</string>
+    <string name="skills_fetch_failed">Could not download that skill. Check the link and try again.</string>
+    <string name="skills_fetch_too_large">That file is too large to be a skill (max 256 KB).</string>
+    <string name="skills_fetch_not_text">That link is not a text skill file.</string>
+    <string name="skills_fetch_empty">That link returned nothing.</string>
+    <string name="settings_skills_sub">Built-in skills, your own skills, and imports</string>
     <string name="skills_supported_sources">Supported sources</string>
     <string name="skills_add">Add</string>
     <string name="skill_messaging">Messaging</string>

@@ -550,6 +550,7 @@ private fun MikaRoot(
         Route.Settings -> {
             val autonomous by app.approvals.autonomous.collectAsState()
             SettingsScreen(store, status, release, onFix, onBack = back, onOpenMemory = { nav.push(Route.Memory) },
+                onOpenSkills = { nav.push(Route.SkillsMarketplace) },
                 onOpenModels = { nav.push(Route.Models) },
                 autonomous = autonomous, onAutonomous = app.approvalControl::setAutonomous,
                 updateVersion = updateState.update?.version, onOpenAbout = { nav.push(Route.About) },
@@ -560,7 +561,11 @@ private fun MikaRoot(
             store = app.mcpServers,
             onBack = { nav.back() },
         )
-        Route.SkillsMarketplace -> SkillsMarketplaceScreen(onBack = { nav.back() })
+        Route.SkillsMarketplace -> {
+            // 技能中心用和「记忆与技能」同一份视图模型:同一个技能库,两屏状态一致
+            val vm = rememberMemoryViewModel(app)
+            vm?.let { SkillsMarketplaceScreen(it, onBack = { nav.back() }) }
+        }
         Route.Usage -> UsageScreen(app.usage, store, onBack = back, onOpenUrl = { openInBrowser(context, it) })
         Route.SpeechModel -> SpeechModelScreen(store, onBack = back)
         Route.About -> AboutScreen(
@@ -606,21 +611,7 @@ private fun MikaRoot(
             // 第一次取记忆要读盘解密,放到后台线程;页面的协程跟着这一屏走
             val vmScope = rememberCoroutineScope()
             LaunchedEffect(Unit) { routeCount = withContext(Dispatchers.IO) { runCatching { routeStore.count() }.getOrNull() } }
-            val vm by produceState<MemoryViewModel?>(null) {
-                value = withContext(Dispatchers.IO) {
-                    val bundled = GuideCatalog.loadBundled()
-                    MemoryViewModel(
-                        memoryRuntime.store(), memoryRuntime.settings(), memoryRuntime.skills(),
-                        vmScope, memoryRuntime.file().brokenNotice,
-                        wipe = { memoryRuntime.scope.launch(Dispatchers.IO) { memoryRuntime.wipeAll() } },
-                        onForgotten = { id -> memoryRuntime.scope.launch(Dispatchers.IO) { memoryRuntime.stripMemory(setOf(id)) } },
-                        runnableScripts = bundled.runnableScripts(),
-                        appDrafts = memoryRuntime.appKnowledge(),
-                        builtinSkillNames = bundled.items.map { it.name }.toSet(),
-                        onSkillRetired = { app.teach.forget(it) },
-                    )
-                }
-            }
+            val vm = rememberMemoryViewModel(app)
             vm?.let { m ->
                 // 从结果卡片的「看看」进来:直接看技能分段
                 LaunchedEffect(m) {
@@ -669,4 +660,30 @@ private fun MikaRoot(
             nav.reset()
         })
     }
+}
+
+/**
+ * 「记忆与技能」和技能中心共用一份视图模型:技能库、待确认草稿、导入都落在同一个实例上,
+ * 两屏切换时看到的状态一致。第一次取要读盘解密,放到后台线程,取好之前内容是空的。
+ */
+@Composable
+private fun rememberMemoryViewModel(app: MikaApp): MemoryViewModel? {
+    val memoryRuntime = app.memory
+    val scope = rememberCoroutineScope()
+    val vm by produceState<MemoryViewModel?>(null) {
+        value = withContext(Dispatchers.IO) {
+            val bundled = GuideCatalog.loadBundled()
+            MemoryViewModel(
+                memoryRuntime.store(), memoryRuntime.settings(), memoryRuntime.skills(),
+                scope, memoryRuntime.file().brokenNotice,
+                wipe = { memoryRuntime.scope.launch(Dispatchers.IO) { memoryRuntime.wipeAll() } },
+                onForgotten = { id -> memoryRuntime.scope.launch(Dispatchers.IO) { memoryRuntime.stripMemory(setOf(id)) } },
+                runnableScripts = bundled.runnableScripts(),
+                appDrafts = memoryRuntime.appKnowledge(),
+                builtinSkillNames = bundled.items.map { it.name }.toSet(),
+                onSkillRetired = { app.teach.forget(it) },
+            )
+        }
+    }
+    return vm
 }
