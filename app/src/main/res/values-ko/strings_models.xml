@@ -256,4 +256,9 @@
     <string name="skill_terminal_desc">Run commands and scripts</string>
     <string name="skill_file_manager">File Manager</string>
     <string name="skill_file_manager_desc">Browse and manage files</string>
+    <string name="skills_builtin_none">내장 스킬을 찾지 못했습니다.</string>
+    <string name="skills_pending_chip">확인 대기</string>
+    <string name="skills_fetch_failed">스킬을 내려받지 못했습니다. 링크를 확인하고 다시 시도하세요.</string>
+    <string name="skills_fetch_too_large">스킬 파일로는 너무 큽니다(최대 256KB).</string>
+    <string name="skills_fetch_not_text">이 링크는 텍스트 스킬 파일이 아닙니다.</string>
 </resources>

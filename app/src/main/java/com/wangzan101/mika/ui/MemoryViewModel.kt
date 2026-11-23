@@ -208,7 +208,6 @@ class MemoryViewModel(
                     SkillSource.Problem.BadScheme -> tr(R.string.skills_url_must_be_http)
                     SkillSource.Problem.TooLarge -> tr(R.string.skills_fetch_too_large)
                     SkillSource.Problem.NotText -> tr(R.string.skills_fetch_not_text)
-                    SkillSource.Problem.Empty -> tr(R.string.skills_fetch_empty)
                     else -> tr(R.string.skills_fetch_failed)
                 }
             }

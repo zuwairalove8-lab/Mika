@@ -18,9 +18,9 @@ Before adding anything, these were confirmed present:
 | Tool registry and risk gating | `core/tool/{ToolDispatcher,ToolContext,AgentTool}.kt`, `core/risk/`, `core/gate/` |
 | Browser page understanding | `core/cap/web/{PageDigest,PageTree,ElementFusion,ElementProbe,SelectorPolicy,ReadScript}.kt` |
 | Browser settling and pacing | `core/cap/web/{SettlePolicy,PagePacing,PageDwell,NetworkLedger}.kt` |
-| Browser runtime | `core/cap/web/cdp/` (CDP transport, input, double-click), `app/.../cap/web/` |
+| Browser runtime | `core/cap/web/cdp/CdpTransport.kt` (CDP transport, input, double-click), `app/.../cap/web/WebStack.kt` |
 | Skills | `core/skills/{PersonalSkills,SkillDrafter,SkillImport,SkillOutcomes,SkillRedactor}.kt` + `app/.../ui/SkillsSection.kt` |
-| Memory | `core/memory/`, `app/.../ui/MemoryViewModel.kt`, `app/.../memory/` |
+| Memory | `core/memory/MemoryIndex.kt`, `app/.../ui/MemoryViewModel.kt`, `app/.../memory/MemoryRuntime.kt` |
 | Autonomous scheduling | `app/.../task/{TriggerRuntime,FileTriggerStore,TaskRun}.kt` |
 | Child agents | `core/child/`, `app/.../task/{TaskRun,FileChildRunStore}.kt` |
 | Vault (logins, wallets) | `core/vault/`, `app/.../vault/VaultStore.kt` |
@@ -74,7 +74,7 @@ Ordered by value per unit of risk. Each phase should ship with tests and be veri
 2. **Skill permissions (brief §6).** Skills currently validate tool names but do not declare
    per-skill permissions. Extend `SkillDrafter.validate` with a required-permissions block and
    gate execution in `ToolDispatcher`.
-3. **Memory retrieval scoring (brief §7).** `core/memory/MemoryIndex` exists; add usage-based
+3. **Memory retrieval scoring (brief §7).** `core/memory/MemoryIndex.kt` exists; add usage-based
    relevance so retrieval prefers skills and notes that actually succeeded recently
    (`SkillOutcomes` already tracks this per skill).
 4. **Task dashboard (brief §11).** `TaskCenterState` has the data; add a screen listing

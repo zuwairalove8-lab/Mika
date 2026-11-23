@@ -172,7 +172,6 @@ internal fun SkillsSection(vm: MemoryViewModel, ui: SkillsUi, pending: Boolean, 
                                 modifier = Modifier.testTag("skill-import-fetch"),
                             ) { Text(stringResource(if (fetching) R.string.skills_importing else R.string.skills_import_button)) }
                         }
-                        Text(stringResource(R.string.skills_import_or_paste), Modifier.padding(top = 8.dp), style = MikaType.Hint, color = MikaTheme.colors.ink3)
                         // 手机上存着的 SKILL.md / .txt / .docx / .pdf 直接选,不用先复制再粘贴
                         TextButton({ pickFile() }, Modifier.testTag("skill-import-file")) {
                             Text(stringResource(R.string.skills_browse_file))

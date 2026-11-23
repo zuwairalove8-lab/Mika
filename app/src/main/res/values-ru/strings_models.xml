@@ -270,4 +270,9 @@
     <string name="skill_terminal_desc">Run commands and scripts</string>
     <string name="skill_file_manager">File Manager</string>
     <string name="skill_file_manager_desc">Browse and manage files</string>
+    <string name="skills_builtin_none">Встроенные навыки не найдены.</string>
+    <string name="skills_pending_chip">На проверку</string>
+    <string name="skills_fetch_failed">Не удалось скачать этот навык. Проверьте ссылку и попробуйте снова.</string>
+    <string name="skills_fetch_too_large">Этот файл слишком велик для навыка (макс. 256 КБ).</string>
+    <string name="skills_fetch_not_text">Эта ссылка ведёт не на текстовый файл навыка.</string>
 </resources>

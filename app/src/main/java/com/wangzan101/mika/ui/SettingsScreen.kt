@@ -384,7 +384,7 @@ fun SettingsContent(
                 ListRow(MikaIcons.Heart, stringResource(R.string.settings_memory_data), stringResource(R.string.settings_memory_sub), first = true, onClick = it) { RowChevron() }
             }
             onOpenSkills?.let {
-                ListRow(MikaIcons.Star, stringResource(R.string.skills_marketplace_title), stringResource(R.string.settings_skills_sub), first = onOpenMemory == null, onClick = it) { RowChevron() }
+                ListRow(MikaIcons.Star, stringResource(R.string.skills_marketplace_title), stringResource(R.string.skills_marketplace_subtitle), first = onOpenMemory == null, onClick = it) { RowChevron() }
             }
             ListRow(
                 MikaIcons.Message,

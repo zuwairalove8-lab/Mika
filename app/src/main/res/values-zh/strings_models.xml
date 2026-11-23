@@ -259,4 +259,9 @@
     <string name="skill_terminal_desc">Run commands and scripts</string>
     <string name="skill_file_manager">File Manager</string>
     <string name="skill_file_manager_desc">Browse and manage files</string>
+    <string name="skills_builtin_none">没有找到内置技能。</string>
+    <string name="skills_pending_chip">待确认</string>
+    <string name="skills_fetch_failed">没能下载这个技能，检查链接再试一次。</string>
+    <string name="skills_fetch_too_large">技能文件最大 256 KB，这个文件太大了。</string>
+    <string name="skills_fetch_not_text">这个链接不是文本技能文件。</string>
 </resources>

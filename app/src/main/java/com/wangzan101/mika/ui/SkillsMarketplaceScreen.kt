@@ -109,7 +109,8 @@ private fun BuiltinSkillsSection() {
     val list = skills
     GroupCard {
         when {
-            list == null -> ListRow(MikaIcons.Star, stringResource(R.string.skills_builtin_loading), first = true)
+            // 清单还在后台读:先什么都不画,读到再一次画出来
+            list == null -> Unit
             list.isEmpty() -> ListRow(MikaIcons.Star, stringResource(R.string.skills_builtin_none), first = true)
             else -> list.forEachIndexed { i, s ->
                 ListRow(MikaIcons.Star, s.display, s.description.ifBlank { null }, first = i == 0)

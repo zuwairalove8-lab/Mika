@@ -258,4 +258,9 @@
     <string name="skill_terminal_desc">Run commands and scripts</string>
     <string name="skill_file_manager">File Manager</string>
     <string name="skill_file_manager_desc">Browse and manage files</string>
+    <string name="skills_builtin_none">組み込みスキルが見つかりませんでした。</string>
+    <string name="skills_pending_chip">確認待ち</string>
+    <string name="skills_fetch_failed">このスキルをダウンロードできませんでした。リンクを確認してもう一度お試しください。</string>
+    <string name="skills_fetch_too_large">スキルとしては大きすぎます（最大 256 KB）。</string>
+    <string name="skills_fetch_not_text">このリンクはテキストのスキルファイルではありません。</string>
 </resources>
