@@ -18,8 +18,8 @@ android {
         applicationId = "com.wangzan101.mika"
         minSdk = 30
         targetSdk = 35
-        versionCode = 41
-        versionName = "0.1.40"
+        versionCode = 42
+        versionName = "0.1.41"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "GIT_HASH", "\"$gitHash\"")
         // 关于页版本号后的 Beta 标记;出正式版时改成 false
@@ -53,17 +53,31 @@ android {
     // 评测任务集(仓库根目录 eval/tasks)打进测试包的 assets,真机评测跑器从那里读题
     sourceSets.getByName("androidTest").assets.srcDir(rootProject.file("eval/tasks"))
 
+    // 固定的侧载签名:以前每次 CI 都在新机器上生成一把新的调试钥匙,每个包的证书都不一样,
+    // 手机装上要求「覆盖安装」时签名对不上,系统只会说「应用未安装」。
+    // 现在所有构建类型都用仓库里这一把钥,同一个包名之后都能互相覆盖。
+    signingConfigs {
+        create("sideload") {
+            storeFile = rootProject.file("keystore/mika-sideload.jks")
+            storePassword = "mika-sideload"
+            keyAlias = "mika"
+            keyPassword = "mika-sideload"
+        }
+    }
+
     buildTypes {
+        getByName("debug") { signingConfig = signingConfigs.getByName("sideload") }
+        getByName("release") { signingConfig = signingConfigs.getByName("sideload") }
         // 真机验收时并排安装,保留发行版和用户数据;默认构建标识不变。
         if (providers.gradleProperty("devInstall").isPresent) getByName("debug") {
             applicationIdSuffix = ".dev"
             resValue("string", "app_name", "Mika Dev")
         }
         // 看流畅度用的包:和发布版一样不可调试(调试包不做预先编译,界面慢好几倍,手感不作数),
-        // 用本机调试签名,能直接覆盖调试包、保留数据;可被性能工具采样。./gradlew :app:assemblePerf
+        // 用和调试包同一把侧载签名,能直接覆盖调试包、保留数据;可被性能工具采样。./gradlew :app:assemblePerf
         create("perf") {
             initWith(getByName("release"))
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = signingConfigs.getByName("sideload")
             isProfileable = true
             matchingFallbacks += "release"
         }

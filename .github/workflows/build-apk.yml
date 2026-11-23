@@ -66,6 +66,31 @@ jobs:
             sha256sum "$apk"
           done
 
+      # 和构建产物一起核对签名:换掉签名钥会让手机上的旧版本无法覆盖安装(只会提示「应用未安装」),
+      # 所以这里钉死证书指纹,钥一变构建就红,而不是把装不上的包发出去。
+      # 顺带核对 32 位包还在:Redmi A1+ 这类 armeabi-v7a 手机只能装带该架构原生库的包。
+      - name: Verify signing key and ABIs
+        shell: bash
+        env:
+          EXPECTED_CERT_SHA256: "66BEBB8E69F9F734C839EDAA36B93775E5E712745C9DF35745B948297418872"
+        run: |
+          set -euo pipefail
+          sdk="${ANDROID_SDK_ROOT:-$ANDROID_HOME}"
+          apksigner="$sdk/build-tools/35.0.0/apksigner"
+          for apk in $(find app/build/outputs/apk/debug app/build/outputs/apk/perf -maxdepth 1 -type f -name '*.apk' | sort); do
+            digest="$("$apksigner" verify --print-certs "$apk" | sed -n 's/^Signer #1 certificate SHA-256 digest: //p')"
+            if [ "${digest^^}" != "$EXPECTED_CERT_SHA256" ]; then
+              echo "$apk is signed by $digest, expected $EXPECTED_CERT_SHA256"
+              exit 1
+            fi
+            case "$(basename "$apk")" in
+              app-debug.apk|app-universal-perf.apk|app-armeabi-v7a-perf.apk)
+                unzip -l "$apk" | grep -q 'lib/armeabi-v7a/' || { echo "$apk has no armeabi-v7a libs"; exit 1; } ;;
+            esac
+            unzip -l "$apk" | grep -q 'lib/arm64-v8a/' || true
+            echo "$apk: stable signing key, ABI check passed"
+          done
+
       - name: Upload debug APK
         uses: actions/upload-artifact@v7
         with:

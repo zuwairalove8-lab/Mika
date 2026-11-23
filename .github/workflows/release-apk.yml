@@ -41,6 +41,28 @@ jobs:
       - name: Build perf APKs (ABI splits)
         run: ./gradlew :app:assemblePerf --stacktrace
 
+      # 发出去的包先核对签名与 32 位支持:签名钥换了,手机上已装的旧版就无法覆盖("应用未安装")。
+      - name: Verify signing key and ABIs
+        shell: bash
+        env:
+          EXPECTED_CERT_SHA256: "66BEBB8E69F9F734C839EDAA36B93775E5E712745C9DF35745B948297418872"
+        run: |
+          set -euo pipefail
+          sdk="${ANDROID_SDK_ROOT:-$ANDROID_HOME}"
+          apksigner="$sdk/build-tools/35.0.0/apksigner"
+          for apk in $(find app/build/outputs/apk/debug app/build/outputs/apk/perf -maxdepth 1 -type f -name '*.apk' | sort); do
+            digest="$("$apksigner" verify --print-certs "$apk" | sed -n 's/^Signer #1 certificate SHA-256 digest: //p')"
+            if [ "${digest^^}" != "$EXPECTED_CERT_SHA256" ]; then
+              echo "$apk is signed by $digest, expected $EXPECTED_CERT_SHA256"
+              exit 1
+            fi
+            case "$(basename "$apk")" in
+              app-debug.apk|app-universal-perf.apk|app-armeabi-v7a-perf.apk)
+                unzip -l "$apk" | grep -q 'lib/armeabi-v7a/' || { echo "$apk has no armeabi-v7a libs"; exit 1; } ;;
+            esac
+            echo "$apk: stable signing key, ABI check passed"
+          done
+
       - name: Collect APKs
         id: collect
         shell: bash
@@ -66,9 +88,13 @@ jobs:
           notes="$(cat <<EOF
           自动构建的安装包（提交 ${{ github.sha }}）。
 
-          - Mika-debug-*.apk：调试签名的全架构包，直接安装即可试用。
+          - Mika-debug-*.apk：全架构包，直接安装即可试用。
           - Mika-universal-perf-*.apk：和发布版一样预编译的全架构包，最流畅，推荐日常使用。
-          - Mika-arm64-*.apk / Mika-armeabi-v7a-*.apk：只带一种架构原生库的小包。
+          - Mika-arm64-*.apk：只带 arm64-v8a 原生库的小包，给 64 位手机。
+          - Mika-armeabi-v7a-*.apk：只带 armeabi-v7a 原生库的小包，给 Redmi A1+ 这类 32 位手机。
+
+          以前每次构建用的签名钥都不一样，所以手机上如果还装着旧版本，请先卸载一次；
+          从这个版本起所有包都用同一把签名钥，之后的更新可以直接覆盖安装、保留数据。
 
           每个包的 sha256 见构建日志的 Collect APKs 一步。
           EOF
