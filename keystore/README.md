@@ -11,7 +11,7 @@ copy then has to be uninstalled once before the new build can be installed.
 
 - alias: `mika`
 - store/key password: `mika-sideload`
-- certificate SHA-256: `66BEBB8E69F9F734C839EDAA36B93775E5E712745C9DF35745B948297418872`
+- certificate SHA-256: `66BEBB8E69F9F734C839EDAA36B93A775E5E712745C9DF35745B948297418872`
 
 The fingerprint is pinned in `build-apk.yml` and `release-apk.yml`; a build signed by any
 other key fails instead of being published. To rotate the key, regenerate it, update the

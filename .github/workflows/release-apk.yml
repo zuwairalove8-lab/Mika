@@ -45,7 +45,7 @@ jobs:
       - name: Verify signing key and ABIs
         shell: bash
         env:
-          EXPECTED_CERT_SHA256: "66BEBB8E69F9F734C839EDAA36B93775E5E712745C9DF35745B948297418872"
+          EXPECTED_CERT_SHA256: "66BEBB8E69F9F734C839EDAA36B93A775E5E712745C9DF35745B948297418872"
         run: |
           set -euo pipefail
           sdk="${ANDROID_SDK_ROOT:-$ANDROID_HOME}"
